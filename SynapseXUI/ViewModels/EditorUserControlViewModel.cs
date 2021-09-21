@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -59,8 +60,7 @@ namespace SynapseXUI.ViewModels
         {
             Instance = this;
             this.userControl = userControl;
-
-            tabs = new ObservableCollection<ScriptTab>();
+            Tabs = new ObservableCollection<ScriptTab>();
             Tabs.CollectionChanged += Tabs_CollectionChanged;
 
             PackIconMaterialDesign icon = new PackIconMaterialDesign
@@ -87,11 +87,21 @@ namespace SynapseXUI.ViewModels
                 {
                     userControl.tabControlEditors.SelectedIndex = 0;
                     userControl.tabControlEditors.GetSelectedTabItem().PreviewMouseDown += EditorsAddTab_PreviewMouseDown;
+                    userControl.tabControlEditors.SelectionChanged += TabControlEditors_SelectionChanged;
+
                     AddTab();
                     timer.Stop();
                 }
             };
             timer.Start();
+        }
+
+        private void TabControlEditors_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (SelectedTab != null && SelectedTab.IsAddTabButton)
+            {
+                userControl.tabControlEditors.SelectedIndex = Tabs.Count - 2;
+            }
         }
 
         private void EditorsAddTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -119,8 +129,8 @@ namespace SynapseXUI.ViewModels
         {
             ChromiumWebBrowser browser = new ChromiumWebBrowser(Path.Combine(App.StartUpPath, @"bin\Editor.html"));
             browser.JavascriptObjectRepository.Register("synServiceAsync", this, true);
-            ScriptTab scriptTab = new ScriptTab(browser, filePath);
 
+            ScriptTab scriptTab = new ScriptTab(browser, filePath);
             Tabs.Insert(Tabs.Count - 1, scriptTab);
             SelectedTab = scriptTab;
         }
@@ -133,12 +143,12 @@ namespace SynapseXUI.ViewModels
         private void SetEditorText(string text)
         {
             SelectedTab.Editor.ExecuteScriptAsync("SetText", text);
-            EditorText = text;
+            SelectedTab.Text = text;
         }
 
-        private void ClearEditorText()
+        public void ClearEditorText()
         {
-            SelectedTab.Editor.ExecuteScriptAsync("ClearText");
+            SelectedTab.Editor.ExecuteScriptAsync("ClearText()");
         }
 
         public void SaveFile(string text)
@@ -152,6 +162,7 @@ namespace SynapseXUI.ViewModels
             if (dialog.ShowDialog() == true)
             {
                 File.WriteAllText(dialog.FileName, text);
+                SelectedTab.FullFilename = dialog.FileName;
             }
         }
 
@@ -165,7 +176,22 @@ namespace SynapseXUI.ViewModels
 
             if (dialog.ShowDialog() == true)
             {
-                SetEditorText(File.ReadAllText(dialog.FileName));
+                AddTab(dialog.FileName);
+
+                DispatcherTimer timer = new DispatcherTimer
+                {
+                    Interval = TimeSpan.FromMilliseconds(50)
+                };
+                timer.Tick += async (s, e) =>
+                {
+                    JavascriptResponse response = await SelectedTab.Editor.GetMainFrame().EvaluateScriptAsync("SetText('')");
+                    if (response.Success)
+                    {
+                        timer.Stop();
+                        SetEditorText(File.ReadAllText(dialog.FileName));
+                    }
+                };
+                timer.Start();
             }
         }
 

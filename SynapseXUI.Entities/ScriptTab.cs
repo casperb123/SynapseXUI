@@ -9,8 +9,28 @@ namespace SynapseXUI.Entities
         private string fullFilename;
         private object header;
         private bool enableCloseButton;
+        private ChromiumWebBrowser editor;
+        private string text;
 
-        public ChromiumWebBrowser Editor { get; set; }
+        public string Text
+        {
+            get => text;
+            set
+            {
+                text = value;
+                OnPropertyChanged(nameof(Text));
+            }
+        }
+
+        public ChromiumWebBrowser Editor
+        {
+            get => editor;
+            set
+            {
+                editor = value;
+                OnPropertyChanged(nameof(Editor));
+            }
+        }
 
         public bool IsAddTabButton { get; set; }
 
@@ -23,8 +43,6 @@ namespace SynapseXUI.Entities
                 OnPropertyChanged(nameof(EnableCloseButton));
             }
         }
-
-        public string Text { get; set; }
 
         public object Header
         {
@@ -48,7 +66,7 @@ namespace SynapseXUI.Entities
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnPropertyChanged(string prop)
+        public void OnPropertyChanged(string prop)
         {
             if (!string.IsNullOrWhiteSpace(prop))
             {

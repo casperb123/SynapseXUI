@@ -1,4 +1,5 @@
 ﻿using SynapseXUI.ViewModels;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace SynapseXUI.UserControls
@@ -17,6 +18,16 @@ namespace SynapseXUI.UserControls
             InitializeComponent();
             ViewModel = new EditorUserControlViewModel(this);
             DataContext = ViewModel;
+        }
+
+        private void ButtonOpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.OpenFile();
+        }
+
+        private void ButtonClear_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ClearEditorText();
         }
     }
 }
