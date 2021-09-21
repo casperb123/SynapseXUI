@@ -35,20 +35,6 @@
                             Value="{Binding Path=Editor, UpdateSourceTrigger=PropertyChanged}" />
                 </Style>
             </mah:MetroAnimatedSingleRowTabControl.Resources>
-            <mah:MetroAnimatedSingleRowTabControl.ContextMenu>
-                <ContextMenu x:Name="contextMenuEditors">
-                    <MenuItem x:Name="menuItemEditorsAddTab"
-                              Header="Add Tab"
-                              Click="MenuItemEditorsAddTab_Click">
-                        <MenuItem.Icon>
-                            <icons:PackIconMaterialDesign Kind="Add"
-                                                          Width="15"
-                                                          Height="15"
-                                                          Margin="5,0,0,0" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                </ContextMenu>
-            </mah:MetroAnimatedSingleRowTabControl.ContextMenu>
         </mah:MetroAnimatedSingleRowTabControl>
         <ListBox x:Name="listBoxScripts"
                  Grid.Column="1" />

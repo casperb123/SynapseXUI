@@ -4,6 +4,7 @@ using MahApps.Metro.IconPacks;
 using Microsoft.Win32;
 using SynapseXUI.Entities;
 using SynapseXUI.UserControls;
+using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -11,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace SynapseXUI.ViewModels
 {
@@ -58,7 +60,7 @@ namespace SynapseXUI.ViewModels
             Instance = this;
             this.userControl = userControl;
 
-            Tabs = new ObservableCollection<ScriptTab>();
+            tabs = new ObservableCollection<ScriptTab>();
             Tabs.CollectionChanged += Tabs_CollectionChanged;
 
             PackIconMaterialDesign icon = new PackIconMaterialDesign
@@ -73,13 +75,28 @@ namespace SynapseXUI.ViewModels
                 Header = icon,
                 IsAddTabButton = true
             };
-
             Tabs.Add(scriptTab);
-            AddTab();
+
+            DispatcherTimer timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(50)
+            };
+            timer.Tick += (s, e) =>
+            {
+                if (userControl.tabControlEditors.Items.Count == 1)
+                {
+                    userControl.tabControlEditors.SelectedIndex = 0;
+                    userControl.tabControlEditors.GetSelectedTabItem().PreviewMouseDown += EditorsAddTab_PreviewMouseDown;
+                    AddTab();
+                    timer.Stop();
+                }
+            };
+            timer.Start();
         }
 
-        private void EditorUserControlViewModel_MouseDown(object sender, MouseButtonEventArgs e)
+        private void EditorsAddTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
+            e.Handled = true;
             AddTab();
         }
 
