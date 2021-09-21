@@ -1,0 +1,24 @@
+﻿<mah:MetroWindow x:Class="SynapseXUI.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:local="clr-namespace:SynapseXUI"
+                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 mc:Ignorable="d"
+                 Title="Synapse X UI"
+                 Height="450"
+                 Width="800">
+    <Grid>
+        <mah:MetroAnimatedSingleRowTabControl x:Name="tabControlMain"
+                                              mah:TabControlHelper.Underlined="SelectedTabItem"
+                                              mah:TabControlHelper.CloseButtonEnabled="True"
+                                              mah:TabControlHelper.CloseTabCommand="{Binding CloseTabCommand}"
+                                              mah:TabControlHelper.CloseTabCommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Name}"
+                                              Padding="5">
+            <TabItem Header="Editor">
+                <UserControl x:Name="userControlEditor" />
+            </TabItem>
+        </mah:MetroAnimatedSingleRowTabControl>
+    </Grid>
+</mah:MetroWindow>
