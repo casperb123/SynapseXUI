@@ -71,7 +71,8 @@
                 <ContextMenu x:Name="contextMenuScripts">
                     <MenuItem x:Name="menuItemScriptsExecute"
                               Header="Execute"
-                              IsEnabled="{Binding Path=SelectedScriptFile, Mode=OneWay, Converter={StaticResource NullToBooleanConverter}}">
+                              IsEnabled="{Binding Path=SelectedScriptFile, Mode=OneWay, Converter={StaticResource NullToBooleanConverter}}"
+                              Click="MenuItemScriptsExecute_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="PlayArrow"
                                                           Width="12"
@@ -112,7 +113,8 @@
             <Button x:Name="buttonExecute"
                     Content="Execute"
                     Margin="0,0,5,0"
-                    Padding="20,10" />
+                    Padding="20,10"
+                    Click="ButtonExecute_Click" />
             <Button x:Name="buttonClear"
                     Content="Clear"
                     Margin="0,0,5,0"
@@ -126,7 +128,8 @@
             <Button x:Name="buttonExecuteFile"
                     Content="Execute File"
                     Margin="0,0,5,0"
-                    Padding="20,10" />
+                    Padding="20,10"
+                    Click="ButtonExecuteFile_Click"/>
             <Button x:Name="buttonSaveFile"
                     Content="Save File"
                     Margin="0,0,5,0"

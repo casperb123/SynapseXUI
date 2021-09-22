@@ -1,6 +1,6 @@
-﻿using System;
+﻿using sxlib.Specialized;
+using System;
 using System.IO;
-using System.Reflection;
 using System.Windows;
 
 namespace SynapseXUI
@@ -10,15 +10,18 @@ namespace SynapseXUI
     /// </summary>
     public partial class App : Application
     {
-        public static string StartUpPath { get; private set; }
+        public static App Instance { get; private set; }
+        public static string StartupPath { get; private set; }
+        public static SxLibWPF Lib { get; set; }
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            StartUpPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            if (!Directory.Exists(Path.Combine(StartUpPath, "bin")))
+            Instance = this;
+            StartupPath = Directory.GetCurrentDirectory();
+            if (!Directory.Exists(Path.Combine(StartupPath, "auth")) || !Directory.Exists(Path.Combine(StartupPath, "bin")))
             {
-                MessageBox.Show("Please place the application in the Synapse X root folder (where the original Synapse X application is)", "Error occured", MessageBoxButton.OK, MessageBoxImage.Error);
-                Environment.Exit(0);
+                MessageBox.Show("Please open the original application before using our application", "Error occured", MessageBoxButton.OK, MessageBoxImage.Error);
+                Environment.Exit(2);
             }
 
             base.OnStartup(e);

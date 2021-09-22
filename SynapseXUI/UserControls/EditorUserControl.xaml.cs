@@ -11,8 +11,6 @@ namespace SynapseXUI.UserControls
     {
         public readonly EditorUserControlViewModel ViewModel;
 
-        public static EditorUserControl Instance { get; set; }
-
         public EditorUserControl()
         {
             InitializeComponent();
@@ -20,14 +18,29 @@ namespace SynapseXUI.UserControls
             DataContext = ViewModel;
         }
 
+        private void ButtonExecute_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteScript(ViewModel.SelectedTab.Text);
+        }
+
         private void ButtonOpenFile_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.OpenFile(true);
         }
 
+        private void ButtonExecuteFile_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteFile();
+        }
+
         private void ButtonClear_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ClearEditorText();
+        }
+
+        private void MenuItemScriptsExecute_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ExecuteScript(ViewModel.SelectedScriptFile.Script);
         }
 
         private void MenuItemScriptsLoadCurrentTab_Click(object sender, RoutedEventArgs e)

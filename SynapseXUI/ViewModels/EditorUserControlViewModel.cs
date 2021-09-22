@@ -86,7 +86,7 @@ namespace SynapseXUI.ViewModels
             Tabs.CollectionChanged += Tabs_CollectionChanged;
             ScriptFiles = new ObservableCollection<ScriptFile>();
 
-            Directory.GetFiles(Path.Combine(App.StartUpPath, "scripts")).ToList().ForEach(x => ScriptFiles.Add(new ScriptFile(x)));
+            Directory.GetFiles(Path.Combine(App.StartupPath, "scripts")).ToList().ForEach(x => ScriptFiles.Add(new ScriptFile(x)));
 
             PackIconMaterialDesign icon = new PackIconMaterialDesign
             {
@@ -150,9 +150,31 @@ namespace SynapseXUI.ViewModels
             }
         }
 
+        public void ExecuteScript(string script)
+        {
+            if (!string.IsNullOrWhiteSpace(script))
+            {
+                App.Lib.Execute(script);
+            }
+        }
+
+        public void ExecuteFile()
+        {
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                Title = "Execute File",
+                Filter = "Script Files | *.lua;*.txt"
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                ExecuteScript(File.ReadAllText(dialog.FileName));
+            }
+        }
+
         public void AddTab(string filePath = null)
         {
-            ChromiumWebBrowser browser = new ChromiumWebBrowser(Path.Combine(App.StartUpPath, @"bin\Editor.html"));
+            ChromiumWebBrowser browser = new ChromiumWebBrowser(Path.Combine(App.StartupPath, @"bin\Editor.html"));
             browser.JavascriptObjectRepository.Register("synServiceAsync", this, true);
 
             ScriptTab scriptTab = new ScriptTab(browser, filePath);
@@ -222,16 +244,19 @@ namespace SynapseXUI.ViewModels
                 }
             }
 
-            if (newTab)
+            if (!string.IsNullOrWhiteSpace(scriptFilePath))
             {
-                AddTab(scriptFilePath);
-            }
-            else
-            {
-                SelectedTab.FullFilename = scriptFilePath;
-            }
+                if (newTab)
+                {
+                    AddTab(scriptFilePath);
+                }
+                else
+                {
+                    SelectedTab.FullFilename = scriptFilePath;
+                }
 
-            SetEditorText(File.ReadAllText(scriptFilePath));
+                SetEditorText(File.ReadAllText(scriptFilePath));
+            }
         }
 
         public void CloseAllTabs(ScriptTab tabToExclude = null)
