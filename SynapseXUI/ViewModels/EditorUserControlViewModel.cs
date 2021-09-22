@@ -19,12 +19,34 @@ namespace SynapseXUI.ViewModels
 {
     public class EditorUserControlViewModel : INotifyPropertyChanged
     {
+        public static EditorUserControlViewModel Instance { get; private set; }
+
         private readonly EditorUserControl userControl;
         private string editorText;
         private ObservableCollection<ScriptTab> tabs;
         private ScriptTab selectedTab;
+        private ObservableCollection<ScriptFile> scriptFiles;
+        private ScriptFile selectedScriptFile;
 
-        public static EditorUserControlViewModel Instance { get; private set; }
+        public ScriptFile SelectedScriptFile
+        {
+            get => selectedScriptFile;
+            set
+            {
+                selectedScriptFile = value;
+                OnPropertyChanged(nameof(SelectedScriptFile));
+            }
+        }
+
+        public ObservableCollection<ScriptFile> ScriptFiles
+        {
+            get => scriptFiles;
+            set
+            {
+                scriptFiles = value;
+                OnPropertyChanged(nameof(ScriptFiles));
+            }
+        }
 
         public ScriptTab SelectedTab
         {
@@ -62,6 +84,9 @@ namespace SynapseXUI.ViewModels
             this.userControl = userControl;
             Tabs = new ObservableCollection<ScriptTab>();
             Tabs.CollectionChanged += Tabs_CollectionChanged;
+            ScriptFiles = new ObservableCollection<ScriptFile>();
+
+            Directory.GetFiles(Path.Combine(App.StartUpPath, "scripts")).ToList().ForEach(x => ScriptFiles.Add(new ScriptFile(x)));
 
             PackIconMaterialDesign icon = new PackIconMaterialDesign
             {
@@ -140,10 +165,23 @@ namespace SynapseXUI.ViewModels
             Tabs.Remove(tab);
         }
 
-        private void SetEditorText(string text)
+        public void SetEditorText(string text)
         {
-            SelectedTab.Editor.ExecuteScriptAsync("SetText", text);
-            SelectedTab.Text = text;
+            DispatcherTimer timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(50)
+            };
+            timer.Tick += async (s, e) =>
+            {
+                JavascriptResponse response = await SelectedTab.Editor.GetMainFrame().EvaluateScriptAsync("SetText('')");
+                if (response.Success)
+                {
+                    timer.Stop();
+                    SelectedTab.Editor.ExecuteScriptAsync("SetText", text);
+                    SelectedTab.Text = text;
+                }
+            };
+            timer.Start();
         }
 
         public void ClearEditorText()
@@ -166,49 +204,40 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public void OpenFile()
+        public void OpenFile(bool newTab, string filePath = null)
         {
-            OpenFileDialog dialog = new OpenFileDialog
-            {
-                Title = "Open script",
-                Filter = "Script Files | *.txt;*.lua"
-            };
+            string scriptFilePath = filePath;
 
-            if (dialog.ShowDialog() == true)
+            if (string.IsNullOrWhiteSpace(filePath))
             {
-                AddTab(dialog.FileName);
+                OpenFileDialog dialog = new OpenFileDialog
+                {
+                    Title = "Open script",
+                    Filter = "Script Files | *.txt;*.lua"
+                };
 
-                DispatcherTimer timer = new DispatcherTimer
+                if (dialog.ShowDialog() == true)
                 {
-                    Interval = TimeSpan.FromMilliseconds(50)
-                };
-                timer.Tick += async (s, e) =>
-                {
-                    JavascriptResponse response = await SelectedTab.Editor.GetMainFrame().EvaluateScriptAsync("SetText('')");
-                    if (response.Success)
-                    {
-                        timer.Stop();
-                        SetEditorText(File.ReadAllText(dialog.FileName));
-                    }
-                };
-                timer.Start();
+                    scriptFilePath = dialog.FileName;
+                }
             }
+
+            if (newTab)
+            {
+                AddTab(scriptFilePath);
+            }
+            else
+            {
+                SelectedTab.FullFilename = scriptFilePath;
+            }
+
+            SetEditorText(File.ReadAllText(scriptFilePath));
         }
 
         #region CEF Sharp Methods
-        private void TextChanged(string text)
+        public void TextChanged(string text)
         {
-            EditorText = text;
-        }
-
-        private void SaveRequest(string text)
-        {
-            SaveFile(text);
-        }
-
-        private void OpenRequest()
-        {
-            OpenFile();
+            SelectedTab.Text = text;
         }
         #endregion
     }

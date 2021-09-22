@@ -22,12 +22,22 @@ namespace SynapseXUI.UserControls
 
         private void ButtonOpenFile_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.OpenFile();
+            ViewModel.OpenFile(true);
         }
 
         private void ButtonClear_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ClearEditorText();
+        }
+
+        private void MenuItemScriptsLoadCurrentTab_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.OpenFile(false, ViewModel.SelectedScriptFile.FullFilename);
+        }
+
+        private void MenuItemScriptsLoadNewTab_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.OpenFile(true, ViewModel.SelectedScriptFile.FullFilename);
         }
     }
 }

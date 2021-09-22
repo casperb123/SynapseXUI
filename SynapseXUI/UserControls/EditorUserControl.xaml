@@ -20,24 +20,65 @@
         </Grid.RowDefinitions>
 
         <mah:MetroAnimatedSingleRowTabControl x:Name="tabControlEditors"
-                                              ItemsSource="{Binding Path=Tabs, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedItem="{Binding Path=SelectedTab, UpdateSourceTrigger=PropertyChanged}"
+                                              ItemsSource="{Binding Path=Tabs}"
+                                              SelectedItem="{Binding Path=SelectedTab}"
                                               mah:TabControlHelper.Underlined="SelectedTabItem"
                                               mah:HeaderedControlHelper.HeaderFontSize="14"
                                               mah:TabControlHelper.Transition="Normal">
             <mah:MetroAnimatedSingleRowTabControl.Resources>
                 <Style TargetType="mah:MetroTabItem">
                     <Setter Property="Header"
-                            Value="{Binding Path=Header, UpdateSourceTrigger=PropertyChanged}" />
+                            Value="{Binding Path=Header}" />
                     <Setter Property="CloseButtonEnabled"
-                            Value="{Binding Path=EnableCloseButton, UpdateSourceTrigger=PropertyChanged}" />
+                            Value="{Binding Path=EnableCloseButton}" />
                     <Setter Property="Content"
                             Value="{Binding Path=Editor}" />
                 </Style>
             </mah:MetroAnimatedSingleRowTabControl.Resources>
         </mah:MetroAnimatedSingleRowTabControl>
         <ListBox x:Name="listBoxScripts"
-                 Grid.Column="1" />
+                 Grid.Column="1"
+                 ItemsSource="{Binding Path=ScriptFiles}"
+                 SelectedItem="{Binding Path=SelectedScriptFile}"
+                 DisplayMemberPath="Filename"
+                 VirtualizingPanel.IsVirtualizing="False">
+            <ListBox.ContextMenu>
+                <ContextMenu x:Name="contextMenuScripts">
+                    <MenuItem x:Name="menuItemScriptsExecute"
+                              Header="Execute"
+                              IsEnabled="{Binding Path=SelectedScriptFile, Mode=OneWay, Converter={StaticResource NullToBooleanConverter}}">
+                        <MenuItem.Icon>
+                            <icons:PackIconMaterialDesign Kind="PlayArrow"
+                                                          Width="12"
+                                                          Height="12"
+                                                          Margin="5,0,0,0" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="menuItemScriptsLoadCurrentTab"
+                              Header="Load to current tab"
+                              IsEnabled="{Binding Path=SelectedScriptFile, Mode=OneWay, Converter={StaticResource NullToBooleanConverter}}"
+                              Click="MenuItemScriptsLoadCurrentTab_Click">
+                        <MenuItem.Icon>
+                            <icons:PackIconMaterialDesign Kind="OpenInBrowser"
+                                                          Width="12"
+                                                          Height="12"
+                                                          Margin="5,0,0,0" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="menuItemScriptsLoadNewTab"
+                              Header="Load to new tab"
+                              IsEnabled="{Binding Path=SelectedScriptFile, Mode=OneWay, Converter={StaticResource NullToBooleanConverter}}"
+                              Click="MenuItemScriptsLoadNewTab_Click">
+                        <MenuItem.Icon>
+                            <icons:PackIconMaterialDesign Kind="OpenInNew"
+                                                          Width="12"
+                                                          Height="12"
+                                                          Margin="5,0,0,0" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+        </ListBox>
 
         <StackPanel Orientation="Horizontal"
                     Grid.Row="1"
@@ -51,7 +92,7 @@
                     Content="Clear"
                     Margin="0,0,5,0"
                     Padding="20,10"
-                    Click="ButtonClear_Click"/>
+                    Click="ButtonClear_Click" />
             <Button x:Name="buttonOpenFile"
                     Content="Open File"
                     Margin="0,0,5,0"
