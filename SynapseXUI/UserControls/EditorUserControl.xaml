@@ -35,6 +35,31 @@
                             Value="{Binding Path=Editor}" />
                 </Style>
             </mah:MetroAnimatedSingleRowTabControl.Resources>
+            <mah:MetroAnimatedSingleRowTabControl.ContextMenu>
+                <ContextMenu x:Name="contextMenuEditors">
+                    <MenuItem x:Name="menuItemEditorsCloseAllTabs"
+                              Header="Close All Tabs"
+                              Click="MenuItemEditorsCloseAllTabs_Click">
+                        <MenuItem.Icon>
+                            <icons:PackIconMaterialDesign Kind="Close"
+                                                          Width="12"
+                                                          Height="12"
+                                                          Margin="5,0,0,0" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="menuItemEditorsCloseAllButSelected"
+                              Header="Close All But Selected"
+                              IsEnabled="{Binding Path=SelectedTab, Mode=OneWay, Converter={StaticResource NullToBooleanConverter}}"
+                              Click="MenuItemEditorsCloseAllButSelected_Click">
+                        <MenuItem.Icon>
+                            <icons:PackIconMaterialDesign Kind="Close"
+                                                          Width="12"
+                                                          Height="12"
+                                                          Margin="5,0,0,0" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </mah:MetroAnimatedSingleRowTabControl.ContextMenu>
         </mah:MetroAnimatedSingleRowTabControl>
         <ListBox x:Name="listBoxScripts"
                  Grid.Column="1"

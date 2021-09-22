@@ -234,6 +234,19 @@ namespace SynapseXUI.ViewModels
             SetEditorText(File.ReadAllText(scriptFilePath));
         }
 
+        public void CloseAllTabs(ScriptTab tabToExclude = null)
+        {
+            if (tabToExclude is null)
+            {
+                Tabs.Where(x => !x.IsAddTabButton).ToList().ForEach(x => Tabs.Remove(x));
+                AddTab();
+            }
+            else
+            {
+                Tabs.Where(x => x != tabToExclude && !x.IsAddTabButton).ToList().ForEach(x => Tabs.Remove(x));
+            }
+        }
+
         #region CEF Sharp Methods
         public void TextChanged(string text)
         {

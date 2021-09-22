@@ -39,5 +39,15 @@ namespace SynapseXUI.UserControls
         {
             ViewModel.OpenFile(true, ViewModel.SelectedScriptFile.FullFilename);
         }
+
+        private void MenuItemEditorsCloseAllTabs_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.CloseAllTabs();
+        }
+
+        private void MenuItemEditorsCloseAllButSelected_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.CloseAllTabs(ViewModel.SelectedTab);
+        }
     }
 }
