@@ -2,17 +2,39 @@
 using sxlib;
 using sxlib.Specialized;
 using SynapseXUI.UserControls;
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace SynapseXUI.ViewModels
 {
-    public class MainWindowViewModel
+    public class MainWindowViewModel : INotifyPropertyChanged
     {
         private readonly MainWindow mainWindow;
         private readonly EditorUserControl editorUserControl;
         private ProgressDialogController progressDialog;
+        private string synapseStatus;
+
+        public string SynapseStatus
+        {
+            get => synapseStatus;
+            set
+            {
+                synapseStatus = value;
+                OnPropertyChanged(nameof(SynapseStatus));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string prop)
+        {
+            if (!string.IsNullOrWhiteSpace(prop))
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+            }
+        }
 
         public MainWindowViewModel(MainWindow mainWindow)
         {
@@ -34,66 +56,55 @@ namespace SynapseXUI.ViewModels
             App.Lib.AttachEvent += Lib_AttachEvent;
         }
 
+        private void ResetSynapseStatus()
+        {
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(1000);
+                mainWindow.Dispatcher.Invoke(() =>
+                {
+                    SynapseStatus = "";
+                    mainWindow.buttonAttach.IsEnabled = true;
+                });
+            });
+        }
+
         private async void Lib_AttachEvent(SxLibBase.SynAttachEvents e, object Param)
         {
             switch (e)
             {
                 case SxLibBase.SynAttachEvents.CHECKING:
-                    mainWindow.buttonAttach.Content = "Checking...";
+                    SynapseStatus = " - Checking...";
                     break;
                 case SxLibBase.SynAttachEvents.INJECTING:
-                    mainWindow.buttonAttach.Content = "Injecting...";
+                    SynapseStatus = " - Injecting...";
                     break;
                 case SxLibBase.SynAttachEvents.CHECKING_WHITELIST:
-                    mainWindow.buttonAttach.Content = "Checking whitelist...";
+                    SynapseStatus = " - Checking whitelist...";
                     break;
                 case SxLibBase.SynAttachEvents.SCANNING:
-                    mainWindow.buttonAttach.Content = "Scanning...";
+                    SynapseStatus = " - Scanning...";
                     break;
                 case SxLibBase.SynAttachEvents.READY:
-                    mainWindow.buttonAttach.Content = "Attached!";
+                    SynapseStatus = " - Attached";
                     break;
                 case SxLibBase.SynAttachEvents.FAILED_TO_ATTACH:
-                    mainWindow.buttonAttach.Content = "Failed to attach!";
-                    _ = Task.Run(async () =>
-                    {
-                        await Task.Delay(1000);
-                        mainWindow.Dispatcher.Invoke(() =>
-                        {
-                            mainWindow.buttonAttach.Content = "Attach";
-                            mainWindow.buttonAttach.IsEnabled = true;
-                        });
-                    });
+                    SynapseStatus = " - Failed to attach";
+                    ResetSynapseStatus();
                     break;
                 case SxLibBase.SynAttachEvents.FAILED_TO_FIND:
-                    mainWindow.buttonAttach.Content = "Failed to find Roblox";
-                    _ = Task.Run(async () =>
-                    {
-                        await Task.Delay(1000);
-                        mainWindow.Dispatcher.Invoke(() =>
-                        {
-                            mainWindow.buttonAttach.Content = "Attach";
-                            mainWindow.buttonAttach.IsEnabled = true;
-                        });
-                    });
+                    SynapseStatus = " - Failed to find Roblox";
+                    ResetSynapseStatus();
                     break;
                 case SxLibBase.SynAttachEvents.NOT_INJECTED:
                     await mainWindow.ShowMessageAsync("Execution error", "Please attach Synapse X before executing a script");
                     break;
                 case SxLibBase.SynAttachEvents.ALREADY_INJECTED:
-                    mainWindow.buttonAttach.Content = "Already injected!";
-                    _ = Task.Run(async () =>
-                    {
-                        await Task.Delay(1000);
-                        mainWindow.Dispatcher.Invoke(() =>
-                        {
-                            mainWindow.buttonAttach.Content = "Attach";
-                            mainWindow.buttonAttach.IsEnabled = true;
-                        });
-                    });
+                    SynapseStatus = " - Already injected!";
+                    ResetSynapseStatus();
                     break;
                 case SxLibBase.SynAttachEvents.PROC_DELETION:
-                    mainWindow.buttonAttach.Content = "Attach";
+                    SynapseStatus = "";
                     mainWindow.buttonAttach.IsEnabled = true;
                     break;
             }

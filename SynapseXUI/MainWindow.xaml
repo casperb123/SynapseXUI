@@ -6,7 +6,7 @@
                  xmlns:local="clr-namespace:SynapseXUI"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                  mc:Ignorable="d"
-                 Title="Synapse X UI"
+                 Title="{Binding Path=SynapseStatus, StringFormat='Synapse X UI{0}'}"
                  Height="450"
                  Width="800"
                  MinHeight="450"
