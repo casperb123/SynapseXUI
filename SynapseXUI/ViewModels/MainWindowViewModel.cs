@@ -18,6 +18,17 @@ namespace SynapseXUI.ViewModels
         private readonly ScriptHubUserControl scriptHubUserControl;
         private ProgressDialogController progressDialog;
         private string synapseStatus;
+        private ScriptHubScript selectedHubScript;
+
+        public ScriptHubScript SelectedHubScript
+        {
+            get => selectedHubScript;
+            set
+            {
+                selectedHubScript = value;
+                OnPropertyChanged(nameof(SelectedHubScript));
+            }
+        }
 
         public string SynapseStatus
         {

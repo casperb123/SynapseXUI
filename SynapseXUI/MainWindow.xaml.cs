@@ -40,5 +40,10 @@ namespace SynapseXUI
                 ViewModel.LoadScriptHub();
             }
         }
+
+        private void ButtonExecuteHubScript_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ViewModel.SelectedHubScript.Script.Execute();
+        }
     }
 }
