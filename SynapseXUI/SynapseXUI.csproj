@@ -97,7 +97,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
-	<CefSharpBuildAction>Content</CefSharpBuildAction>
+    <CefSharpBuildAction>Content</CefSharpBuildAction>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CefSharp, Version=93.1.140.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
@@ -157,8 +157,12 @@
     <Compile Include="UserControls\EditorUserControl.xaml.cs">
       <DependentUpon>EditorUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ScriptHubUserControl.xaml.cs">
+      <DependentUpon>ScriptHubUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\EditorUserControlViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\ScriptHubUserControlViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -172,6 +176,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="UserControls\EditorUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ScriptHubUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

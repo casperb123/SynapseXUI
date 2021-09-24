@@ -2,6 +2,7 @@
 using SynapseXUI.ViewModels;
 using System;
 using System.ComponentModel;
+using System.Windows.Controls;
 
 namespace SynapseXUI
 {
@@ -10,7 +11,7 @@ namespace SynapseXUI
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        private readonly MainWindowViewModel viewModel;
+        public readonly MainWindowViewModel ViewModel;
 
         public static MainWindow Instance { get; private set; }
 
@@ -18,8 +19,8 @@ namespace SynapseXUI
         {
             InitializeComponent();
             Instance = this;
-            viewModel = new MainWindowViewModel(this);
-            DataContext = viewModel;
+            ViewModel = new MainWindowViewModel(this);
+            DataContext = ViewModel;
         }
 
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
@@ -29,7 +30,15 @@ namespace SynapseXUI
 
         private void ButtonAttach_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            viewModel.Attach();
+            ViewModel.Attach();
+        }
+
+        private void TabControlMain_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (tabItemScriptHub.IsSelected)
+            {
+                ViewModel.LoadScriptHub();
+            }
         }
     }
 }

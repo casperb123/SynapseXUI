@@ -1,7 +1,9 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using sxlib;
 using sxlib.Specialized;
+using SynapseXUI.Entities;
 using SynapseXUI.UserControls;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,6 +15,7 @@ namespace SynapseXUI.ViewModels
     {
         private readonly MainWindow mainWindow;
         private readonly EditorUserControl editorUserControl;
+        private readonly ScriptHubUserControl scriptHubUserControl;
         private ProgressDialogController progressDialog;
         private string synapseStatus;
 
@@ -40,7 +43,10 @@ namespace SynapseXUI.ViewModels
         {
             this.mainWindow = mainWindow;
             editorUserControl = new EditorUserControl();
+            scriptHubUserControl = new ScriptHubUserControl();
             mainWindow.userControlEditor.Content = editorUserControl;
+            mainWindow.userControlScriptHub.Content = scriptHubUserControl;
+
             InitializeSxLib();
         }
 
@@ -54,19 +60,13 @@ namespace SynapseXUI.ViewModels
             App.Lib.Load();
             App.Lib.LoadEvent += Lib_LoadEvent;
             App.Lib.AttachEvent += Lib_AttachEvent;
+            App.Lib.ScriptHubEvent += Lib_ScriptHubEvent;
         }
 
-        private void ResetSynapseStatus()
+        private void Lib_ScriptHubEvent(List<SxLibBase.SynHubEntry> e)
         {
-            _ = Task.Run(async () =>
-            {
-                await Task.Delay(1000);
-                mainWindow.Dispatcher.Invoke(() =>
-                {
-                    SynapseStatus = "";
-                    mainWindow.buttonAttach.IsEnabled = true;
-                });
-            });
+            e.ForEach(x => scriptHubUserControl.ViewModel.Scripts.Add(new ScriptHubScript(x)));
+            scriptHubUserControl.ViewModel.Loaded = true;
         }
 
         private async void Lib_AttachEvent(SxLibBase.SynAttachEvents e, object Param)
@@ -170,6 +170,24 @@ namespace SynapseXUI.ViewModels
                     });
                     break;
             }
+        }
+
+        private void ResetSynapseStatus()
+        {
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(1000);
+                mainWindow.Dispatcher.Invoke(() =>
+                {
+                    SynapseStatus = "";
+                    mainWindow.buttonAttach.IsEnabled = true;
+                });
+            });
+        }
+
+        public void LoadScriptHub()
+        {
+            App.Lib.ScriptHub();
         }
 
         public void Attach()

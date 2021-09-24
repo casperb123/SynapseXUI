@@ -7,9 +7,9 @@
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                  mc:Ignorable="d"
                  Title="{Binding Path=SynapseStatus, StringFormat='Synapse X UI{0}'}"
-                 Height="450"
+                 Height="500"
                  Width="800"
-                 MinHeight="450"
+                 MinHeight="500"
                  MinWidth="800"
                  Closing="MetroWindow_Closing">
     <mah:MetroWindow.RightWindowCommands>
@@ -24,9 +24,17 @@
     <Grid>
         <mah:MetroAnimatedSingleRowTabControl x:Name="tabControlMain"
                                               mah:TabControlHelper.Underlined="SelectedTabItem"
-                                              Padding="5">
+                                              Padding="5"
+                                              SelectionChanged="TabControlMain_SelectionChanged">
             <TabItem Header="Editor">
                 <UserControl x:Name="userControlEditor" />
+            </TabItem>
+            <TabItem x:Name="tabItemScriptHub"
+                     Header="Script Hub">
+                <UserControl x:Name="userControlScriptHub" />
+            </TabItem>
+            <TabItem Header="Options">
+                <UserControl x:Name="userControlOptions" />
             </TabItem>
         </mah:MetroAnimatedSingleRowTabControl>
     </Grid>
