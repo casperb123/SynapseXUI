@@ -14,7 +14,7 @@
     <UserControl.Resources>
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
     </UserControl.Resources>
-    
+
     <Grid>
         <mah:ProgressRing Foreground="{DynamicResource MahApps.Brushes.Accent}"
                           IsActive="{Binding Path=Loaded, Converter={StaticResource InverseBooleanConverter}}" />
@@ -30,9 +30,9 @@
                                       mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
                                       Click="Tile_Click">
                                 <Grid>
-                                    <Image Source="{Binding Path=Picture}"
-                                           Opacity=".5" />
-                                    <Rectangle Stroke="{DynamicResource MahApps.Brushes.Accent}" />
+                                    <Image Source="{Binding Path=Picture}" />
+                                    <Rectangle Fill="{DynamicResource MahApps.Brushes.ThemeBackground}"
+                                               Opacity=".5" />
                                 </Grid>
                             </mah:Tile>
                         </DataTemplate>
