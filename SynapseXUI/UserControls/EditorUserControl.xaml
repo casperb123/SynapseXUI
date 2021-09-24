@@ -6,9 +6,15 @@
              xmlns:local="clr-namespace:SynapseXUI.UserControls"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:viewModels="clr-namespace:SynapseXUI.ViewModels"
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800">
+    <UserControl.CommandBindings>
+        <CommandBinding Command="{x:Static viewModels:EditorUserControlViewModel.CloseTabCommand}"
+                        Executed="CloseTabCommandBinding_Executed" />
+    </UserControl.CommandBindings>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
@@ -33,6 +39,10 @@
                             Value="{Binding Path=EnableCloseButton}" />
                     <Setter Property="Content"
                             Value="{Binding Path=Editor}" />
+                    <Setter Property="CloseTabCommand"
+                            Value="{x:Static viewModels:EditorUserControlViewModel.CloseTabCommand}" />
+                    <Setter Property="CloseTabCommandParameter"
+                            Value="{Binding RelativeSource={RelativeSource Self}}" />
                 </Style>
             </mah:MetroAnimatedSingleRowTabControl.Resources>
             <mah:MetroAnimatedSingleRowTabControl.ContextMenu>

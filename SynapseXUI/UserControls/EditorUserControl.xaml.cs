@@ -1,6 +1,8 @@
-﻿using SynapseXUI.ViewModels;
+﻿using MahApps.Metro.Controls;
+using SynapseXUI.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace SynapseXUI.UserControls
 {
@@ -61,6 +63,11 @@ namespace SynapseXUI.UserControls
         private void MenuItemEditorsCloseAllButSelected_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.CloseAllTabs(ViewModel.SelectedTab);
+        }
+
+        private void CloseTabCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ViewModel.CloseTab(e.Parameter as MetroTabItem);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CefSharp;
 using CefSharp.Wpf;
+using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
 using Microsoft.Win32;
 using SynapseXUI.Entities;
@@ -20,6 +21,7 @@ namespace SynapseXUI.ViewModels
     public class EditorUserControlViewModel : INotifyPropertyChanged
     {
         public static EditorUserControlViewModel Instance { get; private set; }
+        public static RoutedCommand CloseTabCommand = new RoutedCommand();
 
         private readonly EditorUserControl userControl;
         private string editorText;
@@ -182,9 +184,23 @@ namespace SynapseXUI.ViewModels
             SelectedTab = scriptTab;
         }
 
-        public void CloseTab(ScriptTab tab)
+        public void CloseTab(MetroTabItem tab)
         {
-            Tabs.Remove(tab);
+            ScriptTab scriptTab = Tabs.FirstOrDefault(x => x.Editor == tab.Content);
+            IBrowserHost browserHost = scriptTab.Editor.GetBrowserHost();
+
+            browserHost.CloseBrowser(true);
+            browserHost.CloseDevTools();
+            Tabs.Remove(scriptTab);
+        }
+
+        public void CloseTab(ScriptTab scriptTab)
+        {
+            IBrowserHost browserHost = scriptTab.Editor.GetBrowserHost();
+
+            browserHost.CloseBrowser(true);
+            browserHost.CloseDevTools();
+            Tabs.Remove(scriptTab);
         }
 
         public void SetEditorText(string text)
@@ -263,12 +279,12 @@ namespace SynapseXUI.ViewModels
         {
             if (tabToExclude is null)
             {
-                Tabs.Where(x => !x.IsAddTabButton).ToList().ForEach(x => Tabs.Remove(x));
+                Tabs.Where(x => !x.IsAddTabButton).ToList().ForEach(x => CloseTab(x));
                 AddTab();
             }
             else
             {
-                Tabs.Where(x => x != tabToExclude && !x.IsAddTabButton).ToList().ForEach(x => Tabs.Remove(x));
+                Tabs.Where(x => x != tabToExclude && !x.IsAddTabButton).ToList().ForEach(x => CloseTab(x));
             }
         }
 

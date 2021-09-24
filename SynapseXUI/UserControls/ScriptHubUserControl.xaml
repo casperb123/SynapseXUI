@@ -26,7 +26,6 @@
                         <DataTemplate>
                             <mah:Tile Title="{Binding Path=Name}"
                                       Margin="3"
-                                      HorizontalTitleAlignment="Right"
                                       mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
                                       Click="Tile_Click">
                                 <Grid>
