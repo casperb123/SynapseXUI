@@ -18,9 +18,11 @@ namespace SynapseXUI
         {
             Instance = this;
             StartupPath = Directory.GetCurrentDirectory();
-            if (!Directory.Exists(Path.Combine(StartupPath, "auth")) || !Directory.Exists(Path.Combine(StartupPath, "bin")))
+            if (!Directory.Exists(Path.Combine(StartupPath, "auth")) ||
+                !Directory.Exists(Path.Combine(StartupPath, "bin")) ||
+                !Directory.Exists(Path.Combine(StartupPath, "scripts")))
             {
-                MessageBox.Show("Please open the original application before using our application", "Error occured", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Please open the official Synapse X application before using our application", "Error occured", MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(2);
             }
 

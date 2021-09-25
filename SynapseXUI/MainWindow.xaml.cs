@@ -37,7 +37,7 @@ namespace SynapseXUI
         {
             if (tabItemScriptHub.IsSelected)
             {
-                ViewModel.LoadScriptHub();
+                App.Lib.ScriptHub();
             }
         }
 

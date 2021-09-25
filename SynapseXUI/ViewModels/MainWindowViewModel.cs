@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using static sxlib.Static.Data;
 
 namespace SynapseXUI.ViewModels
 {
@@ -16,6 +17,7 @@ namespace SynapseXUI.ViewModels
         private readonly MainWindow mainWindow;
         private readonly EditorUserControl editorUserControl;
         private readonly ScriptHubUserControl scriptHubUserControl;
+        private readonly OptionsUserControl optionsUserControl;
         private ProgressDialogController progressDialog;
         private string synapseStatus;
         private ScriptHubScript selectedHubScript;
@@ -55,8 +57,10 @@ namespace SynapseXUI.ViewModels
             this.mainWindow = mainWindow;
             editorUserControl = new EditorUserControl();
             scriptHubUserControl = new ScriptHubUserControl();
+            optionsUserControl = new OptionsUserControl();
             mainWindow.userControlEditor.Content = editorUserControl;
             mainWindow.userControlScriptHub.Content = scriptHubUserControl;
+            mainWindow.userControlOptions.Content = optionsUserControl;
 
             InitializeSxLib();
         }
@@ -194,11 +198,6 @@ namespace SynapseXUI.ViewModels
                     mainWindow.buttonAttach.IsEnabled = true;
                 });
             });
-        }
-
-        public void LoadScriptHub()
-        {
-            App.Lib.ScriptHub();
         }
 
         public void Attach()
