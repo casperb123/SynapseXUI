@@ -1,6 +1,7 @@
 ﻿using CefSharp;
 using CefSharp.Wpf;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.IconPacks;
 using Microsoft.Win32;
 using SynapseXUI.Entities;
@@ -95,8 +96,10 @@ namespace SynapseXUI.ViewModels
                 Kind = PackIconMaterialDesignKind.Add,
                 Width = 10,
                 Height = 10,
-                VerticalAlignment = VerticalAlignment.Center
+                VerticalAlignment = VerticalAlignment.Center,
             };
+            icon.SetResourceReference(Control.ForegroundProperty, "MahApps.Brushes.ThemeForeground");
+
             ScriptTab scriptTab = new ScriptTab
             {
                 Header = icon,
@@ -177,7 +180,10 @@ namespace SynapseXUI.ViewModels
         public void AddTab(string filePath = null)
         {
             ChromiumWebBrowser browser = new ChromiumWebBrowser(Path.Combine(App.StartupPath, @"bin\Editor.html"));
+            string theme = App.Options["Theming"]["Theme"].StringValue;
+
             browser.JavascriptObjectRepository.Register("synServiceAsync", this, true);
+            SetEditorTheme(browser, theme);
 
             ScriptTab scriptTab = new ScriptTab(browser, filePath);
             Tabs.Insert(Tabs.Count - 1, scriptTab);
@@ -203,6 +209,37 @@ namespace SynapseXUI.ViewModels
             Tabs.Remove(scriptTab);
         }
 
+        public void SetEditorTheme(ChromiumWebBrowser browser, string theme)
+        {
+            DispatcherTimer timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(50)
+            };
+            timer.Tick += async (s, e) =>
+            {
+                JavascriptResponse response = await browser.GetMainFrame().EvaluateScriptAsync("SetTheme('')");
+                if (response.Success)
+                {
+                    timer.Stop();
+
+                    if (theme == "Dark")
+                    {
+                        browser.ExecuteScriptAsync("SetTheme", "tomorrow_night_eighties");
+                    }
+                    else
+                    {
+                        browser.ExecuteScriptAsync("SetTheme", "chrome");
+                    }
+                }
+            };
+            timer.Start();
+        }
+
+        public void SetAllEditorThemes(string theme)
+        {
+            Tabs.Where(x => !x.IsAddTabButton).ToList().ForEach(x => SetEditorTheme(x.Editor, theme));
+        }
+
         public void SetEditorText(string text)
         {
             DispatcherTimer timer = new DispatcherTimer
@@ -222,8 +259,17 @@ namespace SynapseXUI.ViewModels
             timer.Start();
         }
 
-        public void ClearEditorText()
+        public async void ClearEditorText()
         {
+            if (App.SxOptions.ClearConfirmation)
+            {
+                MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync("Clear Editor", "Are you sure that you want to clear the editor?", MessageDialogStyle.AffirmativeAndNegative);
+                if (result == MessageDialogResult.Negative)
+                {
+                    return;
+                }
+            }
+
             SelectedTab.Editor.ExecuteScriptAsync("ClearText()");
         }
 
@@ -275,8 +321,17 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public void CloseAllTabs(ScriptTab tabToExclude = null)
+        public async void CloseAllTabs(ScriptTab tabToExclude = null)
         {
+            if (App.SxOptions.CloseConfirmation)
+            {
+                MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync("Close Tabs", $"Are you sure that you want to close all tabs?", MessageDialogStyle.AffirmativeAndNegative);
+                if (result == MessageDialogResult.Negative)
+                {
+                    return;
+                }
+            }
+
             if (tabToExclude is null)
             {
                 Tabs.Where(x => !x.IsAddTabButton).ToList().ForEach(x => CloseTab(x));

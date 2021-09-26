@@ -1,7 +1,10 @@
-﻿using sxlib.Specialized;
+﻿using ControlzEx.Theming;
+using SharpConfig;
+using sxlib.Specialized;
 using System;
 using System.IO;
 using System.Windows;
+using static sxlib.Static.Data;
 
 namespace SynapseXUI
 {
@@ -13,6 +16,8 @@ namespace SynapseXUI
         public static App Instance { get; private set; }
         public static string StartupPath { get; private set; }
         public static SxLibWPF Lib { get; set; }
+        public static Options SxOptions { get; set; }
+        public static Configuration Options { get; set; }
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -26,7 +31,29 @@ namespace SynapseXUI
                 Environment.Exit(2);
             }
 
+            string settingsPath = Path.Combine(StartupPath, "SynapseXUI.cfg");
+            if (File.Exists(settingsPath))
+            {
+                Options = Configuration.LoadFromFile(settingsPath);
+                string theme = Options["Theming"]["Theme"].StringValue;
+                string color = Options["Theming"]["Color"].StringValue;
+
+                SetTheme(theme, color);
+            }
+            else
+            {
+                Options = new Configuration();
+                Options["Theming"]["Theme"].StringValue = "Dark";
+                Options["Theming"]["Color"].StringValue = "Blue";
+                Options.SaveToFile(settingsPath);
+            }
+
             base.OnStartup(e);
+        }
+
+        public static void SetTheme(string theme, string color)
+        {
+            ThemeManager.Current.ChangeTheme(Current, $"{theme}.{color}");
         }
     }
 }

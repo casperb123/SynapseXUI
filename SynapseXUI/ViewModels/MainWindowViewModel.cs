@@ -5,22 +5,20 @@ using SynapseXUI.Entities;
 using SynapseXUI.UserControls;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
-using static sxlib.Static.Data;
 
 namespace SynapseXUI.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private readonly MainWindow mainWindow;
-        private readonly EditorUserControl editorUserControl;
-        private readonly ScriptHubUserControl scriptHubUserControl;
-        private readonly OptionsUserControl optionsUserControl;
+        private ScriptHubUserControl scriptHubUserControl;
+        private OptionsUserControl optionsUserControl;
         private ProgressDialogController progressDialog;
         private string synapseStatus;
         private ScriptHubScript selectedHubScript;
+
+        public EditorUserControl EditorUserControl { get; private set; }
 
         public ScriptHubScript SelectedHubScript
         {
@@ -55,13 +53,6 @@ namespace SynapseXUI.ViewModels
         public MainWindowViewModel(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
-            editorUserControl = new EditorUserControl();
-            scriptHubUserControl = new ScriptHubUserControl();
-            optionsUserControl = new OptionsUserControl();
-            mainWindow.userControlEditor.Content = editorUserControl;
-            mainWindow.userControlScriptHub.Content = scriptHubUserControl;
-            mainWindow.userControlOptions.Content = optionsUserControl;
-
             InitializeSxLib();
         }
 
@@ -178,6 +169,14 @@ namespace SynapseXUI.ViewModels
                 case SxLibBase.SynLoadEvents.READY:
                     progressDialog.SetMessage("Ready!");
                     progressDialog.SetProgress(100);
+
+                    EditorUserControl = new EditorUserControl();
+                    scriptHubUserControl = new ScriptHubUserControl();
+                    optionsUserControl = new OptionsUserControl();
+                    mainWindow.userControlEditor.Content = EditorUserControl;
+                    mainWindow.userControlScriptHub.Content = scriptHubUserControl;
+                    mainWindow.userControlOptions.Content = optionsUserControl;
+
                     _ = Task.Run(async () =>
                     {
                         await Task.Delay(1000);

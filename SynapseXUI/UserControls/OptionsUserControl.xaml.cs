@@ -29,5 +29,15 @@ namespace SynapseXUI.UserControls
             viewModel = new OptionsUserControlViewModel(this);
             DataContext = viewModel;
         }
+
+        private void ToggleSwitchSxOptions_Toggled(object sender, RoutedEventArgs e)
+        {
+            viewModel.SetSxOptions();
+        }
+
+        private void ComboBoxOptions_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            viewModel.SetOptions();
+        }
     }
 }
