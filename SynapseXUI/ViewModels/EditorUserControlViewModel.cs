@@ -321,17 +321,8 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public async void CloseAllTabs(ScriptTab tabToExclude = null)
+        public void CloseAllTabs(ScriptTab tabToExclude = null)
         {
-            if (App.SxOptions.CloseConfirmation)
-            {
-                MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync("Close Tabs", $"Are you sure that you want to close all tabs?", MessageDialogStyle.AffirmativeAndNegative);
-                if (result == MessageDialogResult.Negative)
-                {
-                    return;
-                }
-            }
-
             if (tabToExclude is null)
             {
                 Tabs.Where(x => !x.IsAddTabButton).ToList().ForEach(x => CloseTab(x));

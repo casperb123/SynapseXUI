@@ -27,11 +27,13 @@
                             <mah:Tile Title="{Binding Path=Name}"
                                       Margin="3"
                                       mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                                      Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                                      FontWeight="DemiBold"
                                       Click="Tile_Click">
                                 <Grid>
                                     <Image Source="{Binding Path=Picture}" />
                                     <Rectangle Fill="{DynamicResource MahApps.Brushes.ThemeBackground}"
-                                               Opacity=".5" />
+                                               Opacity=".6" />
                                 </Grid>
                             </mah:Tile>
                         </DataTemplate>

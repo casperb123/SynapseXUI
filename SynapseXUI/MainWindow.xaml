@@ -27,7 +27,7 @@
                         Header="{Binding Path=SelectedHubScript.Name}"
                         Position="Right"
                         Theme="Adapt"
-                        Width="400"
+                        Width="350"
                         IsPinned="False">
                 <Grid Margin="10,0,10,10">
                     <Grid.RowDefinitions>
