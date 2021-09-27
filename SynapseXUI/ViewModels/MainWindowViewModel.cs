@@ -62,7 +62,7 @@ namespace SynapseXUI.ViewModels
             progressDialog.Minimum = 0;
             progressDialog.Maximum = 100;
 
-            App.Lib = SxLib.InitializeWPF(mainWindow, App.StartupPath);
+            App.Lib = SxLib.InitializeWPF(mainWindow, App.StartupFolderPath);
             App.Lib.Load();
             App.Lib.LoadEvent += Lib_LoadEvent;
             App.Lib.AttachEvent += Lib_AttachEvent;

@@ -1,10 +1,6 @@
 ﻿using ControlzEx.Theming;
-using SharpConfig;
 using SynapseXUI.UserControls;
-using System;
 using System.ComponentModel;
-using System.IO;
-using static sxlib.Static.Data;
 
 namespace SynapseXUI.ViewModels
 {
@@ -17,28 +13,6 @@ namespace SynapseXUI.ViewModels
         private bool internalUi;
         private bool topMost;
         private bool clearEditorPrompt;
-        private string applicationTheme;
-        private string applicationColor;
-
-        public string ApplicationColor
-        {
-            get => applicationColor;
-            set
-            {
-                applicationColor = value;
-                OnPropertyChanged(nameof(ApplicationColor));
-            }
-        }
-
-        public string ApplicationTheme
-        {
-            get => applicationTheme;
-            set
-            {
-                applicationTheme = value;
-                OnPropertyChanged(nameof(ApplicationTheme));
-            }
-        }
 
         public bool UnlockFps
         {
@@ -125,8 +99,6 @@ namespace SynapseXUI.ViewModels
 
             userControl.comboBoxTheme.ItemsSource = ThemeManager.Current.BaseColors;
             userControl.comboBoxColor.ItemsSource = ThemeManager.Current.ColorSchemes;
-            ApplicationTheme = App.Options["Theming"]["Theme"].StringValue;
-            ApplicationColor = App.Options["Theming"]["Color"].StringValue;
         }
 
         public void SetSxOptions()
@@ -141,16 +113,14 @@ namespace SynapseXUI.ViewModels
             App.Lib.SetOptions(App.SxOptions);
         }
 
-        public void SetOptions()
+        public void SaveSettings()
         {
-            string optionsPath = Path.Combine(App.StartupPath, "SynapseXUI.cfg");
+            string theme = App.Settings.Theming.ApplicationTheme;
+            string color = App.Settings.Theming.ApplicationColor;
 
-            App.Options["Theming"]["Theme"].StringValue = ApplicationTheme;
-            App.Options["Theming"]["Color"].StringValue = ApplicationColor;
-
-            App.Options.SaveToFile(optionsPath);
-            App.SetTheme(ApplicationTheme, ApplicationColor);
-            MainWindow.Instance.ViewModel.EditorUserControl.ViewModel.SetAllEditorThemes(ApplicationTheme);
+            App.Settings.Save(App.SettingsFilePath);
+            App.SetTheme(theme, color);
+            MainWindow.Instance.ViewModel.EditorUserControl.ViewModel.SetAllEditorThemes(theme);
         }
     }
 }

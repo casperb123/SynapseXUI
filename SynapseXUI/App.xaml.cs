@@ -1,6 +1,8 @@
-﻿using ControlzEx.Theming;
-using SharpConfig;
+﻿using CefSharp;
+using CefSharp.Wpf;
+using ControlzEx.Theming;
 using sxlib.Specialized;
+using SynapseXUI.Entities;
 using System;
 using System.IO;
 using System.Windows;
@@ -14,40 +16,51 @@ namespace SynapseXUI
     public partial class App : Application
     {
         public static App Instance { get; private set; }
-        public static string StartupPath { get; private set; }
+        public static string StartupFolderPath { get; private set; }
+        public static string SettingsFilePath { get; private set; }
+        public static string EditorFilePath { get; private set; }
+        public static string ScriptsFolderPath { get; private set; }
         public static SxLibWPF Lib { get; set; }
         public static Options SxOptions { get; set; }
-        public static Configuration Options { get; set; }
+        public static Settings Settings { get; private set; }
+
+        public App()
+        {
+            CefSettings cefSettings = new CefSettings
+            {
+                LogSeverity = LogSeverity.Disable
+            };
+
+            if (!Cef.IsInitialized)
+            {
+                Cef.Initialize(cefSettings);
+            }
+        }
 
         protected override void OnStartup(StartupEventArgs e)
         {
             Instance = this;
-            StartupPath = Directory.GetCurrentDirectory();
-            if (!Directory.Exists(Path.Combine(StartupPath, "auth")) ||
-                !Directory.Exists(Path.Combine(StartupPath, "bin")) ||
-                !Directory.Exists(Path.Combine(StartupPath, "scripts")))
+            StartupFolderPath = Directory.GetCurrentDirectory();
+            string authFolderPath = Path.Combine(StartupFolderPath, "auth");
+            string binFolderPath = Path.Combine(StartupFolderPath, "bin");
+
+            SettingsFilePath = Path.Combine(StartupFolderPath, "SynapseXUI.ini");
+            EditorFilePath = Path.Combine(binFolderPath, "Editor.html");
+            ScriptsFolderPath = Path.Combine(StartupFolderPath, "scripts");
+
+            if (!Directory.Exists(authFolderPath) ||
+                !Directory.Exists(binFolderPath) ||
+                !Directory.Exists(ScriptsFolderPath))
             {
                 MessageBox.Show("Please open the official Synapse X application before using our application", "Error occured", MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(2);
             }
 
-            string settingsPath = Path.Combine(StartupPath, "SynapseXUI.cfg");
-            if (File.Exists(settingsPath))
-            {
-                Options = Configuration.LoadFromFile(settingsPath);
-                string theme = Options["Theming"]["Theme"].StringValue;
-                string color = Options["Theming"]["Color"].StringValue;
+            Settings = Settings.GetSettings(SettingsFilePath);
+            string theme = Settings.Theming.ApplicationTheme;
+            string color = Settings.Theming.ApplicationColor;
 
-                SetTheme(theme, color);
-            }
-            else
-            {
-                Options = new Configuration();
-                Options["Theming"]["Theme"].StringValue = "Dark";
-                Options["Theming"]["Color"].StringValue = "Blue";
-                Options.SaveToFile(settingsPath);
-            }
-
+            SetTheme(theme, color);
             base.OnStartup(e);
         }
 

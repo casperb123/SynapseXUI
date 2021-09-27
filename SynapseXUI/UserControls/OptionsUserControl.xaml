@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:SynapseXUI.UserControls"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:viewmodels="clr-namespace:SynapseXUI.ViewModels"
+             xmlns:root="clr-namespace:SynapseXUI"
              d:DataContext="{d:DesignInstance Type=viewmodels:OptionsUserControlViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="450"
@@ -59,15 +60,15 @@
                     <Label Content="Application Theme"
                            HorizontalContentAlignment="Center" />
                     <ComboBox x:Name="comboBoxTheme"
-                              SelectedItem="{Binding Path=ApplicationTheme}"
-                              SelectionChanged="ComboBoxOptions_SelectionChanged" />
+                              SelectedItem="{Binding Path=Theming.ApplicationTheme, Source={x:Static root:App.Settings}}"
+                              SelectionChanged="ComboBoxSettings_SelectionChanged" />
                 </StackPanel>
                 <StackPanel>
                     <Label Content="Application Color"
                            HorizontalContentAlignment="Center" />
                     <ComboBox x:Name="comboBoxColor"
-                              SelectedItem="{Binding Path=ApplicationColor}"
-                              SelectionChanged="ComboBoxOptions_SelectionChanged" />
+                              SelectedItem="{Binding Path=Theming.ApplicationColor, Source={x:Static root:App.Settings}}"
+                              SelectionChanged="ComboBoxSettings_SelectionChanged" />
                 </StackPanel>
             </StackPanel>
         </GroupBox>

@@ -89,7 +89,7 @@ namespace SynapseXUI.ViewModels
             Tabs.CollectionChanged += Tabs_CollectionChanged;
             ScriptFiles = new ObservableCollection<ScriptFile>();
 
-            Directory.GetFiles(Path.Combine(App.StartupPath, "scripts")).ToList().ForEach(x => ScriptFiles.Add(new ScriptFile(x)));
+            Directory.GetFiles(App.ScriptsFolderPath).ToList().ForEach(x => ScriptFiles.Add(new ScriptFile(x)));
 
             PackIconMaterialDesign icon = new PackIconMaterialDesign
             {
@@ -179,8 +179,8 @@ namespace SynapseXUI.ViewModels
 
         public void AddTab(string filePath = null)
         {
-            ChromiumWebBrowser browser = new ChromiumWebBrowser(Path.Combine(App.StartupPath, @"bin\Editor.html"));
-            string theme = App.Options["Theming"]["Theme"].StringValue;
+            ChromiumWebBrowser browser = new ChromiumWebBrowser(App.EditorFilePath);
+            string theme = App.Settings.Theming.ApplicationTheme;
 
             browser.JavascriptObjectRepository.Register("synServiceAsync", this, true);
             SetEditorTheme(browser, theme);
