@@ -5,13 +5,18 @@
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:local="clr-namespace:SynapseXUI"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:converters="clr-namespace:SynapseXUI.Entities.Converters;assembly=SynapseXUI.Entities"
                  mc:Ignorable="d"
-                 Title="{Binding Path=SynapseStatus, StringFormat='Synapse X UI{0}'}"
+                 Title="{Binding Path=SynapseStatus}"
                  Height="500"
                  Width="800"
                  MinHeight="500"
                  MinWidth="800"
                  Closing="MetroWindow_Closing">
+    <mah:MetroWindow.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </mah:MetroWindow.Resources>
+
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
             <Button x:Name="buttonAttach"
@@ -59,6 +64,7 @@
         <mah:MetroAnimatedSingleRowTabControl x:Name="tabControlMain"
                                               mah:TabControlHelper.Underlined="SelectedTabItem"
                                               Padding="5"
+                                              Visibility="{Binding Path=SynapseLoaded, Converter={StaticResource BooleanToVisibilityConverter}}"
                                               SelectionChanged="TabControlMain_SelectionChanged">
             <TabItem Header="Editor">
                 <UserControl x:Name="userControlEditor" />

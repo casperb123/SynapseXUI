@@ -17,8 +17,19 @@ namespace SynapseXUI.ViewModels
         private ProgressDialogController progressDialog;
         private string synapseStatus;
         private ScriptHubScript selectedHubScript;
+        private bool synapseLoaded;
 
         public EditorUserControl EditorUserControl { get; private set; }
+
+        public bool SynapseLoaded
+        {
+            get => synapseLoaded;
+            set
+            {
+                synapseLoaded = value;
+                OnPropertyChanged(nameof(SynapseLoaded));
+            }
+        }
 
         public ScriptHubScript SelectedHubScript
         {
@@ -52,6 +63,7 @@ namespace SynapseXUI.ViewModels
 
         public MainWindowViewModel(MainWindow mainWindow)
         {
+            SynapseStatus = "Synapse X UI";
             this.mainWindow = mainWindow;
             InitializeSxLib();
         }
@@ -80,37 +92,37 @@ namespace SynapseXUI.ViewModels
             switch (e)
             {
                 case SxLibBase.SynAttachEvents.CHECKING:
-                    SynapseStatus = " - Checking...";
+                    SynapseStatus = "Synapse X UI - Checking...";
                     break;
                 case SxLibBase.SynAttachEvents.INJECTING:
-                    SynapseStatus = " - Injecting...";
+                    SynapseStatus = "Synapse X UI - Injecting...";
                     break;
                 case SxLibBase.SynAttachEvents.CHECKING_WHITELIST:
-                    SynapseStatus = " - Checking whitelist...";
+                    SynapseStatus = "Synapse X UI - Checking whitelist...";
                     break;
                 case SxLibBase.SynAttachEvents.SCANNING:
-                    SynapseStatus = " - Scanning...";
+                    SynapseStatus = "Synapse X UI - Scanning...";
                     break;
                 case SxLibBase.SynAttachEvents.READY:
-                    SynapseStatus = " - Attached";
+                    SynapseStatus = "Synapse X UI - Attached";
                     break;
                 case SxLibBase.SynAttachEvents.FAILED_TO_ATTACH:
-                    SynapseStatus = " - Failed to attach";
+                    SynapseStatus = "Synapse X UI - Failed to attach";
                     ResetSynapseStatus();
                     break;
                 case SxLibBase.SynAttachEvents.FAILED_TO_FIND:
-                    SynapseStatus = " - Failed to find Roblox";
+                    SynapseStatus = "Synapse X UI - Failed to find Roblox";
                     ResetSynapseStatus();
                     break;
                 case SxLibBase.SynAttachEvents.NOT_INJECTED:
                     await mainWindow.ShowMessageAsync("Execution error", "Please attach Synapse X before executing a script");
                     break;
                 case SxLibBase.SynAttachEvents.ALREADY_INJECTED:
-                    SynapseStatus = " - Already injected!";
+                    SynapseStatus = "Synapse X UI - Already injected!";
                     ResetSynapseStatus();
                     break;
                 case SxLibBase.SynAttachEvents.PROC_DELETION:
-                    SynapseStatus = "";
+                    SynapseStatus = "Synapse X UI";
                     mainWindow.buttonAttach.IsEnabled = true;
                     break;
             }
@@ -176,6 +188,7 @@ namespace SynapseXUI.ViewModels
                     mainWindow.userControlEditor.Content = EditorUserControl;
                     mainWindow.userControlScriptHub.Content = scriptHubUserControl;
                     mainWindow.userControlOptions.Content = optionsUserControl;
+                    SynapseLoaded = true;
 
                     _ = Task.Run(async () =>
                     {
@@ -193,7 +206,7 @@ namespace SynapseXUI.ViewModels
                 await Task.Delay(1000);
                 mainWindow.Dispatcher.Invoke(() =>
                 {
-                    SynapseStatus = "";
+                    SynapseStatus = "Synapse X UI";
                     mainWindow.buttonAttach.IsEnabled = true;
                 });
             });
