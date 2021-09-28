@@ -232,24 +232,26 @@ namespace SynapseXUI.ViewModels
                 if (e.Frame.IsMain)
                 {
                     scriptTab.EditorReady = true;
-                    SetEditorTheme(scriptTab, theme);
-
-                    if (string.IsNullOrEmpty(text))
-                    {
-                        if (saveTabs)
-                        {
-                            userControl.Dispatcher.Invoke(() =>
-                            {
-                                SaveTabs();
-                            });
-                        }
-                    }
-                    else
-                    {
-                        SetEditorText(scriptTab, text, saveTabs);
-                    }
                 }
             };
+
+            SetEditorTheme(scriptTab, theme);
+
+            if (string.IsNullOrEmpty(text))
+            {
+                if (saveTabs)
+                {
+                    userControl.Dispatcher.Invoke(() =>
+                    {
+                        SaveTabs();
+                    });
+                }
+            }
+            else
+            {
+                scriptTab.Text = text;
+                SetEditorText(scriptTab, text, saveTabs);
+            }
 
             return scriptTab;
         }
@@ -315,7 +317,6 @@ namespace SynapseXUI.ViewModels
                 userControl.Dispatcher.Invoke(() =>
                 {
                     scriptTab.Editor.ExecuteScriptAsync("SetText", text);
-                    scriptTab.Text = text;
                     if (saveTabs)
                     {
                         SaveTabs();
@@ -385,7 +386,10 @@ namespace SynapseXUI.ViewModels
                     scriptTab = SelectedTab;
                 }
 
-                SetEditorText(scriptTab, File.ReadAllText(scriptFilePath), true);
+                string script = File.ReadAllText(scriptFilePath);
+
+                scriptTab.Text = script;
+                SetEditorText(scriptTab, script, true);
             }
         }
 

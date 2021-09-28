@@ -6,18 +6,8 @@ namespace SynapseXUI.Entities
 {
     public class Settings : INotifyPropertyChanged
     {
-        private bool saveTabs;
         private Theming theming;
-
-        public Theming Theming
-        {
-            get { return theming; }
-            set
-            {
-                theming = value;
-                OnPropertyChanged(nameof(Theming));
-            }
-        }
+        private bool saveTabs;
 
         public bool SaveTabs
         {
@@ -26,6 +16,16 @@ namespace SynapseXUI.Entities
             {
                 saveTabs = value;
                 OnPropertyChanged(nameof(SaveTabs));
+            }
+        }
+
+        public Theming Theming
+        {
+            get { return theming; }
+            set
+            {
+                theming = value;
+                OnPropertyChanged(nameof(Theming));
             }
         }
 
