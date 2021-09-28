@@ -19,46 +19,52 @@
 
         <GroupBox Header="Application Options"
                   Margin="0,0,2.5,0">
-            <StackPanel Margin="5">
-                <mah:ToggleSwitch Header="Save Tabs"
-                                  OnContent="Enabled"
-                                  OffContent="Disabled"
-                                  IsOn="{Binding Path=SaveTabs, Source={x:Static root:App.Settings}}"
-                                  ToolTip="Only saves named tabs"
-                                  ToolTipService.InitialShowDelay="0"
-                                  ToolTipService.BetweenShowDelay="0"
-                                  Toggled="ToggleSwitchSettings_Toggled" />
-                <mah:ToggleSwitch Header="Unlock FPS"
-                                  OnContent="Enabled"
-                                  OffContent="Disabled"
-                                  IsOn="{Binding Path=UnlockFps}"
-                                  Toggled="ToggleSwitchSxOptions_Toggled" />
-                <mah:ToggleSwitch Header="Auto Launch"
-                                  OnContent="Enabled"
-                                  OffContent="Disabled"
-                                  IsOn="{Binding Path=AutoLaunch}"
-                                  Toggled="ToggleSwitchSxOptions_Toggled" />
-                <mah:ToggleSwitch Header="Auto Attach"
-                                  OnContent="Enabled"
-                                  OffContent="Disabled"
-                                  IsOn="{Binding Path=AutoAttach}"
-                                  Toggled="ToggleSwitchSxOptions_Toggled" />
-                <mah:ToggleSwitch Header="Internal UI"
-                                  OnContent="Enabled"
-                                  OffContent="Disabled"
-                                  IsOn="{Binding Path=InternalUi}"
-                                  Toggled="ToggleSwitchSxOptions_Toggled" />
-                <mah:ToggleSwitch Header="Top Most"
-                                  OnContent="Enabled"
-                                  OffContent="Disabled"
-                                  IsOn="{Binding Path=TopMost}"
-                                  Toggled="ToggleSwitchSxOptions_Toggled" />
-                <mah:ToggleSwitch Header="Clear Editor Prompt"
-                                  OnContent="Enabled"
-                                  OffContent="Disabled"
-                                  IsOn="{Binding Path=ClearEditorPrompt}"
-                                  Toggled="ToggleSwitchSxOptions_Toggled" />
-            </StackPanel>
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+                    <mah:ToggleSwitch Header="Save Tabs"
+                                      OnContent="Enabled"
+                                      OffContent="Disabled"
+                                      IsOn="{Binding Path=SaveTabs, Source={x:Static root:App.Settings}}"
+                                      Toggled="ToggleSwitchSettings_Toggled" />
+                    <mah:ToggleSwitch Header="Unlock FPS"
+                                      OnContent="Enabled"
+                                      OffContent="Disabled"
+                                      IsOn="{Binding Path=UnlockFps}"
+                                      Toggled="ToggleSwitchSxOptions_Toggled" />
+                    <mah:ToggleSwitch Header="Auto Launch"
+                                      OnContent="Enabled"
+                                      OffContent="Disabled"
+                                      IsOn="{Binding Path=AutoLaunch}"
+                                      Toggled="ToggleSwitchSxOptions_Toggled" />
+                    <mah:ToggleSwitch Header="Auto Attach"
+                                      OnContent="Enabled"
+                                      OffContent="Disabled"
+                                      IsOn="{Binding Path=AutoAttach}"
+                                      Toggled="ToggleSwitchSxOptions_Toggled" />
+                    <mah:ToggleSwitch Header="Internal UI"
+                                      OnContent="Enabled"
+                                      OffContent="Disabled"
+                                      IsOn="{Binding Path=InternalUi}"
+                                      Toggled="ToggleSwitchSxOptions_Toggled" />
+                    <mah:ToggleSwitch Header="Top Most"
+                                      OnContent="Enabled"
+                                      OffContent="Disabled"
+                                      IsOn="{Binding Path=TopMost}"
+                                      Toggled="ToggleSwitchSxOptions_Toggled" />
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <mah:ToggleSwitch Header="Clear Editor Prompt"
+                                      OnContent="Enabled"
+                                      OffContent="Disabled"
+                                      IsOn="{Binding Path=ClearEditorPrompt}"
+                                      Toggled="ToggleSwitchSxOptions_Toggled" />
+                </StackPanel>
+            </Grid>
         </GroupBox>
         <GroupBox Header="Theme Options"
                   Grid.Column="1"
