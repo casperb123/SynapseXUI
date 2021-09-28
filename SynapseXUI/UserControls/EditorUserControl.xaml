@@ -27,7 +27,7 @@
         </Grid.RowDefinitions>
 
         <mah:MetroAnimatedSingleRowTabControl x:Name="tabControlEditors"
-                                              ItemsSource="{Binding Path=Tabs}"
+                                              ItemsSource="{Binding Path=Tabs.Collection}"
                                               SelectedItem="{Binding Path=SelectedTab}"
                                               mah:TabControlHelper.Underlined="SelectedTabItem"
                                               mah:HeaderedControlHelper.HeaderFontSize="14"

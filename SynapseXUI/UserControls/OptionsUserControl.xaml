@@ -20,6 +20,14 @@
         <GroupBox Header="Application Options"
                   Margin="0,0,2.5,0">
             <StackPanel Margin="5">
+                <mah:ToggleSwitch Header="Save Tabs"
+                                  OnContent="Enabled"
+                                  OffContent="Disabled"
+                                  IsOn="{Binding Path=SaveTabs, Source={x:Static root:App.Settings}}"
+                                  ToolTip="Only saves named tabs"
+                                  ToolTipService.InitialShowDelay="0"
+                                  ToolTipService.BetweenShowDelay="0"
+                                  Toggled="ToggleSwitchSettings_Toggled" />
                 <mah:ToggleSwitch Header="Unlock FPS"
                                   OnContent="Enabled"
                                   OffContent="Disabled"

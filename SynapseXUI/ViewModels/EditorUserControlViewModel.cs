@@ -12,6 +12,8 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -26,7 +28,7 @@ namespace SynapseXUI.ViewModels
 
         private readonly EditorUserControl userControl;
         private string editorText;
-        private ObservableCollection<ScriptTab> tabs;
+        private ScriptTabs tabs;
         private ScriptTab selectedTab;
         private ObservableCollection<ScriptFile> scriptFiles;
         private ScriptFile selectedScriptFile;
@@ -61,7 +63,7 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public ObservableCollection<ScriptTab> Tabs
+        public ScriptTabs Tabs
         {
             get => tabs;
             set
@@ -81,12 +83,22 @@ namespace SynapseXUI.ViewModels
             }
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string prop)
+        {
+            if (!string.IsNullOrWhiteSpace(prop))
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+            }
+        }
+
         public EditorUserControlViewModel(EditorUserControl userControl)
         {
             Instance = this;
             this.userControl = userControl;
-            Tabs = new ObservableCollection<ScriptTab>();
-            Tabs.CollectionChanged += Tabs_CollectionChanged;
+            Tabs = new ScriptTabs();
+            Tabs.Collection.CollectionChanged += Tabs_CollectionChanged;
             ScriptFiles = new ObservableCollection<ScriptFile>();
 
             Directory.GetFiles(App.ScriptsFolderPath).ToList().ForEach(x => ScriptFiles.Add(new ScriptFile(x)));
@@ -105,7 +117,7 @@ namespace SynapseXUI.ViewModels
                 Header = icon,
                 IsAddTabButton = true
             };
-            Tabs.Add(scriptTab);
+            Tabs.Collection.Add(scriptTab);
 
             DispatcherTimer timer = new DispatcherTimer
             {
@@ -119,7 +131,15 @@ namespace SynapseXUI.ViewModels
                     userControl.tabControlEditors.GetSelectedTabItem().PreviewMouseDown += EditorsAddTab_PreviewMouseDown;
                     userControl.tabControlEditors.SelectionChanged += TabControlEditors_SelectionChanged;
 
-                    AddTab();
+                    if (App.Settings.SaveTabs && File.Exists(App.TabsFilePath) && !string.IsNullOrWhiteSpace(File.ReadAllText(App.TabsFilePath)))
+                    {
+                        GetTabs();
+                    }
+                    else
+                    {
+                        AddTab(false);
+                    }
+
                     timer.Stop();
                 }
             };
@@ -130,28 +150,48 @@ namespace SynapseXUI.ViewModels
         {
             if (SelectedTab != null && SelectedTab.IsAddTabButton)
             {
-                userControl.tabControlEditors.SelectedIndex = Tabs.Count - 2;
+                userControl.tabControlEditors.SelectedIndex = Tabs.Collection.Count - 2;
             }
         }
 
         private void EditorsAddTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
-            AddTab();
+            AddTab(true);
         }
 
         private void Tabs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Tabs.ToList().ForEach(x => x.EnableCloseButton = Tabs.Count > 2 && !x.IsAddTabButton);
+            Tabs.Collection.ToList().ForEach(x => x.EnableCloseButton = Tabs.Collection.Count > 2 && !x.IsAddTabButton);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged(string prop)
+        private void GetTabs()
         {
-            if (!string.IsNullOrWhiteSpace(prop))
+            using (StreamReader reader = new StreamReader(App.TabsFilePath))
             {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+                BinaryFormatter formatter = new BinaryFormatter();
+                ScriptTabs scriptTabs = formatter.Deserialize(reader.BaseStream) as ScriptTabs;
+
+                scriptTabs.Collection.ToList().ForEach(x => AddTab(false, x.FullFilename, x.Text));
+                userControl.tabControlEditors.SelectedIndex = scriptTabs.SelectedIndex;
+            }
+        }
+
+        public void SaveTabs()
+        {
+            if (App.Settings.SaveTabs)
+            {
+                using (StreamWriter writer = new StreamWriter(App.TabsFilePath))
+                {
+                    BinaryFormatter formatter = new BinaryFormatter();
+                    ScriptTabs scriptTabs = new ScriptTabs
+                    {
+                        Collection = new ObservableCollection<ScriptTab>(Tabs.Collection.Where(x => !x.IsAddTabButton)),
+                        SelectedIndex = userControl.tabControlEditors.SelectedIndex
+                    };
+
+                    formatter.Serialize(writer.BaseStream, scriptTabs);
+                }
             }
         }
 
@@ -177,86 +217,111 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public void AddTab(string filePath = null)
+        public ScriptTab AddTab(bool saveTabs, string filePath = null, string text = null)
         {
             ChromiumWebBrowser browser = new ChromiumWebBrowser(App.EditorFilePath);
-            string theme = App.Settings.Theming.ApplicationTheme;
-
             browser.JavascriptObjectRepository.Register("synServiceAsync", this, true);
-            SetEditorTheme(browser, theme);
 
+            string theme = App.Settings.Theming.ApplicationTheme;
             ScriptTab scriptTab = new ScriptTab(browser, filePath);
-            Tabs.Insert(Tabs.Count - 1, scriptTab);
+            Tabs.Collection.Insert(Tabs.Collection.Count - 1, scriptTab);
             SelectedTab = scriptTab;
-        }
 
-        public void CloseTab(MetroTabItem tab)
-        {
-            ScriptTab scriptTab = Tabs.FirstOrDefault(x => x.Editor == tab.Content);
-            IBrowserHost browserHost = scriptTab.Editor.GetBrowserHost();
-
-            browserHost.CloseBrowser(true);
-            browserHost.CloseDevTools();
-            Tabs.Remove(scriptTab);
-        }
-
-        public void CloseTab(ScriptTab scriptTab)
-        {
-            IBrowserHost browserHost = scriptTab.Editor.GetBrowserHost();
-
-            browserHost.CloseBrowser(true);
-            browserHost.CloseDevTools();
-            Tabs.Remove(scriptTab);
-        }
-
-        public void SetEditorTheme(ChromiumWebBrowser browser, string theme)
-        {
-            DispatcherTimer timer = new DispatcherTimer
+            browser.FrameLoadEnd += (s, e) =>
             {
-                Interval = TimeSpan.FromMilliseconds(50)
-            };
-            timer.Tick += async (s, e) =>
-            {
-                JavascriptResponse response = await browser.GetMainFrame().EvaluateScriptAsync("SetTheme('')");
-                if (response.Success)
+                if (e.Frame.IsMain)
                 {
-                    timer.Stop();
+                    scriptTab.EditorReady = true;
+                    SetEditorTheme(scriptTab, theme);
 
-                    if (theme == "Dark")
+                    if (string.IsNullOrEmpty(text))
                     {
-                        browser.ExecuteScriptAsync("SetTheme", "tomorrow_night_eighties");
+                        if (saveTabs)
+                        {
+                            userControl.Dispatcher.Invoke(() =>
+                            {
+                                SaveTabs();
+                            });
+                        }
                     }
                     else
                     {
-                        browser.ExecuteScriptAsync("SetTheme", "chrome");
+                        SetEditorText(scriptTab, text, saveTabs);
                     }
                 }
             };
-            timer.Start();
+
+            return scriptTab;
+        }
+
+        public void CloseTab(MetroTabItem tab, bool saveTabs)
+        {
+            ScriptTab scriptTab = Tabs.Collection.FirstOrDefault(x => x.Editor == tab.Content);
+            IBrowserHost browserHost = scriptTab.Editor.GetBrowserHost();
+
+            browserHost.CloseBrowser(true);
+            browserHost.CloseDevTools();
+            Tabs.Collection.Remove(scriptTab);
+
+            if (saveTabs)
+            {
+                SaveTabs();
+            }
+        }
+
+        public void CloseTab(ScriptTab scriptTab, bool saveTabs)
+        {
+            IBrowserHost browserHost = scriptTab.Editor.GetBrowserHost();
+
+            browserHost.CloseBrowser(true);
+            browserHost.CloseDevTools();
+            Tabs.Collection.Remove(scriptTab);
+
+            if (saveTabs)
+            {
+                SaveTabs();
+            }
+        }
+
+        public void SetEditorTheme(ScriptTab scriptTab, string theme)
+        {
+            Task.Run(() =>
+            {
+                while (!scriptTab.EditorReady) { }
+                userControl.Dispatcher.Invoke(() =>
+                {
+                    if (theme == "Dark")
+                    {
+                        scriptTab.Editor.ExecuteScriptAsync("SetTheme", "tomorrow_night_eighties");
+                    }
+                    else
+                    {
+                        scriptTab.Editor.ExecuteScriptAsync("SetTheme", "chrome");
+                    }
+                });
+            });
         }
 
         public void SetAllEditorThemes(string theme)
         {
-            Tabs.Where(x => !x.IsAddTabButton).ToList().ForEach(x => SetEditorTheme(x.Editor, theme));
+            Tabs.Collection.Where(x => !x.IsAddTabButton).ToList().ForEach(x => SetEditorTheme(x, theme));
         }
 
-        public void SetEditorText(string text)
+        public void SetEditorText(ScriptTab scriptTab, string text, bool saveTabs)
         {
-            DispatcherTimer timer = new DispatcherTimer
+            Task.Run(() =>
             {
-                Interval = TimeSpan.FromMilliseconds(50)
-            };
-            timer.Tick += async (s, e) =>
-            {
-                JavascriptResponse response = await SelectedTab.Editor.GetMainFrame().EvaluateScriptAsync("SetText('')");
-                if (response.Success)
+                while (!scriptTab.EditorReady) { }
+                userControl.Dispatcher.Invoke(() =>
                 {
-                    timer.Stop();
-                    SelectedTab.Editor.ExecuteScriptAsync("SetText", text);
-                    SelectedTab.Text = text;
-                }
-            };
-            timer.Start();
+                    scriptTab.Editor.ExecuteScriptAsync("SetText", text);
+                    scriptTab.Text = text;
+                    if (saveTabs)
+                    {
+                        SaveTabs();
+                    }
+                });
+            });
         }
 
         public async void ClearEditorText()
@@ -308,16 +373,19 @@ namespace SynapseXUI.ViewModels
 
             if (!string.IsNullOrWhiteSpace(scriptFilePath))
             {
+                ScriptTab scriptTab;
+
                 if (newTab)
                 {
-                    AddTab(scriptFilePath);
+                    scriptTab = AddTab(false, scriptFilePath);
                 }
                 else
                 {
                     SelectedTab.FullFilename = scriptFilePath;
+                    scriptTab = SelectedTab;
                 }
 
-                SetEditorText(File.ReadAllText(scriptFilePath));
+                SetEditorText(scriptTab, File.ReadAllText(scriptFilePath), true);
             }
         }
 
@@ -325,13 +393,15 @@ namespace SynapseXUI.ViewModels
         {
             if (tabToExclude is null)
             {
-                Tabs.Where(x => !x.IsAddTabButton).ToList().ForEach(x => CloseTab(x));
-                AddTab();
+                Tabs.Collection.Where(x => !x.IsAddTabButton).ToList().ForEach(x => CloseTab(x, false));
+                AddTab(false);
             }
             else
             {
-                Tabs.Where(x => x != tabToExclude && !x.IsAddTabButton).ToList().ForEach(x => CloseTab(x));
+                Tabs.Collection.Where(x => x != tabToExclude && !x.IsAddTabButton).ToList().ForEach(x => CloseTab(x, false));
             }
+
+            SaveTabs();
         }
 
         #region CEF Sharp Methods

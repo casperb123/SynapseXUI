@@ -1,14 +1,17 @@
 ﻿using CefSharp.Wpf;
+using System;
 using System.ComponentModel;
 using System.IO;
 
 namespace SynapseXUI.Entities
 {
+    [Serializable]
     public class ScriptTab : INotifyPropertyChanged
     {
         private string fullFilename;
         private object header;
         private bool enableCloseButton;
+        [NonSerialized]
         private ChromiumWebBrowser editor;
         private string text;
 
@@ -21,6 +24,8 @@ namespace SynapseXUI.Entities
                 OnPropertyChanged(nameof(Text));
             }
         }
+
+        public bool EditorReady { get; set; }
 
         public ChromiumWebBrowser Editor
         {
@@ -64,6 +69,7 @@ namespace SynapseXUI.Entities
             }
         }
 
+        [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void OnPropertyChanged(string prop)

@@ -30,5 +30,13 @@ namespace SynapseXUI.UserControls
                 viewModel.SaveSettings();
             }
         }
+
+        private void ToggleSwitchSettings_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (IsLoaded)
+            {
+                viewModel.SaveSettings();
+            }
+        }
     }
 }

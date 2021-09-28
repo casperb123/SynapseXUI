@@ -67,7 +67,7 @@ namespace SynapseXUI.UserControls
 
         private void CloseTabCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            ViewModel.CloseTab(e.Parameter as MetroTabItem);
+            ViewModel.CloseTab(e.Parameter as MetroTabItem, true);
         }
     }
 }
