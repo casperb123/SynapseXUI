@@ -65,6 +65,7 @@ namespace SynapseXUI.Entities
             set
             {
                 fullFilename = value;
+                OnPropertyChanged(nameof(FullFilename));
                 Header = Path.GetFileName(value);
             }
         }

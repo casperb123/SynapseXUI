@@ -69,5 +69,22 @@ namespace SynapseXUI.UserControls
         {
             ViewModel.CloseTab(e.Parameter as MetroTabItem, true);
         }
+
+        private void ButtonSaveFile_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(ViewModel.SelectedTab.FullFilename))
+            {
+                ViewModel.SaveFileAs(ViewModel.SelectedTab.Text);
+            }
+            else
+            {
+                ViewModel.SaveFile(ViewModel.SelectedTab);
+            }
+        }
+
+        private void ButtonSaveFileAs_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.SaveFileAs(ViewModel.SelectedTab.Text);
+        }
     }
 }

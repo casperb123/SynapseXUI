@@ -16,6 +16,8 @@
             
             <!-- #region Converters -->
             <converters:NullToBooleanConverter x:Key="NullToBooleanConverter" />
+            <converters:BooleanAndBooleanConverter x:Key="BooleanAndBooleanConverter" />
+            <converters:StringToBooleanConverter x:Key="StringToBooleanConverter" />
             <!-- #endregion -->
         </ResourceDictionary>
     </Application.Resources>

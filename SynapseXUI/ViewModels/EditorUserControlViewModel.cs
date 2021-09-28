@@ -7,6 +7,7 @@ using Microsoft.Win32;
 using SynapseXUI.Entities;
 using SynapseXUI.UserControls;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -100,8 +101,7 @@ namespace SynapseXUI.ViewModels
             Tabs = new ScriptTabs();
             Tabs.Collection.CollectionChanged += Tabs_CollectionChanged;
             ScriptFiles = new ObservableCollection<ScriptFile>();
-
-            Directory.GetFiles(App.ScriptsFolderPath).ToList().ForEach(x => ScriptFiles.Add(new ScriptFile(x)));
+            GetScripts();
 
             PackIconMaterialDesign icon = new PackIconMaterialDesign
             {
@@ -144,6 +144,20 @@ namespace SynapseXUI.ViewModels
                 }
             };
             timer.Start();
+
+            FileSystemWatcher watcher = new FileSystemWatcher(App.ScriptsFolderPath, "*.*");
+            watcher.Created += Watcher_Changed;
+            watcher.Changed += Watcher_Changed;
+            watcher.Deleted += Watcher_Changed;
+            watcher.EnableRaisingEvents = true;
+        }
+
+        private void Watcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            userControl.Dispatcher.Invoke(() =>
+            {
+                GetScripts();
+            });
         }
 
         private void TabControlEditors_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -165,15 +179,29 @@ namespace SynapseXUI.ViewModels
             Tabs.Collection.ToList().ForEach(x => x.EnableCloseButton = Tabs.Collection.Count > 2 && !x.IsAddTabButton);
         }
 
+        public void GetScripts()
+        {
+            ScriptFiles.Clear();
+            Directory.GetFiles(App.ScriptsFolderPath).ToList().ForEach(x => ScriptFiles.Add(new ScriptFile(x)));
+        }
+
         private void GetTabs()
         {
             using (StreamReader reader = new StreamReader(App.TabsFilePath))
             {
                 BinaryFormatter formatter = new BinaryFormatter();
                 ScriptTabs scriptTabs = formatter.Deserialize(reader.BaseStream) as ScriptTabs;
+                List<ScriptTab> tabs = scriptTabs.Collection.Where(x => string.IsNullOrEmpty(x.FullFilename) || File.Exists(x.FullFilename)).ToList();
 
-                scriptTabs.Collection.ToList().ForEach(x => AddTab(false, x.FullFilename, x.Text));
-                userControl.tabControlEditors.SelectedIndex = scriptTabs.SelectedIndex;
+                if (tabs.Count == 0)
+                {
+                    AddTab(false);
+                }
+                else
+                {
+                    tabs.ForEach(x => AddTab(false, x.FullFilename, x.Text));
+                    userControl.tabControlEditors.SelectedIndex = scriptTabs.SelectedIndex;
+                }
             }
         }
 
@@ -336,15 +364,17 @@ namespace SynapseXUI.ViewModels
                 }
             }
 
+            SelectedTab.Text = string.Empty;
             SelectedTab.Editor.ExecuteScriptAsync("ClearText()");
         }
 
-        public void SaveFile(string text)
+        public void SaveFileAs(string text)
         {
             SaveFileDialog dialog = new SaveFileDialog
             {
                 Title = "Save script",
-                Filter = "Script Files | *.txt;*.lua"
+                Filter = "Script Files | *.txt;*.lua",
+                InitialDirectory = App.ScriptsFolderPath
             };
 
             if (dialog.ShowDialog() == true)
@@ -352,6 +382,11 @@ namespace SynapseXUI.ViewModels
                 File.WriteAllText(dialog.FileName, text);
                 SelectedTab.FullFilename = dialog.FileName;
             }
+        }
+
+        public void SaveFile(ScriptTab scriptTab)
+        {
+            File.WriteAllText(scriptTab.FullFilename, scriptTab.Text);
         }
 
         public void OpenFile(bool newTab, string filePath = null)
