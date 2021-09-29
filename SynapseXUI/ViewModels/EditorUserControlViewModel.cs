@@ -191,7 +191,7 @@ namespace SynapseXUI.ViewModels
             {
                 BinaryFormatter formatter = new BinaryFormatter();
                 ScriptTabs scriptTabs = formatter.Deserialize(reader.BaseStream) as ScriptTabs;
-                List<ScriptTab> tabs = scriptTabs.Collection.Where(x => string.IsNullOrEmpty(x.FullFilename) || File.Exists(x.FullFilename)).ToList();
+                List<ScriptTab> tabs = scriptTabs.Collection.ToList();
 
                 if (tabs.Count == 0)
                 {
@@ -199,7 +199,18 @@ namespace SynapseXUI.ViewModels
                 }
                 else
                 {
-                    tabs.ForEach(x => AddTab(false, x.FullFilename, x.Text));
+                    foreach (ScriptTab tab in tabs)
+                    {
+                        if (!string.IsNullOrEmpty(tab.FullFilename) && File.Exists(tab.FullFilename))
+                        {
+                            AddTab(false, tab.FullFilename, tab.Text);
+                        }
+                        else
+                        {
+                            AddTab(false, text: tab.Text);
+                        }
+                    }
+
                     userControl.tabControlEditors.SelectedIndex = scriptTabs.SelectedIndex;
                 }
             }
