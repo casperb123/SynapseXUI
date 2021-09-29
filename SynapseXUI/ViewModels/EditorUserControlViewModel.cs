@@ -373,7 +373,7 @@ namespace SynapseXUI.ViewModels
             SaveFileDialog dialog = new SaveFileDialog
             {
                 Title = "Save script",
-                Filter = "Script Files | *.txt;*.lua",
+                Filter = "Script Files|*.txt;*.lua",
                 InitialDirectory = App.ScriptsFolderPath
             };
 
@@ -398,7 +398,7 @@ namespace SynapseXUI.ViewModels
                 OpenFileDialog dialog = new OpenFileDialog
                 {
                     Title = "Open script",
-                    Filter = "Script Files | *.txt;*.lua"
+                    Filter = "Script Files|*.txt;*.lua"
                 };
 
                 if (dialog.ShowDialog() == true)
