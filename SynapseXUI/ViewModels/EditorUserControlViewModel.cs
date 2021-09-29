@@ -261,7 +261,7 @@ namespace SynapseXUI.ViewModels
             ChromiumWebBrowser browser = new ChromiumWebBrowser(App.EditorFilePath);
             browser.JavascriptObjectRepository.Register("synServiceAsync", this, true);
 
-            string theme = App.Settings.Theming.ApplicationTheme;
+            string theme = App.Settings.Theme.ApplicationTheme;
             ScriptTab scriptTab = new ScriptTab(browser, filePath);
             Tabs.Collection.Insert(Tabs.Collection.Count - 1, scriptTab);
             SelectedTab = scriptTab;

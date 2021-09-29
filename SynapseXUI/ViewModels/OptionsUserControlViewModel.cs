@@ -113,8 +113,8 @@ namespace SynapseXUI.ViewModels
 
         public void SaveSettings()
         {
-            string theme = App.Settings.Theming.ApplicationTheme;
-            string color = App.Settings.Theming.ApplicationColor;
+            string theme = App.Settings.Theme.ApplicationTheme;
+            string color = App.Settings.Theme.ApplicationColor;
 
             App.Settings.Save(App.SettingsFilePath);
             App.SetTheme(theme, color);

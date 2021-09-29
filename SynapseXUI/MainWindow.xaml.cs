@@ -26,6 +26,7 @@ namespace SynapseXUI
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
             ViewModel.EditorUserControl.ViewModel.SaveTabs();
+            ViewModel.SaveSettings();
             Environment.Exit(0);
         }
 

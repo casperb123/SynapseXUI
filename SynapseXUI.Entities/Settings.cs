@@ -6,7 +6,8 @@ namespace SynapseXUI.Entities
 {
     public class Settings : INotifyPropertyChanged
     {
-        private Theming theming;
+        private Theme theme;
+        private Size size;
         private bool saveTabs;
 
         public bool SaveTabs
@@ -19,13 +20,23 @@ namespace SynapseXUI.Entities
             }
         }
 
-        public Theming Theming
+        public Size Size
         {
-            get { return theming; }
+            get => size;
             set
             {
-                theming = value;
-                OnPropertyChanged(nameof(Theming));
+                size = value;
+                OnPropertyChanged(nameof(Size));
+            }
+        }
+
+        public Theme Theme
+        {
+            get { return theme; }
+            set
+            {
+                theme = value;
+                OnPropertyChanged(nameof(Theme));
             }
         }
 
@@ -42,7 +53,8 @@ namespace SynapseXUI.Entities
         public Settings()
         {
             SaveTabs = true;
-            Theming = new Theming();
+            Theme = new Theme();
+            Size = new Size();
         }
 
         public void Save(string settingsFilePath)
@@ -64,7 +76,36 @@ namespace SynapseXUI.Entities
         }
     }
 
-    public class Theming : INotifyPropertyChanged
+    public class Size : INotifyPropertyChanged
+    {
+        private bool saveApplicationSize;
+
+        public bool SaveApplicationSize
+        {
+            get => saveApplicationSize;
+            set
+            {
+                saveApplicationSize = value;
+                OnPropertyChanged(nameof(SaveApplicationSize));
+            }
+        }
+
+        public double ApplicationWidth { get; set; }
+
+        public double ApplicationHeight { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string prop)
+        {
+            if (!string.IsNullOrWhiteSpace(prop))
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+            }
+        }
+    }
+
+    public class Theme : INotifyPropertyChanged
     {
         private string applicationTheme;
         private string applicationColor;
@@ -99,7 +140,7 @@ namespace SynapseXUI.Entities
             }
         }
 
-        public Theming()
+        public Theme()
         {
             ApplicationTheme = "Dark";
             ApplicationColor = "Blue";

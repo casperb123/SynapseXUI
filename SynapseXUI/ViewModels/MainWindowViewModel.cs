@@ -66,6 +66,14 @@ namespace SynapseXUI.ViewModels
             SynapseStatus = "Synapse X UI";
             this.mainWindow = mainWindow;
             InitializeSxLib();
+
+            if (App.Settings.Size.SaveApplicationSize &&
+                App.Settings.Size.ApplicationWidth >= mainWindow.MinWidth &&
+                App.Settings.Size.ApplicationHeight >= mainWindow.MinHeight)
+            {
+                mainWindow.Width = App.Settings.Size.ApplicationWidth;
+                mainWindow.Height = App.Settings.Size.ApplicationHeight;
+            }
         }
 
         private async void InitializeSxLib()
@@ -216,6 +224,17 @@ namespace SynapseXUI.ViewModels
         {
             mainWindow.buttonAttach.IsEnabled = false;
             App.Lib.Attach();
+        }
+
+        public void SaveSettings()
+        {
+            if (App.Settings.Size.SaveApplicationSize)
+            {
+                App.Settings.Size.ApplicationWidth = MainWindow.Instance.Width;
+                App.Settings.Size.ApplicationHeight = MainWindow.Instance.Height;
+            }
+
+            App.Settings.Save(App.SettingsFilePath);
         }
     }
 }

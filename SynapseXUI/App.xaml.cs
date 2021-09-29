@@ -70,8 +70,8 @@ namespace SynapseXUI
             TabsFilePath = Path.Combine(SettingsFolderPath, "Tabs.bin");
 
             Settings = Settings.GetSettings(SettingsFilePath);
-            string theme = Settings.Theming.ApplicationTheme;
-            string color = Settings.Theming.ApplicationColor;
+            string theme = Settings.Theme.ApplicationTheme;
+            string color = Settings.Theme.ApplicationColor;
 
             SetTheme(theme, color);
             base.OnStartup(e);
