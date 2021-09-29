@@ -3,9 +3,7 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                 xmlns:local="clr-namespace:SynapseXUI"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-                 xmlns:converters="clr-namespace:SynapseXUI.Entities.Converters;assembly=SynapseXUI.Entities"
                  mc:Ignorable="d"
                  Title="{Binding Path=SynapseStatus}"
                  Height="500"
@@ -13,10 +11,6 @@
                  MinHeight="500"
                  MinWidth="800"
                  Closing="MetroWindow_Closing">
-    <mah:MetroWindow.Resources>
-        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-    </mah:MetroWindow.Resources>
-
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
             <Button x:Name="buttonAttach"

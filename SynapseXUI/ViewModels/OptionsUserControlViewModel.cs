@@ -6,7 +6,6 @@ namespace SynapseXUI.ViewModels
 {
     public class OptionsUserControlViewModel : INotifyPropertyChanged
     {
-        private readonly OptionsUserControl userControl;
         private bool unlockFps;
         private bool autoLaunch;
         private bool autoAttach;
@@ -87,7 +86,6 @@ namespace SynapseXUI.ViewModels
 
         public OptionsUserControlViewModel(OptionsUserControl userControl)
         {
-            this.userControl = userControl;
             App.SxOptions = App.Lib.GetOptions();
 
             UnlockFps = App.SxOptions.UnlockFPS;
