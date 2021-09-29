@@ -17,6 +17,7 @@ namespace SynapseXUI
     {
         public static App Instance { get; private set; }
         public static string StartupFolderPath { get; private set; }
+        public static string SettingsFolderPath { get; private set; }
         public static string SettingsFilePath { get; private set; }
         public static string TabsFilePath { get; private set; }
         public static string EditorFilePath { get; private set; }
@@ -46,7 +47,7 @@ namespace SynapseXUI
             string binFolderPath = Path.Combine(StartupFolderPath, "bin");
             string aceFolderPath = Path.Combine(StartupFolderPath, "libs", "ace");
             string appdataFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string settingsFolderPath = Path.Combine(appdataFolderPath, "SynapseXUI");
+            SettingsFolderPath = Path.Combine(appdataFolderPath, "SynapseXUI");
 
             EditorFilePath = Path.Combine(aceFolderPath, "Editor.html");
             ScriptsFolderPath = Path.Combine(StartupFolderPath, "scripts");
@@ -60,13 +61,13 @@ namespace SynapseXUI
                 Environment.Exit(2);
             }
 
-            if (!Directory.Exists(settingsFolderPath))
+            if (!Directory.Exists(SettingsFolderPath))
             {
-                Directory.CreateDirectory(settingsFolderPath);
+                Directory.CreateDirectory(SettingsFolderPath);
             }
 
-            SettingsFilePath = Path.Combine(settingsFolderPath, "Options.ini");
-            TabsFilePath = Path.Combine(settingsFolderPath, "Tabs.bin");
+            SettingsFilePath = Path.Combine(SettingsFolderPath, "Options.ini");
+            TabsFilePath = Path.Combine(SettingsFolderPath, "Tabs.bin");
 
             Settings = Settings.GetSettings(SettingsFilePath);
             string theme = Settings.Theming.ApplicationTheme;
