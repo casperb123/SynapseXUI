@@ -66,7 +66,7 @@ namespace SynapseXUI.Entities
             {
                 fullFilename = value;
                 OnPropertyChanged(nameof(FullFilename));
-                Header = Path.GetFileName(value);
+                Header = string.IsNullOrEmpty(value) ? "Untitled" : Path.GetFileName(value);
             }
         }
 

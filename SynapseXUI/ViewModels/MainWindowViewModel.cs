@@ -63,8 +63,8 @@ namespace SynapseXUI.ViewModels
 
         public MainWindowViewModel(MainWindow mainWindow)
         {
-            SynapseStatus = "Synapse X UI";
             this.mainWindow = mainWindow;
+            SynapseStatus = "Synapse X UI";
             InitializeSxLib();
 
             if (App.Settings.Size.SaveApplicationSize &&
@@ -230,8 +230,8 @@ namespace SynapseXUI.ViewModels
         {
             if (App.Settings.Size.SaveApplicationSize)
             {
-                App.Settings.Size.ApplicationWidth = MainWindow.Instance.Width;
-                App.Settings.Size.ApplicationHeight = MainWindow.Instance.Height;
+                App.Settings.Size.ApplicationWidth = mainWindow.Width;
+                App.Settings.Size.ApplicationHeight = mainWindow.Height;
             }
 
             App.Settings.Save(App.SettingsFilePath);

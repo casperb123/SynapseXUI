@@ -55,6 +55,11 @@ namespace SynapseXUI.UserControls
             ViewModel.OpenFile(true, ViewModel.SelectedScriptFile.FullFilename);
         }
 
+        private void MenuItemScriptsDelete_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.DeleteFile();
+        }
+
         private void MenuItemEditorsCloseAllTabs_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.CloseAllTabs();
@@ -85,6 +90,14 @@ namespace SynapseXUI.UserControls
         private void ButtonSaveFileAs_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.SaveFileAs(ViewModel.SelectedTab.Text);
+        }
+
+        private void ListBoxScripts_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                ViewModel.DeleteFile();
+            }
         }
     }
 }

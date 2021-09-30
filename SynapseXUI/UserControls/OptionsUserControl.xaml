@@ -77,6 +77,11 @@
                                       OffContent="Disabled"
                                       IsOn="{Binding Path=SaveTabs, Source={x:Static root:App.Settings}}"
                                       Toggled="ToggleSwitchSettings_Toggled" />
+                    <mah:ToggleSwitch Header="Delete File Prompt"
+                                      OnContent="Enabled"
+                                      OffContent="Disabled"
+                                      IsOn="{Binding Path=DeleteFileConfirmation, Source={x:Static root:App.Settings}}"
+                                      Toggled="ToggleSwitchSettings_Toggled" />
                     <mah:ToggleSwitch Header="Save Application Size"
                                       OnContent="Enabled"
                                       OffContent="Disabled"

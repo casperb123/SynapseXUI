@@ -76,7 +76,8 @@
                  ItemsSource="{Binding Path=ScriptFiles}"
                  SelectedItem="{Binding Path=SelectedScriptFile}"
                  DisplayMemberPath="Filename"
-                 VirtualizingPanel.IsVirtualizing="False">
+                 VirtualizingPanel.IsVirtualizing="False"
+                 KeyDown="ListBoxScripts_KeyDown">
             <ListBox.ContextMenu>
                 <ContextMenu x:Name="contextMenuScripts">
                     <MenuItem x:Name="menuItemScriptsExecute"
@@ -107,6 +108,17 @@
                               Click="MenuItemScriptsLoadNewTab_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="OpenInNew"
+                                                          Width="12"
+                                                          Height="12"
+                                                          Margin="5,0,0,0" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="menuItemScriptsDelete"
+                              Header="Delete"
+                              IsEnabled="{Binding Path=SelectedScriptFile, Mode=OneWay, Converter={StaticResource NullToBooleanConverter}}"
+                              Click="MenuItemScriptsDelete_Click">
+                        <MenuItem.Icon>
+                            <icons:PackIconMaterialDesign Kind="Delete"
                                                           Width="12"
                                                           Height="12"
                                                           Margin="5,0,0,0" />

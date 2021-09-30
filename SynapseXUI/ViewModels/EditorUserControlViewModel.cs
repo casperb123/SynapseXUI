@@ -149,6 +149,7 @@ namespace SynapseXUI.ViewModels
             watcher.Created += Watcher_Changed;
             watcher.Changed += Watcher_Changed;
             watcher.Deleted += Watcher_Changed;
+            watcher.Renamed += Watcher_Changed;
             watcher.EnableRaisingEvents = true;
         }
 
@@ -157,6 +158,7 @@ namespace SynapseXUI.ViewModels
             userControl.Dispatcher.Invoke(() =>
             {
                 GetScripts();
+                RefreshTabs();
             });
         }
 
@@ -183,6 +185,25 @@ namespace SynapseXUI.ViewModels
         {
             ScriptFiles.Clear();
             Directory.GetFiles(App.ScriptsFolderPath).ToList().ForEach(x => ScriptFiles.Add(new ScriptFile(x)));
+        }
+
+        private void RefreshTabs()
+        {
+            bool tabsChanged = false;
+
+            foreach (ScriptTab tab in Tabs.Collection)
+            {
+                if (!string.IsNullOrEmpty(tab.FullFilename) && !File.Exists(tab.FullFilename))
+                {
+                    tab.FullFilename = null;
+                    tabsChanged = true;
+                }
+            }
+
+            if (tabsChanged)
+            {
+                SaveTabs();
+            }
         }
 
         private void GetTabs()
@@ -304,6 +325,11 @@ namespace SynapseXUI.ViewModels
             browserHost.CloseDevTools();
             Tabs.Collection.Remove(scriptTab);
 
+            if (Tabs.Collection.Count == 1)
+            {
+                AddTab(false);
+            }
+
             if (saveTabs)
             {
                 SaveTabs();
@@ -317,6 +343,11 @@ namespace SynapseXUI.ViewModels
             browserHost.CloseBrowser(true);
             browserHost.CloseDevTools();
             Tabs.Collection.Remove(scriptTab);
+
+            if (Tabs.Collection.Count == 1)
+            {
+                AddTab(false);
+            }
 
             if (saveTabs)
             {
@@ -368,7 +399,7 @@ namespace SynapseXUI.ViewModels
         {
             if (App.SxOptions.ClearConfirmation)
             {
-                MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync("Clear Editor", "Are you sure that you want to clear the editor?", MessageDialogStyle.AffirmativeAndNegative);
+                MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync("Clear Editor", "Are you sure that you want to clear the editor?", MessageDialogStyle.AffirmativeAndNegative, App.DialogSettings);
                 if (result == MessageDialogResult.Negative)
                 {
                     return;
@@ -436,6 +467,23 @@ namespace SynapseXUI.ViewModels
 
                 scriptTab.Text = script;
                 SetEditorText(scriptTab, script, true);
+            }
+        }
+
+        public async void DeleteFile()
+        {
+            if (App.Settings.DeleteFileConfirmation)
+            {
+                MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync("Delete File", $"Are you sure that you want to delete the file '{selectedScriptFile.Filename}'", MessageDialogStyle.AffirmativeAndNegative, App.DialogSettings);
+                if (result == MessageDialogResult.Negative)
+                {
+                    return;
+                }
+            }
+
+            if (selectedScriptFile != null)
+            {
+                File.Delete(SelectedScriptFile.FullFilename);
             }
         }
 

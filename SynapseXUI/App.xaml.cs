@@ -1,6 +1,7 @@
 ﻿using CefSharp;
 using CefSharp.Wpf;
 using ControlzEx.Theming;
+using MahApps.Metro.Controls.Dialogs;
 using sxlib.Specialized;
 using SynapseXUI.Entities;
 using System;
@@ -25,6 +26,7 @@ namespace SynapseXUI
         public static SxLibWPF Lib { get; set; }
         public static Options SxOptions { get; set; }
         public static Settings Settings { get; private set; }
+        public static MetroDialogSettings DialogSettings { get; private set; }
 
         public App()
         {
@@ -48,9 +50,14 @@ namespace SynapseXUI
             string aceFolderPath = Path.Combine(StartupFolderPath, "libs", "ace");
             string appdataFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             SettingsFolderPath = Path.Combine(appdataFolderPath, "SynapseXUI");
-
             EditorFilePath = Path.Combine(aceFolderPath, "Editor.html");
             ScriptsFolderPath = Path.Combine(StartupFolderPath, "scripts");
+            DialogSettings = new MetroDialogSettings
+            {
+                DefaultButtonFocus = MessageDialogResult.Affirmative,
+                AffirmativeButtonText = "Yes",
+                NegativeButtonText = "No"
+            };
 
             if (!Directory.Exists(authFolderPath) ||
                 !Directory.Exists(binFolderPath) ||

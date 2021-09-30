@@ -8,6 +8,7 @@ namespace SynapseXUI.Entities
     {
         private Theme theme;
         private Size size;
+        private bool deleteFileConfirmation;
         private bool saveTabs;
 
         public bool SaveTabs
@@ -17,6 +18,16 @@ namespace SynapseXUI.Entities
             {
                 saveTabs = value;
                 OnPropertyChanged(nameof(SaveTabs));
+            }
+        }
+
+        public bool DeleteFileConfirmation
+        {
+            get => deleteFileConfirmation;
+            set
+            {
+                deleteFileConfirmation = value;
+                OnPropertyChanged(nameof(DeleteFileConfirmation));
             }
         }
 
@@ -53,6 +64,7 @@ namespace SynapseXUI.Entities
         public Settings()
         {
             SaveTabs = true;
+            DeleteFileConfirmation = true;
             Theme = new Theme();
             Size = new Size();
         }
