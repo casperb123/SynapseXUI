@@ -191,7 +191,7 @@ namespace SynapseXUI.ViewModels
         {
             bool tabsChanged = false;
 
-            foreach (ScriptTab tab in Tabs.Collection)
+            foreach (ScriptTab tab in Tabs.Collection.Where(x => !x.IsAddTabButton))
             {
                 if (!string.IsNullOrEmpty(tab.FullFilename) && !File.Exists(tab.FullFilename))
                 {
