@@ -5,6 +5,8 @@ using SynapseXUI.Entities;
 using SynapseXUI.UserControls;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SynapseXUI.ViewModels
@@ -235,6 +237,11 @@ namespace SynapseXUI.ViewModels
             }
 
             App.Settings.Save(App.SettingsFilePath);
+        }
+
+        public void KillRoblox()
+        {
+            Process.GetProcessesByName("RobloxPlayerBeta").ToList().ForEach(x => x.Kill());
         }
     }
 }

@@ -13,6 +13,10 @@
                  Closing="MetroWindow_Closing">
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
+            <Button x:Name="buttonKillRoblox"
+                    Content="Kill Roblox"
+                    Cursor="Hand"
+                    Click="ButtonKillRoblox_Click" />
             <Button x:Name="buttonAttach"
                     Content="Attach"
                     Cursor="Hand"
