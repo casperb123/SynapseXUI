@@ -25,7 +25,6 @@ namespace SynapseXUI.ViewModels
     public class EditorUserControlViewModel : INotifyPropertyChanged
     {
         public static EditorUserControlViewModel Instance { get; private set; }
-        public static RoutedCommand CloseTabCommand = new RoutedCommand();
 
         private readonly EditorUserControl userControl;
         private string editorText;
