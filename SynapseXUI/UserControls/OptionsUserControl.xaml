@@ -45,13 +45,13 @@
                                       OffContent="Disabled"
                                       IsOn="{Binding Path=InternalUi}"
                                       Toggled="ToggleSwitchSxOptions_Toggled" />
-                </StackPanel>
-                <StackPanel Grid.Column="1">
                     <mah:ToggleSwitch Header="Top Most"
                                       OnContent="Enabled"
                                       OffContent="Disabled"
                                       IsOn="{Binding Path=TopMost}"
                                       Toggled="ToggleSwitchSxOptions_Toggled" />
+                </StackPanel>
+                <StackPanel Grid.Column="1">
                     <mah:ToggleSwitch Header="Close Tab Confirmation"
                                       OnContent="Enabled"
                                       OffContent="Disabled"
