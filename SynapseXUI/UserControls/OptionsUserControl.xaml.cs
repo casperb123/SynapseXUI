@@ -21,7 +21,7 @@ namespace SynapseXUI.UserControls
 
         private void ToggleSwitchSxOptions_Toggled(object sender, RoutedEventArgs e)
         {
-            viewModel.SetSxOptions();
+            viewModel.SaveSxOptions();
         }
 
         private void ComboBoxSettings_SelectionChanged(object sender, SelectionChangedEventArgs e)

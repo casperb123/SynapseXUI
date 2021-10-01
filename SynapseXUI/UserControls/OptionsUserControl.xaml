@@ -50,11 +50,19 @@
                                       OffContent="Disabled"
                                       IsOn="{Binding Path=TopMost}"
                                       Toggled="ToggleSwitchSxOptions_Toggled" />
-                    <mah:ToggleSwitch Header="Clear Editor Prompt"
+                    <mah:ToggleSwitch Header="Close Tab Confirmation"
                                       OnContent="Enabled"
                                       OffContent="Disabled"
-                                      IsOn="{Binding Path=ClearEditorPrompt}"
+                                      IsOn="{Binding Path=CloseTabConfirmation}"
                                       Toggled="ToggleSwitchSxOptions_Toggled" />
+                    <mah:ToggleSwitch Header="Clear Editor Confirmation"
+                                      OnContent="Enabled"
+                                      OffContent="Disabled"
+                                      IsOn="{Binding Path=ClearEditorConfirmation}"
+                                      Toggled="ToggleSwitchSxOptions_Toggled" />
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    
                 </StackPanel>
             </Grid>
         </GroupBox>
@@ -73,7 +81,7 @@
                                       OffContent="Disabled"
                                       IsOn="{Binding Path=SaveTabs, Source={x:Static root:App.Settings}}"
                                       Toggled="ToggleSwitchSettings_Toggled" />
-                    <mah:ToggleSwitch Header="Delete File Prompt"
+                    <mah:ToggleSwitch Header="Delete File Confirmation"
                                       OnContent="Enabled"
                                       OffContent="Disabled"
                                       IsOn="{Binding Path=DeleteFileConfirmation, Source={x:Static root:App.Settings}}"

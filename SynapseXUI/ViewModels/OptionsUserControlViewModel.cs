@@ -11,45 +11,26 @@ namespace SynapseXUI.ViewModels
         private bool autoAttach;
         private bool internalUi;
         private bool topMost;
-        private bool clearEditorPrompt;
+        private bool closeTabConfirmation;
+        private bool clearEditorConfirmation;
 
-        public bool UnlockFps
+        public bool CloseTabConfirmation
         {
-            get => unlockFps;
+            get => closeTabConfirmation;
             set
             {
-                unlockFps = value;
-                OnPropertyChanged(nameof(UnlockFps));
+                closeTabConfirmation = value;
+                OnPropertyChanged(nameof(CloseTabConfirmation));
             }
         }
 
-        public bool AutoLaunch
+        public bool ClearEditorConfirmation
         {
-            get => autoLaunch;
+            get => clearEditorConfirmation;
             set
             {
-                autoLaunch = value;
-                OnPropertyChanged(nameof(AutoLaunch));
-            }
-        }
-
-        public bool AutoAttach
-        {
-            get => autoAttach;
-            set
-            {
-                autoAttach = value;
-                OnPropertyChanged(nameof(AutoAttach));
-            }
-        }
-
-        public bool InternalUi
-        {
-            get => internalUi;
-            set
-            {
-                internalUi = value;
-                OnPropertyChanged(nameof(InternalUi));
+                clearEditorConfirmation = value;
+                OnPropertyChanged(nameof(ClearEditorConfirmation));
             }
         }
 
@@ -64,13 +45,43 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public bool ClearEditorPrompt
+        public bool InternalUi
         {
-            get => clearEditorPrompt;
+            get => internalUi;
             set
             {
-                clearEditorPrompt = value;
-                OnPropertyChanged(nameof(ClearEditorPrompt));
+                internalUi = value;
+                OnPropertyChanged(nameof(InternalUi));
+            }
+        }
+
+        public bool AutoAttach
+        {
+            get => autoAttach;
+            set
+            {
+                autoAttach = value;
+                OnPropertyChanged(nameof(AutoAttach));
+            }
+        }
+
+        public bool AutoLaunch
+        {
+            get => autoLaunch;
+            set
+            {
+                autoLaunch = value;
+                OnPropertyChanged(nameof(AutoLaunch));
+            }
+        }
+
+        public bool UnlockFps
+        {
+            get => unlockFps;
+            set
+            {
+                unlockFps = value;
+                OnPropertyChanged(nameof(UnlockFps));
             }
         }
 
@@ -93,20 +104,22 @@ namespace SynapseXUI.ViewModels
             AutoAttach = App.SxOptions.AutoAttach;
             InternalUi = App.SxOptions.InternalUI;
             TopMost = App.SxOptions.TopMost;
-            ClearEditorPrompt = App.SxOptions.ClearConfirmation;
+            CloseTabConfirmation = App.SxOptions.CloseConfirmation;
+            ClearEditorConfirmation = App.SxOptions.ClearConfirmation;
 
             userControl.comboBoxTheme.ItemsSource = ThemeManager.Current.BaseColors;
             userControl.comboBoxColor.ItemsSource = ThemeManager.Current.ColorSchemes;
         }
 
-        public void SetSxOptions()
+        public void SaveSxOptions()
         {
             App.SxOptions.UnlockFPS = UnlockFps;
             App.SxOptions.AutoLaunch = AutoLaunch;
             App.SxOptions.AutoAttach = AutoAttach;
             App.SxOptions.InternalUI = InternalUi;
             App.SxOptions.TopMost = TopMost;
-            App.SxOptions.ClearConfirmation = ClearEditorPrompt;
+            App.SxOptions.CloseConfirmation = CloseTabConfirmation;
+            App.SxOptions.ClearConfirmation = ClearEditorConfirmation;
 
             App.Lib.SetOptions(App.SxOptions);
         }

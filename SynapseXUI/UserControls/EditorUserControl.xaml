@@ -30,7 +30,8 @@
                                               SelectedItem="{Binding Path=SelectedTab}"
                                               mah:TabControlHelper.Underlined="SelectedTabItem"
                                               mah:HeaderedControlHelper.HeaderFontSize="14"
-                                              mah:TabControlHelper.Transition="Normal">
+                                              mah:TabControlHelper.Transition="Normal"
+                                              TabItemClosingEvent="TabControlEditors_TabItemClosingEvent">
             <mah:MetroAnimatedSingleRowTabControl.Resources>
                 <Style TargetType="mah:MetroTabItem">
                     <Setter Property="Header"
@@ -39,10 +40,10 @@
                             Value="{Binding Path=EnableCloseButton}" />
                     <Setter Property="Content"
                             Value="{Binding Path=Editor}" />
-                    <Setter Property="CloseTabCommand"
+                    <!--<Setter Property="CloseTabCommand"
                             Value="{x:Static viewModels:EditorUserControlViewModel.CloseTabCommand}" />
                     <Setter Property="CloseTabCommandParameter"
-                            Value="{Binding RelativeSource={RelativeSource Self}}" />
+                            Value="{Binding RelativeSource={RelativeSource Self}}" />-->
                 </Style>
             </mah:MetroAnimatedSingleRowTabControl.Resources>
             <mah:MetroAnimatedSingleRowTabControl.ContextMenu>

@@ -319,6 +319,11 @@ namespace SynapseXUI.ViewModels
         public void CloseTab(MetroTabItem tab, bool saveTabs)
         {
             ScriptTab scriptTab = Tabs.Collection.FirstOrDefault(x => x.Editor == tab.Content);
+            if (scriptTab.Editor is null)
+            {
+                return;
+            }
+
             IBrowserHost browserHost = scriptTab.Editor.GetBrowserHost();
 
             browserHost.CloseBrowser(true);
@@ -474,7 +479,7 @@ namespace SynapseXUI.ViewModels
         {
             if (App.Settings.DeleteFileConfirmation)
             {
-                MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync("Delete File", $"Are you sure that you want to delete the file '{selectedScriptFile.Filename}'", MessageDialogStyle.AffirmativeAndNegative, App.DialogSettings);
+                MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync("Delete File", "Are you sure that you want to delete this file? This can't be undone!", MessageDialogStyle.AffirmativeAndNegative, App.DialogSettings);
                 if (result == MessageDialogResult.Negative)
                 {
                     return;

@@ -1,8 +1,10 @@
 ﻿using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using SynapseXUI.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using static MahApps.Metro.Controls.BaseMetroTabControl;
 
 namespace SynapseXUI.UserControls
 {
@@ -72,8 +74,7 @@ namespace SynapseXUI.UserControls
 
         private void CloseTabCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            e.Handled = true;
-            //ViewModel.CloseTab(e.Parameter as MetroTabItem, true);
+            ViewModel.CloseTab(e.Parameter as MetroTabItem, true);
         }
 
         private void ButtonSaveFile_Click(object sender, RoutedEventArgs e)
@@ -99,6 +100,22 @@ namespace SynapseXUI.UserControls
             {
                 ViewModel.DeleteFile();
             }
+        }
+
+        private async void TabControlEditors_TabItemClosingEvent(object sender, TabItemClosingEventArgs e)
+        {
+            e.Cancel = true;
+
+            if (App.SxOptions.CloseConfirmation)
+            {
+                MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync("Close Tab", "Are you sure that you want to close this tab? All changes will be lost!", MessageDialogStyle.AffirmativeAndNegative, App.DialogSettings);
+                if (result == MessageDialogResult.Negative)
+                {
+                    return;
+                }
+            }
+
+            ViewModel.CloseTab(e.ClosingTabItem, true);
         }
     }
 }
