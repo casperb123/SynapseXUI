@@ -66,10 +66,6 @@
                     <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="auto" />
-                </Grid.RowDefinitions>
 
                 <StackPanel>
                     <mah:ToggleSwitch Header="Save Tabs"
@@ -104,13 +100,6 @@
                                   SelectionChanged="ComboBoxSettings_SelectionChanged" />
                     </StackPanel>
                 </StackPanel>
-
-                <Button x:Name="buttonOpenInExplorer"
-                        Content="Open In Explorer"
-                        Grid.Row="1"
-                        Grid.ColumnSpan="2"
-                        Padding="0,10"
-                        Click="ButtonOpenInExplorer_Click" />
             </Grid>
         </GroupBox>
     </Grid>

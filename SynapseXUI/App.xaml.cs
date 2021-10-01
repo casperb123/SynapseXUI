@@ -47,9 +47,9 @@ namespace SynapseXUI
             StartupFolderPath = Directory.GetCurrentDirectory();
             string authFolderPath = Path.Combine(StartupFolderPath, "auth");
             string binFolderPath = Path.Combine(StartupFolderPath, "bin");
-            string aceFolderPath = Path.Combine(StartupFolderPath, "libs", "ace");
-            string appdataFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            SettingsFolderPath = Path.Combine(appdataFolderPath, "SynapseXUI");
+            string libsFolderPath = Path.Combine(StartupFolderPath, "libs");
+            string aceFolderPath = Path.Combine(libsFolderPath, "ace");
+            SettingsFolderPath = Path.Combine(libsFolderPath, "data");
             EditorFilePath = Path.Combine(aceFolderPath, "Editor.html");
             ScriptsFolderPath = Path.Combine(StartupFolderPath, "scripts");
             DialogSettings = new MetroDialogSettings
