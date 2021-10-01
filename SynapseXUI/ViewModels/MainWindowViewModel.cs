@@ -242,6 +242,8 @@ namespace SynapseXUI.ViewModels
         public void KillRoblox()
         {
             Process.GetProcessesByName("RobloxPlayerBeta").ToList().ForEach(x => x.Kill());
+            mainWindow.buttonAttach.IsEnabled = true;
+            SynapseStatus = "Synapse X UI";
         }
     }
 }
