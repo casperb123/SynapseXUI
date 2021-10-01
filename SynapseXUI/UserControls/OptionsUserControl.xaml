@@ -45,6 +45,8 @@
                                       OffContent="Disabled"
                                       IsOn="{Binding Path=InternalUi}"
                                       Toggled="ToggleSwitchSxOptions_Toggled" />
+                </StackPanel>
+                <StackPanel Grid.Column="1">
                     <mah:ToggleSwitch Header="Top Most"
                                       OnContent="Enabled"
                                       OffContent="Disabled"
@@ -60,9 +62,6 @@
                                       OffContent="Disabled"
                                       IsOn="{Binding Path=ClearEditorConfirmation}"
                                       Toggled="ToggleSwitchSxOptions_Toggled" />
-                </StackPanel>
-                <StackPanel Grid.Column="1">
-                    
                 </StackPanel>
             </Grid>
         </GroupBox>
