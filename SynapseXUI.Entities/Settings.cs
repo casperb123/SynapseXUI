@@ -88,35 +88,6 @@ namespace SynapseXUI.Entities
         }
     }
 
-    public class Size : INotifyPropertyChanged
-    {
-        private bool saveApplicationSize;
-
-        public bool SaveApplicationSize
-        {
-            get => saveApplicationSize;
-            set
-            {
-                saveApplicationSize = value;
-                OnPropertyChanged(nameof(SaveApplicationSize));
-            }
-        }
-
-        public double ApplicationWidth { get; set; }
-
-        public double ApplicationHeight { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged(string prop)
-        {
-            if (!string.IsNullOrWhiteSpace(prop))
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-            }
-        }
-    }
-
     public class Theme : INotifyPropertyChanged
     {
         private string applicationTheme;
@@ -156,6 +127,35 @@ namespace SynapseXUI.Entities
         {
             ApplicationTheme = "Dark";
             ApplicationColor = "Blue";
+        }
+    }
+
+    public class Size : INotifyPropertyChanged
+    {
+        private bool saveApplicationSize;
+
+        public bool SaveApplicationSize
+        {
+            get => saveApplicationSize;
+            set
+            {
+                saveApplicationSize = value;
+                OnPropertyChanged(nameof(SaveApplicationSize));
+            }
+        }
+
+        public double ApplicationWidth { get; set; }
+
+        public double ApplicationHeight { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string prop)
+        {
+            if (!string.IsNullOrWhiteSpace(prop))
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+            }
         }
     }
 }

@@ -99,7 +99,7 @@
                                   SelectedItem="{Binding Path=Theme.ApplicationTheme, Source={x:Static root:App.Settings}}"
                                   SelectionChanged="ComboBoxSettings_SelectionChanged" />
                     </StackPanel>
-                    <StackPanel Margin="0,0,0,5">
+                    <StackPanel>
                         <Label Content="Application Color"
                                HorizontalContentAlignment="Center" />
                         <ComboBox x:Name="comboBoxColor"

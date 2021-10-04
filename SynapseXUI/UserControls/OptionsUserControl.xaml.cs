@@ -1,5 +1,4 @@
 ﻿using SynapseXUI.ViewModels;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -38,11 +37,6 @@ namespace SynapseXUI.UserControls
             {
                 viewModel.SaveSettings();
             }
-        }
-
-        private void ButtonOpenInExplorer_Click(object sender, RoutedEventArgs e)
-        {
-            Process.Start(App.SettingsFolderPath);
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
+﻿using SynapseXUI.Entities;
 using SynapseXUI.ViewModels;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using static MahApps.Metro.Controls.BaseMetroTabControl;
 
 namespace SynapseXUI.UserControls
@@ -89,28 +88,12 @@ namespace SynapseXUI.UserControls
             ViewModel.SaveFileAs(ViewModel.SelectedTab.Text);
         }
 
-        private void ListBoxScripts_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Delete)
-            {
-                ViewModel.DeleteFile();
-            }
-        }
-
-        private async void TabControlEditors_TabItemClosingEvent(object sender, TabItemClosingEventArgs e)
+        private void TabControlEditors_TabItemClosingEvent(object sender, TabItemClosingEventArgs e)
         {
             e.Cancel = true;
 
-            if (App.SxOptions.CloseConfirmation)
-            {
-                MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync("Close Tab", "Are you sure that you want to close this tab? All changes will be lost!", MessageDialogStyle.AffirmativeAndNegative, App.DialogSettings);
-                if (result == MessageDialogResult.Negative)
-                {
-                    return;
-                }
-            }
-
-            ViewModel.CloseTab(e.ClosingTabItem, true);
+            ScriptTab scriptTab = ViewModel.Tabs.Collection.FirstOrDefault(x => x.Editor == e.ClosingTabItem.Content);
+            ViewModel.CloseTab(scriptTab, true);
         }
     }
 }

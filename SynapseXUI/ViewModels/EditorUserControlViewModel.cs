@@ -1,6 +1,5 @@
 ﻿using CefSharp;
 using CefSharp.Wpf;
-using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.IconPacks;
 using Microsoft.Win32;
@@ -315,33 +314,22 @@ namespace SynapseXUI.ViewModels
             return scriptTab;
         }
 
-        public void CloseTab(MetroTabItem tab, bool saveTabs)
+        public async void CloseTab(ScriptTab scriptTab, bool saveTabs)
         {
-            ScriptTab scriptTab = Tabs.Collection.FirstOrDefault(x => x.Editor == tab.Content);
-            if (scriptTab.Editor is null)
+            if (scriptTab.Editor is null || Tabs.Collection.Count == 2)
             {
                 return;
             }
 
-            IBrowserHost browserHost = scriptTab.Editor.GetBrowserHost();
-
-            browserHost.CloseBrowser(true);
-            browserHost.CloseDevTools();
-            Tabs.Collection.Remove(scriptTab);
-
-            if (Tabs.Collection.Count == 1)
+            if (App.SxOptions.CloseConfirmation)
             {
-                AddTab(false);
+                MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync("Close Tab", "Are you sure that you want to close this tab? All changes will be lost!", MessageDialogStyle.AffirmativeAndNegative, App.DialogSettings);
+                if (result == MessageDialogResult.Negative)
+                {
+                    return;
+                }
             }
 
-            if (saveTabs)
-            {
-                SaveTabs();
-            }
-        }
-
-        public void CloseTab(ScriptTab scriptTab, bool saveTabs)
-        {
             IBrowserHost browserHost = scriptTab.Editor.GetBrowserHost();
 
             browserHost.CloseBrowser(true);
