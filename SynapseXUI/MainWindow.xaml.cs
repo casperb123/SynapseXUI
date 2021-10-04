@@ -48,6 +48,11 @@ namespace SynapseXUI
             ViewModel.SelectedHubScript.Script.Execute();
         }
 
+        private void ButtonExtraFunctions_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            flyoutExtraFunctions.IsOpen = true;
+        }
+
         private void ButtonKillRoblox_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             ViewModel.KillRoblox();

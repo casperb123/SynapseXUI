@@ -13,10 +13,10 @@
                  Closing="MetroWindow_Closing">
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
-            <Button x:Name="buttonKillRoblox"
-                    Content="Kill Roblox"
+            <Button x:Name="buttonExtraFunctions"
+                    Content="Extras"
                     Cursor="Hand"
-                    Click="ButtonKillRoblox_Click" />
+                    Click="ButtonExtraFunctions_Click" />
             <Button x:Name="buttonAttach"
                     Content="Attach"
                     Cursor="Hand"
@@ -54,6 +54,21 @@
                             Padding="0,10"
                             Click="ButtonExecuteHubScript_Click" />
                 </Grid>
+            </mah:Flyout>
+            <mah:Flyout x:Name="flyoutExtraFunctions"
+                        Header="Extra Functions"
+                        Position="Right"
+                        Theme="Adapt"
+                        Width="350"
+                        IsPinned="False">
+                <StackPanel Margin="10,0,10,10">
+                    <Button x:Name="buttonKillRoblox"
+                            Content="Kill Roblox"
+                            Padding="0,10"
+                            Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"
+                            mah:ControlsHelper.ContentCharacterCasing="Normal"
+                            Click="ButtonKillRoblox_Click" />
+                </StackPanel>
             </mah:Flyout>
         </mah:FlyoutsControl>
     </mah:MetroWindow.Flyouts>
