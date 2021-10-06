@@ -347,6 +347,18 @@ namespace SynapseXUI.ViewModels
             }
         }
 
+        public void FocusEditor(ScriptTab scriptTab)
+        {
+            Task.Run(() =>
+            {
+                while (!scriptTab.EditorReady) { }
+                userControl.Dispatcher.Invoke(() =>
+                {
+                    scriptTab.Editor.ExecuteScriptAsync("editor.focus();");
+                });
+            });
+        }
+
         public void SetEditorTheme(ScriptTab scriptTab, string theme)
         {
             Task.Run(() =>

@@ -95,5 +95,10 @@ namespace SynapseXUI.UserControls
             ScriptTab scriptTab = ViewModel.Tabs.Collection.FirstOrDefault(x => x.Editor == e.ClosingTabItem.Content);
             ViewModel.CloseTab(scriptTab, true);
         }
+
+        private void TabControlEditors_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ViewModel.FocusEditor(ViewModel.SelectedTab);
+        }
     }
 }
