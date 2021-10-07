@@ -330,10 +330,13 @@ namespace SynapseXUI.ViewModels
                 }
             }
 
-            IBrowserHost browserHost = scriptTab.Editor.GetBrowserHost();
+            if (scriptTab.Editor.IsBrowserInitialized)
+            {
+                IBrowserHost browserHost = scriptTab.Editor.GetBrowserHost();
+                browserHost.CloseBrowser(true);
+                browserHost.CloseDevTools();
+            }
 
-            browserHost.CloseBrowser(true);
-            browserHost.CloseDevTools();
             Tabs.Collection.Remove(scriptTab);
 
             if (Tabs.Collection.Count == 1)
@@ -349,14 +352,17 @@ namespace SynapseXUI.ViewModels
 
         public void FocusEditor(ScriptTab scriptTab)
         {
-            Task.Run(() =>
+            if (scriptTab != null)
             {
-                while (!scriptTab.EditorReady) { }
-                userControl.Dispatcher.Invoke(() =>
+                Task.Run(() =>
                 {
-                    scriptTab.Editor.ExecuteScriptAsync("editor.focus();");
+                    while (!scriptTab.EditorReady) { }
+                    userControl.Dispatcher.Invoke(() =>
+                    {
+                        scriptTab.Editor.ExecuteScriptAsync("editor.focus();");
+                    });
                 });
-            });
+            }
         }
 
         public void SetEditorTheme(ScriptTab scriptTab, string theme)

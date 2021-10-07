@@ -52,6 +52,8 @@
                             Content="Execute"
                             Grid.Row="2"
                             Padding="0,10"
+                            Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"
+                            mah:ControlsHelper.ContentCharacterCasing="Normal"
                             Click="ButtonExecuteHubScript_Click" />
                 </Grid>
             </mah:Flyout>
