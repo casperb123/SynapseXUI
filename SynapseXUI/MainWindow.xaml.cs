@@ -2,6 +2,7 @@
 using SynapseXUI.ViewModels;
 using System;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace SynapseXUI
@@ -30,7 +31,7 @@ namespace SynapseXUI
             Environment.Exit(0);
         }
 
-        private void ButtonAttach_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void ButtonAttach_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.Attach();
         }
@@ -43,17 +44,17 @@ namespace SynapseXUI
             }
         }
 
-        private void ButtonExecuteHubScript_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void ButtonExecuteHubScript_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.SelectedHubScript.Script.Execute();
         }
 
-        private void ButtonExtraFunctions_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void ButtonUtilities_Click(object sender, RoutedEventArgs e)
         {
-            flyoutExtraFunctions.IsOpen = true;
+            flyoutUtilities.IsOpen = true;
         }
 
-        private void ButtonKillRoblox_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void ButtonKillRoblox_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.KillRoblox();
         }

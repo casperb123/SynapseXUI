@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.IO;
+using System.Windows;
 using Newtonsoft.Json;
 
 namespace SynapseXUI.Entities
@@ -132,6 +133,9 @@ namespace SynapseXUI.Entities
 
     public class Size : INotifyPropertyChanged
     {
+        private double applicationWidth;
+        private double applicationHeight;
+        private WindowState applicationState;
         private bool saveApplicationSize;
 
         public bool SaveApplicationSize
@@ -144,9 +148,35 @@ namespace SynapseXUI.Entities
             }
         }
 
-        public double ApplicationWidth { get; set; }
+        public double ApplicationWidth
+        {
+            get => applicationWidth;
+            set
+            {
+                applicationWidth = value;
+                OnPropertyChanged(nameof(ApplicationWidth));
+            }
+        }
 
-        public double ApplicationHeight { get; set; }
+        public double ApplicationHeight
+        {
+            get => applicationHeight;
+            set
+            {
+                applicationHeight = value;
+                OnPropertyChanged(nameof(ApplicationHeight));
+            }
+        }
+
+        public WindowState ApplicationState
+        {
+            get => applicationState;
+            set
+            {
+                applicationState = value;
+                OnPropertyChanged(nameof(ApplicationState));
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

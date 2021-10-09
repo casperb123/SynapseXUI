@@ -5,7 +5,7 @@
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                  mc:Ignorable="d"
-                 Title="{Binding Path=SynapseStatus}"
+                 Title="{Binding Path=SynapseStatus, FallbackValue='Synapse X UI'}"
                  Height="500"
                  Width="800"
                  MinHeight="500"
@@ -13,10 +13,10 @@
                  Closing="MetroWindow_Closing">
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
-            <Button x:Name="buttonExtraFunctions"
-                    Content="Extras"
+            <Button x:Name="buttonUtilities"
+                    Content="Utilities"
                     Cursor="Hand"
-                    Click="ButtonExtraFunctions_Click" />
+                    Click="ButtonUtilities_Click" />
             <Button x:Name="buttonAttach"
                     Content="Attach"
                     Cursor="Hand"
@@ -57,8 +57,8 @@
                             Click="ButtonExecuteHubScript_Click" />
                 </Grid>
             </mah:Flyout>
-            <mah:Flyout x:Name="flyoutExtraFunctions"
-                        Header="Extra Functions"
+            <mah:Flyout x:Name="flyoutUtilities"
+                        Header="Utilities"
                         Position="Right"
                         Theme="Adapt"
                         Width="350"

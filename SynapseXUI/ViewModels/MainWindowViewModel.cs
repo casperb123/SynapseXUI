@@ -3,15 +3,11 @@ using sxlib;
 using sxlib.Specialized;
 using SynapseXUI.Entities;
 using SynapseXUI.UserControls;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-using System.Windows.Threading;
 
 namespace SynapseXUI.ViewModels
 {
@@ -79,6 +75,7 @@ namespace SynapseXUI.ViewModels
             {
                 mainWindow.Width = App.Settings.Size.ApplicationWidth;
                 mainWindow.Height = App.Settings.Size.ApplicationHeight;
+                mainWindow.WindowState = App.Settings.Size.ApplicationState;
             }
         }
 
@@ -238,6 +235,7 @@ namespace SynapseXUI.ViewModels
             {
                 App.Settings.Size.ApplicationWidth = mainWindow.Width;
                 App.Settings.Size.ApplicationHeight = mainWindow.Height;
+                App.Settings.Size.ApplicationState = mainWindow.WindowState;
             }
 
             App.Settings.Save(App.SettingsFilePath);
