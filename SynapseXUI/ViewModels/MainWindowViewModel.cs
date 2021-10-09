@@ -150,7 +150,7 @@ namespace SynapseXUI.ViewModels
                     break;
                 case SxLibBase.SynLoadEvents.NOT_LOGGED_IN:
                     await progressDialog.CloseAsync();
-                    await mainWindow.ShowMessageAsync("Loading Synapse X", "You are not logged in to Synapse X, please open the original application");
+                    await mainWindow.ShowMessageAsync("Loading Synapse X", "You are not logged in to Synapse X, please open the official UI");
                     mainWindow.Close();
                     break;
                 case SxLibBase.SynLoadEvents.NOT_UPDATED:
