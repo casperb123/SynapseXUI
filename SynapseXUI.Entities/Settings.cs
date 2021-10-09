@@ -8,7 +8,7 @@ namespace SynapseXUI.Entities
     public class Settings : INotifyPropertyChanged
     {
         private Theme theme;
-        private Size size;
+        private WindowSize windowSize;
         private bool deleteFileConfirmation;
         private bool saveTabs;
 
@@ -32,13 +32,13 @@ namespace SynapseXUI.Entities
             }
         }
 
-        public Size Size
+        public WindowSize WindowSize
         {
-            get => size;
+            get => windowSize;
             set
             {
-                size = value;
-                OnPropertyChanged(nameof(Size));
+                windowSize = value;
+                OnPropertyChanged(nameof(WindowSize));
             }
         }
 
@@ -67,7 +67,7 @@ namespace SynapseXUI.Entities
             SaveTabs = true;
             DeleteFileConfirmation = true;
             Theme = new Theme();
-            Size = new Size();
+            WindowSize = new WindowSize();
         }
 
         public void Save(string settingsFilePath)
@@ -131,50 +131,50 @@ namespace SynapseXUI.Entities
         }
     }
 
-    public class Size : INotifyPropertyChanged
+    public class WindowSize : INotifyPropertyChanged
     {
-        private double applicationWidth;
-        private double applicationHeight;
-        private WindowState applicationState;
-        private bool saveApplicationSize;
+        private double windowWidth;
+        private double windowHeight;
+        private WindowState windowState;
+        private bool saveWindowSize;
 
-        public bool SaveApplicationSize
+        public bool SaveWindowSize
         {
-            get => saveApplicationSize;
+            get => saveWindowSize;
             set
             {
-                saveApplicationSize = value;
-                OnPropertyChanged(nameof(SaveApplicationSize));
+                saveWindowSize = value;
+                OnPropertyChanged(nameof(SaveWindowSize));
             }
         }
 
-        public double ApplicationWidth
+        public double WindowWidth
         {
-            get => applicationWidth;
+            get => windowWidth;
             set
             {
-                applicationWidth = value;
-                OnPropertyChanged(nameof(ApplicationWidth));
+                windowWidth = value;
+                OnPropertyChanged(nameof(WindowWidth));
             }
         }
 
-        public double ApplicationHeight
+        public double WindowHeight
         {
-            get => applicationHeight;
+            get => windowHeight;
             set
             {
-                applicationHeight = value;
-                OnPropertyChanged(nameof(ApplicationHeight));
+                windowHeight = value;
+                OnPropertyChanged(nameof(WindowHeight));
             }
         }
 
-        public WindowState ApplicationState
+        public WindowState WindowState
         {
-            get => applicationState;
+            get => windowState;
             set
             {
-                applicationState = value;
-                OnPropertyChanged(nameof(ApplicationState));
+                windowState = value;
+                OnPropertyChanged(nameof(WindowState));
             }
         }
 

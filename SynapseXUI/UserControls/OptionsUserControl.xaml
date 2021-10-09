@@ -85,10 +85,10 @@
                                       OffContent="Disabled"
                                       IsOn="{Binding Path=DeleteFileConfirmation, Source={x:Static root:App.Settings}}"
                                       Toggled="ToggleSwitchSettings_Toggled" />
-                    <mah:ToggleSwitch Header="Save Application Size"
+                    <mah:ToggleSwitch Header="Save Window Size"
                                       OnContent="Enabled"
                                       OffContent="Disabled"
-                                      IsOn="{Binding Path=Size.SaveApplicationSize, Source={x:Static root:App.Settings}}"
+                                      IsOn="{Binding Path=WindowSize.SaveWindowSize, Source={x:Static root:App.Settings}}"
                                       Toggled="ToggleSwitchSettings_Toggled" />
                 </StackPanel>
                 <StackPanel Grid.Column="1">

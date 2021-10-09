@@ -69,13 +69,13 @@ namespace SynapseXUI.ViewModels
             SynapseStatus = "Synapse X UI";
             InitializeSxLib();
 
-            if (App.Settings.Size.SaveApplicationSize &&
-                App.Settings.Size.ApplicationWidth >= mainWindow.MinWidth &&
-                App.Settings.Size.ApplicationHeight >= mainWindow.MinHeight)
+            if (App.Settings.WindowSize.SaveWindowSize &&
+                App.Settings.WindowSize.WindowWidth >= mainWindow.MinWidth &&
+                App.Settings.WindowSize.WindowHeight >= mainWindow.MinHeight)
             {
-                mainWindow.Width = App.Settings.Size.ApplicationWidth;
-                mainWindow.Height = App.Settings.Size.ApplicationHeight;
-                mainWindow.WindowState = App.Settings.Size.ApplicationState;
+                mainWindow.Width = App.Settings.WindowSize.WindowWidth;
+                mainWindow.Height = App.Settings.WindowSize.WindowHeight;
+                mainWindow.WindowState = App.Settings.WindowSize.WindowState;
             }
         }
 
@@ -231,11 +231,11 @@ namespace SynapseXUI.ViewModels
 
         public void SaveSettings()
         {
-            if (App.Settings.Size.SaveApplicationSize)
+            if (App.Settings.WindowSize.SaveWindowSize)
             {
-                App.Settings.Size.ApplicationWidth = mainWindow.Width;
-                App.Settings.Size.ApplicationHeight = mainWindow.Height;
-                App.Settings.Size.ApplicationState = mainWindow.WindowState;
+                App.Settings.WindowSize.WindowWidth = mainWindow.Width;
+                App.Settings.WindowSize.WindowHeight = mainWindow.Height;
+                App.Settings.WindowSize.WindowState = mainWindow.WindowState;
             }
 
             App.Settings.Save(App.SettingsFilePath);
