@@ -45,11 +45,12 @@ namespace SynapseXUI
         {
             Instance = this;
             StartupFolderPath = Directory.GetCurrentDirectory();
-            DataFolderPath = Path.Combine(StartupFolderPath, "data");
             ScriptsFolderPath = Path.Combine(StartupFolderPath, "scripts");
             string authFolderPath = Path.Combine(StartupFolderPath, "auth");
             string binFolderPath = Path.Combine(StartupFolderPath, "bin");
-            string aceFolderPath = Path.Combine(DataFolderPath, "ace");
+            string libsFolderPath = Path.Combine(StartupFolderPath, "libs");
+            string aceFolderPath = Path.Combine(libsFolderPath, "ace");
+            DataFolderPath = Path.Combine(libsFolderPath, "data");
             EditorFilePath = Path.Combine(aceFolderPath, "Editor.html");
             DialogSettings = new MetroDialogSettings
             {
@@ -60,7 +61,6 @@ namespace SynapseXUI
 
             if (!Directory.Exists(authFolderPath) ||
                 !Directory.Exists(binFolderPath) ||
-                !Directory.Exists(aceFolderPath) ||
                 !Directory.Exists(ScriptsFolderPath))
             {
                 MessageBox.Show("Please open the official Synapse X UI before using our UI", "Error occured", MessageBoxButton.OK, MessageBoxImage.Error);
