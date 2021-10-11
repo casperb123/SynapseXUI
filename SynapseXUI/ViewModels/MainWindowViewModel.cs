@@ -86,37 +86,37 @@ namespace SynapseXUI.ViewModels
             switch (e)
             {
                 case SxLibBase.SynAttachEvents.CHECKING:
-                    SynapseStatus = "Synapse X UI - Checking...";
+                    SynapseStatus = "Synapse X - Checking...";
                     break;
                 case SxLibBase.SynAttachEvents.INJECTING:
-                    SynapseStatus = "Synapse X UI - Injecting...";
+                    SynapseStatus = "Synapse X - Injecting...";
                     break;
                 case SxLibBase.SynAttachEvents.CHECKING_WHITELIST:
-                    SynapseStatus = "Synapse X UI - Checking whitelist...";
+                    SynapseStatus = "Synapse X - Checking whitelist...";
                     break;
                 case SxLibBase.SynAttachEvents.SCANNING:
-                    SynapseStatus = "Synapse X UI - Scanning...";
+                    SynapseStatus = "Synapse X - Scanning...";
                     break;
                 case SxLibBase.SynAttachEvents.READY:
-                    SynapseStatus = "Synapse X UI - Attached";
+                    SynapseStatus = "Synapse X - Attached";
                     break;
                 case SxLibBase.SynAttachEvents.FAILED_TO_ATTACH:
-                    SynapseStatus = "Synapse X UI - Failed to attach";
+                    SynapseStatus = "Synapse X - Failed to attach";
                     ResetSynapseStatus();
                     break;
                 case SxLibBase.SynAttachEvents.FAILED_TO_FIND:
-                    SynapseStatus = "Synapse X UI - Failed to find Roblox";
+                    SynapseStatus = "Synapse X - Failed to find Roblox";
                     ResetSynapseStatus();
                     break;
                 case SxLibBase.SynAttachEvents.NOT_INJECTED:
                     await mainWindow.ShowMessageAsync("Execution error", "Please attach Synapse X before executing a script");
                     break;
                 case SxLibBase.SynAttachEvents.ALREADY_INJECTED:
-                    SynapseStatus = "Synapse X UI - Already injected!";
+                    SynapseStatus = "Synapse X - Already injected!";
                     ResetSynapseStatus();
                     break;
                 case SxLibBase.SynAttachEvents.PROC_DELETION:
-                    SynapseStatus = "Synapse X UI";
+                    SynapseStatus = "Synapse X";
                     mainWindow.buttonAttach.IsEnabled = true;
                     break;
             }
@@ -129,7 +129,7 @@ namespace SynapseXUI.ViewModels
                 await Task.Delay(1000);
                 mainWindow.Dispatcher.Invoke(() =>
                 {
-                    SynapseStatus = "Synapse X UI";
+                    SynapseStatus = "Synapse X";
                     mainWindow.buttonAttach.IsEnabled = true;
                 });
             });
@@ -157,7 +157,7 @@ namespace SynapseXUI.ViewModels
         {
             Process.GetProcessesByName("RobloxPlayerBeta").ToList().ForEach(x => x.Kill());
             mainWindow.buttonAttach.IsEnabled = true;
-            SynapseStatus = "Synapse X UI";
+            SynapseStatus = "Synapse X";
         }
     }
 }
