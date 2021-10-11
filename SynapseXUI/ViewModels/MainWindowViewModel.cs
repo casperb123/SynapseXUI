@@ -1,5 +1,4 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
-using sxlib;
 using sxlib.Specialized;
 using SynapseXUI.Entities;
 using SynapseXUI.UserControls;
@@ -14,24 +13,12 @@ namespace SynapseXUI.ViewModels
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private readonly MainWindow mainWindow;
-        private ScriptHubUserControl scriptHubUserControl;
-        private OptionsUserControl optionsUserControl;
-        private ProgressDialogController progressDialog;
+        private readonly ScriptHubUserControl scriptHubUserControl;
+        private readonly OptionsUserControl optionsUserControl;
         private string synapseStatus;
         private ScriptHubScript selectedHubScript;
-        private bool synapseLoaded;
 
         public EditorUserControl EditorUserControl { get; private set; }
-
-        public bool SynapseLoaded
-        {
-            get => synapseLoaded;
-            set
-            {
-                synapseLoaded = value;
-                OnPropertyChanged(nameof(SynapseLoaded));
-            }
-        }
 
         public ScriptHubScript SelectedHubScript
         {
@@ -66,8 +53,17 @@ namespace SynapseXUI.ViewModels
         public MainWindowViewModel(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
-            SynapseStatus = "Synapse X UI";
-            InitializeSxLib();
+            SynapseStatus = "Synapse X";
+
+            App.Lib.ScriptHubEvent += Lib_ScriptHubEvent;
+            App.Lib.AttachEvent += Lib_AttachEvent;
+
+            EditorUserControl = new EditorUserControl();
+            scriptHubUserControl = new ScriptHubUserControl();
+            optionsUserControl = new OptionsUserControl();
+            mainWindow.userControlEditor.Content = EditorUserControl;
+            mainWindow.userControlScriptHub.Content = scriptHubUserControl;
+            mainWindow.userControlOptions.Content = optionsUserControl;
 
             if (App.Settings.WindowSize.SaveWindowSize &&
                 App.Settings.WindowSize.WindowWidth >= mainWindow.MinWidth &&
@@ -77,19 +73,6 @@ namespace SynapseXUI.ViewModels
                 mainWindow.Height = App.Settings.WindowSize.WindowHeight;
                 mainWindow.WindowState = App.Settings.WindowSize.WindowState;
             }
-        }
-
-        private async void InitializeSxLib()
-        {
-            progressDialog = await mainWindow.ShowProgressAsync("Loading Synapse X", "Please wait...");
-            progressDialog.Minimum = 0;
-            progressDialog.Maximum = 100;
-
-            App.Lib = SxLib.InitializeWPF(mainWindow, App.StartupFolderPath);
-            App.Lib.Load();
-            App.Lib.LoadEvent += Lib_LoadEvent;
-            App.Lib.AttachEvent += Lib_AttachEvent;
-            App.Lib.ScriptHubEvent += Lib_ScriptHubEvent;
         }
 
         private void Lib_ScriptHubEvent(List<SxLibBase.SynHubEntry> e)
@@ -135,77 +118,6 @@ namespace SynapseXUI.ViewModels
                 case SxLibBase.SynAttachEvents.PROC_DELETION:
                     SynapseStatus = "Synapse X UI";
                     mainWindow.buttonAttach.IsEnabled = true;
-                    break;
-            }
-        }
-
-        private async void Lib_LoadEvent(SxLibBase.SynLoadEvents e, object Param)
-        {
-            switch (e)
-            {
-                case SxLibBase.SynLoadEvents.UNKNOWN:
-                    await progressDialog.CloseAsync();
-                    await mainWindow.ShowMessageAsync("Loading Synapse X", "An unknown error occured");
-                    mainWindow.Close();
-                    break;
-                case SxLibBase.SynLoadEvents.NOT_LOGGED_IN:
-                    await progressDialog.CloseAsync();
-                    await mainWindow.ShowMessageAsync("Loading Synapse X", "You are not logged in to Synapse X, please open the official UI");
-                    mainWindow.Close();
-                    break;
-                case SxLibBase.SynLoadEvents.NOT_UPDATED:
-                    await progressDialog.CloseAsync();
-                    await mainWindow.ShowMessageAsync("Loading Synapse X", "Synapse X hasn't been updated yet");
-                    mainWindow.Close();
-                    break;
-                case SxLibBase.SynLoadEvents.FAILED_TO_VERIFY:
-                    await progressDialog.CloseAsync();
-                    await mainWindow.ShowMessageAsync("Loading Synapse X", "Failed to very data");
-                    mainWindow.Close();
-                    break;
-                case SxLibBase.SynLoadEvents.FAILED_TO_DOWNLOAD:
-                    await progressDialog.CloseAsync();
-                    await mainWindow.ShowMessageAsync("Loading Synapse X", "Failed to download data");
-                    mainWindow.Close();
-                    break;
-                case SxLibBase.SynLoadEvents.UNAUTHORIZED_HWID:
-                    await progressDialog.CloseAsync();
-                    await mainWindow.ShowMessageAsync("Loading Synapse X", "Unauthorized Hwid detected");
-                    mainWindow.Close();
-                    break;
-                case SxLibBase.SynLoadEvents.CHECKING_WL:
-                    progressDialog.SetMessage("Checking whitelist...");
-                    progressDialog.SetProgress(20);
-                    break;
-                case SxLibBase.SynLoadEvents.DOWNLOADING_DATA:
-                    progressDialog.SetMessage("Downloading data...");
-                    progressDialog.SetProgress(40);
-                    break;
-                case SxLibBase.SynLoadEvents.CHECKING_DATA:
-                    progressDialog.SetMessage("Checking data...");
-                    progressDialog.SetProgress(60);
-                    break;
-                case SxLibBase.SynLoadEvents.DOWNLOADING_DLLS:
-                    progressDialog.SetMessage("Downloading DLLs...");
-                    progressDialog.SetProgress(80);
-                    break;
-                case SxLibBase.SynLoadEvents.READY:
-                    progressDialog.SetMessage("Ready!");
-                    progressDialog.SetProgress(100);
-
-                    EditorUserControl = new EditorUserControl();
-                    scriptHubUserControl = new ScriptHubUserControl();
-                    optionsUserControl = new OptionsUserControl();
-                    mainWindow.userControlEditor.Content = EditorUserControl;
-                    mainWindow.userControlScriptHub.Content = scriptHubUserControl;
-                    mainWindow.userControlOptions.Content = optionsUserControl;
-                    SynapseLoaded = true;
-
-                    _ = Task.Run(async () =>
-                    {
-                        await Task.Delay(1000);
-                        await progressDialog.CloseAsync();
-                    });
                     break;
             }
         }

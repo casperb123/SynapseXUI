@@ -101,6 +101,9 @@
     <SignManifests>true</SignManifests>
     <CefSharpBuildAction>Content</CefSharpBuildAction>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>synapse.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CefSharp, Version=93.1.140.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
       <HintPath>..\packages\CefSharp.Common.93.1.140\lib\net452\CefSharp.dll</HintPath>
@@ -153,6 +156,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="LoadingWindow.xaml.cs">
+      <DependentUpon>LoadingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\EditorUserControl.xaml.cs">
       <DependentUpon>EditorUserControl.xaml</DependentUpon>
     </Compile>
@@ -163,9 +169,14 @@
       <DependentUpon>ScriptHubUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\EditorUserControlViewModel.cs" />
+    <Compile Include="ViewModels\LoadingWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\OptionsUserControlViewModel.cs" />
     <Compile Include="ViewModels\ScriptHubUserControlViewModel.cs" />
+    <Page Include="LoadingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -458,6 +469,7 @@
     <Content Include="libs\ace\Editor.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="synapse.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
