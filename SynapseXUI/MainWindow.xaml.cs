@@ -1,6 +1,6 @@
-﻿using MahApps.Metro.Controls;
+﻿using CefSharp;
+using MahApps.Metro.Controls;
 using SynapseXUI.ViewModels;
-using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,7 +28,7 @@ namespace SynapseXUI
         {
             ViewModel.EditorUserControl.ViewModel.SaveTabs();
             ViewModel.SaveSettings();
-            Environment.Exit(0);
+            Cef.ShutdownWithoutChecks();
         }
 
         private void ButtonAttach_Click(object sender, RoutedEventArgs e)
