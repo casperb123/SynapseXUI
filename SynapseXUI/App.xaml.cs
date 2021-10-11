@@ -18,7 +18,7 @@ namespace SynapseXUI
     {
         public static App Instance { get; private set; }
         public static string StartupFolderPath { get; private set; }
-        public static string SettingsFolderPath { get; private set; }
+        public static string DataFolderPath { get; private set; }
         public static string SettingsFilePath { get; private set; }
         public static string TabsFilePath { get; private set; }
         public static string EditorFilePath { get; private set; }
@@ -45,13 +45,12 @@ namespace SynapseXUI
         {
             Instance = this;
             StartupFolderPath = Directory.GetCurrentDirectory();
+            DataFolderPath = Path.Combine(StartupFolderPath, "data");
+            ScriptsFolderPath = Path.Combine(StartupFolderPath, "scripts");
             string authFolderPath = Path.Combine(StartupFolderPath, "auth");
             string binFolderPath = Path.Combine(StartupFolderPath, "bin");
-            string libsFolderPath = Path.Combine(StartupFolderPath, "libs");
-            string aceFolderPath = Path.Combine(libsFolderPath, "ace");
-            SettingsFolderPath = Path.Combine(StartupFolderPath, "data");
+            string aceFolderPath = Path.Combine(DataFolderPath, "ace");
             EditorFilePath = Path.Combine(aceFolderPath, "Editor.html");
-            ScriptsFolderPath = Path.Combine(StartupFolderPath, "scripts");
             DialogSettings = new MetroDialogSettings
             {
                 DefaultButtonFocus = MessageDialogResult.Affirmative,
@@ -68,13 +67,13 @@ namespace SynapseXUI
                 Environment.Exit(2);
             }
 
-            if (!Directory.Exists(SettingsFolderPath))
+            if (!Directory.Exists(DataFolderPath))
             {
-                Directory.CreateDirectory(SettingsFolderPath);
+                Directory.CreateDirectory(DataFolderPath);
             }
 
-            SettingsFilePath = Path.Combine(SettingsFolderPath, "Options.ini");
-            TabsFilePath = Path.Combine(SettingsFolderPath, "Tabs.bin");
+            SettingsFilePath = Path.Combine(DataFolderPath, "Options.ini");
+            TabsFilePath = Path.Combine(DataFolderPath, "Tabs.bin");
 
             Settings = Settings.GetSettings(SettingsFilePath);
             string theme = Settings.Theme.ApplicationTheme;
