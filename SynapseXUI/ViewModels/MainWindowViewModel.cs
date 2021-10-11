@@ -153,16 +153,9 @@ namespace SynapseXUI.ViewModels
             App.Settings.Save(App.SettingsFilePath);
         }
 
-        public async void KillRoblox()
+        public void KillRoblox()
         {
-            List<Process> processes = Process.GetProcessesByName("RobloxPlayerBeta").ToList();
-            if (processes.Count == 0)
-            {
-                await mainWindow.ShowMessageAsync("Kill Roblox", "Killing roblox failed, the roblox process isn't running");
-                return;
-            }
-
-            processes.ForEach(x => x.Kill());
+            Process.GetProcessesByName("RobloxPlayerBeta").ToList().ForEach(x => x.Kill());
             mainWindow.buttonAttach.IsEnabled = true;
             SynapseStatus = "Synapse X UI";
         }
