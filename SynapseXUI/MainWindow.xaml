@@ -12,7 +12,7 @@
                  MinWidth="800"
                  Closing="MetroWindow_Closing">
     <mah:MetroWindow.RightWindowCommands>
-        <mah:WindowCommands>
+        <mah:WindowCommands Visibility="{Binding Path=SynapseLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Button x:Name="buttonUtilities"
                     Content="Utilities"
                     Cursor="Hand"
