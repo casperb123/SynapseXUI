@@ -31,6 +31,7 @@ namespace SynapseXUI.ViewModels
         private ScriptTab selectedTab;
         private ObservableCollection<ScriptFile> scriptFiles;
         private ScriptFile selectedScriptFile;
+        private bool detectScriptTabChange;
 
         public ScriptFile SelectedScriptFile
         {
@@ -96,6 +97,7 @@ namespace SynapseXUI.ViewModels
         {
             Instance = this;
             this.userControl = userControl;
+            detectScriptTabChange = true;
             Tabs = new ScriptTabs();
             Tabs.Collection.CollectionChanged += Tabs_CollectionChanged;
             ScriptFiles = new ObservableCollection<ScriptFile>();
@@ -316,11 +318,6 @@ namespace SynapseXUI.ViewModels
 
         public async void CloseTab(ScriptTab scriptTab, bool saveTabs)
         {
-            if (scriptTab.Editor is null || Tabs.Collection.Count == 2)
-            {
-                return;
-            }
-
             if (App.SxOptions.CloseConfirmation)
             {
                 MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync("Close Tab", "Are you sure that you want to close this tab? All changes will be lost!", MessageDialogStyle.AffirmativeAndNegative, App.DialogSettings);
@@ -342,6 +339,7 @@ namespace SynapseXUI.ViewModels
             if (Tabs.Collection.Count == 1)
             {
                 AddTab(false);
+                FocusEditor(SelectedTab, true);
             }
 
             if (saveTabs)
@@ -350,9 +348,9 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public void FocusEditor(ScriptTab scriptTab)
+        public void FocusEditor(ScriptTab scriptTab, bool skipDetectCheck = false)
         {
-            if (scriptTab != null)
+            if ((skipDetectCheck || detectScriptTabChange) && scriptTab != null)
             {
                 Task.Run(() =>
                 {
@@ -499,17 +497,14 @@ namespace SynapseXUI.ViewModels
 
         public void CloseAllTabs(ScriptTab tabToExclude = null)
         {
-            if (tabToExclude is null)
-            {
-                Tabs.Collection.Where(x => !x.IsAddTabButton).ToList().ForEach(x => CloseTab(x, false));
-                AddTab(false);
-            }
-            else
-            {
-                Tabs.Collection.Where(x => x != tabToExclude && !x.IsAddTabButton).ToList().ForEach(x => CloseTab(x, false));
-            }
+            detectScriptTabChange = false;
+            List<ScriptTab> tabs = tabToExclude is null
+                ? Tabs.Collection.Where(x => !x.IsAddTabButton).ToList()
+                : Tabs.Collection.Where(x => x != tabToExclude && !x.IsAddTabButton).ToList();
 
+            tabs.ForEach(x => CloseTab(x, false));
             SaveTabs();
+            detectScriptTabChange = true;
         }
 
         #region CEF Sharp Methods

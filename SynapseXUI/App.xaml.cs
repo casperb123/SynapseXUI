@@ -64,7 +64,7 @@ namespace SynapseXUI
                 !Directory.Exists(aceFolderPath) ||
                 !Directory.Exists(ScriptsFolderPath))
             {
-                MessageBox.Show("Please open the official Synapse X application before using our application", "Error occured", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Please open the official Synapse X UI before using our UI", "Error occured", MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(2);
             }
 
