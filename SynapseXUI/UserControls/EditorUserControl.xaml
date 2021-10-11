@@ -71,10 +71,10 @@
                  DisplayMemberPath="Filename"
                  VirtualizingPanel.IsVirtualizing="False">
             <ListBox.ContextMenu>
-                <ContextMenu x:Name="contextMenuScripts">
+                <ContextMenu x:Name="contextMenuScripts"
+                             IsEnabled="{Binding Path=SelectedScriptFile, Mode=OneWay, Converter={StaticResource NullToBooleanConverter}}">
                     <MenuItem x:Name="menuItemScriptsExecute"
                               Header="Execute"
-                              IsEnabled="{Binding Path=SelectedScriptFile, Mode=OneWay, Converter={StaticResource NullToBooleanConverter}}"
                               Click="MenuItemScriptsExecute_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="PlayArrow"
@@ -85,7 +85,6 @@
                     </MenuItem>
                     <MenuItem x:Name="menuItemScriptsLoadCurrentTab"
                               Header="Load to current tab"
-                              IsEnabled="{Binding Path=SelectedScriptFile, Mode=OneWay, Converter={StaticResource NullToBooleanConverter}}"
                               Click="MenuItemScriptsLoadCurrentTab_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="OpenInBrowser"
@@ -96,7 +95,6 @@
                     </MenuItem>
                     <MenuItem x:Name="menuItemScriptsLoadNewTab"
                               Header="Load to new tab"
-                              IsEnabled="{Binding Path=SelectedScriptFile, Mode=OneWay, Converter={StaticResource NullToBooleanConverter}}"
                               Click="MenuItemScriptsLoadNewTab_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="OpenInNew"
@@ -107,7 +105,6 @@
                     </MenuItem>
                     <MenuItem x:Name="menuItemScriptsDelete"
                               Header="Delete"
-                              IsEnabled="{Binding Path=SelectedScriptFile, Mode=OneWay, Converter={StaticResource NullToBooleanConverter}}"
                               Click="MenuItemScriptsDelete_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="Delete"
