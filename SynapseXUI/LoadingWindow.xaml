@@ -5,6 +5,8 @@
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                  xmlns:viewmodels="clr-namespace:SynapseXUI.ViewModels"
+                 xmlns:entities="clr-namespace:SynapseXUI.Entities;assembly=SynapseXUI.Entities"
+                 xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
                  d:DataContext="{d:DesignInstance Type=viewmodels:LoadingWindowViewModel}"
                  mc:Ignorable="d"
                  Title="Synapse X"
@@ -27,6 +29,10 @@
                               Maximum="100"
                               Height="20"
                               Margin="0,10,0,0"
-                              Value="{Binding Path=LoadingProgress}" />
+                              Value="{Binding Path=LoadingProgress}">
+            <behaviors:Interaction.Behaviors>
+                <entities:MetroProgressBarAnimateBehavior />
+            </behaviors:Interaction.Behaviors>
+        </mah:MetroProgressBar>
     </StackPanel>
 </mah:MetroWindow>
