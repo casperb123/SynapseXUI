@@ -91,18 +91,8 @@ namespace SynapseXUI.Entities
 
     public class Theme : INotifyPropertyChanged
     {
-        private string applicationTheme;
         private string applicationColor;
-
-        public string ApplicationColor
-        {
-            get => applicationColor;
-            set
-            {
-                applicationColor = value;
-                OnPropertyChanged(nameof(ApplicationColor));
-            }
-        }
+        private string applicationTheme;
 
         public string ApplicationTheme
         {
@@ -111,6 +101,16 @@ namespace SynapseXUI.Entities
             {
                 applicationTheme = value;
                 OnPropertyChanged(nameof(ApplicationTheme));
+            }
+        }
+
+        public string ApplicationColor
+        {
+            get => applicationColor;
+            set
+            {
+                applicationColor = value;
+                OnPropertyChanged(nameof(ApplicationColor));
             }
         }
 
