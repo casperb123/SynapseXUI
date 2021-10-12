@@ -11,6 +11,17 @@ namespace SynapseXUI.Entities
         private WindowSize windowSize;
         private bool deleteFileConfirmation;
         private bool saveTabs;
+        private bool loaderTopMost;
+
+        public bool LoaderTopMost
+        {
+            get => loaderTopMost;
+            set
+            {
+                loaderTopMost = value;
+                OnPropertyChanged(nameof(LoaderTopMost));
+            }
+        }
 
         public bool SaveTabs
         {

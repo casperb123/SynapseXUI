@@ -65,6 +65,11 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel>
+                    <mah:ToggleSwitch Header="Loader Top Most"
+                                      OnContent="Enabled"
+                                      OffContent="Disabled"
+                                      IsOn="{Binding Path=LoaderTopMost, Source={x:Static root:App.Settings}}"
+                                      Toggled="ToggleSwitchSettings_Toggled" />
                     <mah:ToggleSwitch Header="Save Tabs"
                                       OnContent="Enabled"
                                       OffContent="Disabled"

@@ -16,5 +16,10 @@ namespace SynapseXUI
             viewModel = new LoadingWindowViewModel(this);
             DataContext = viewModel;
         }
+
+        private void CheckBox_Checked(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
     }
 }

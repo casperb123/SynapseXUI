@@ -7,6 +7,7 @@
                  xmlns:viewmodels="clr-namespace:SynapseXUI.ViewModels"
                  xmlns:entities="clr-namespace:SynapseXUI.Entities;assembly=SynapseXUI.Entities"
                  xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+                 xmlns:root="clr-namespace:SynapseXUI"
                  d:DataContext="{d:DesignInstance Type=viewmodels:LoadingWindowViewModel}"
                  mc:Ignorable="d"
                  Title="Synapse X"
@@ -17,7 +18,16 @@
                  ShowMinButton="False"
                  ResizeMode="NoResize"
                  WindowStartupLocation="CenterScreen"
-                 Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
+                 Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
+                 Topmost="{Binding Path=LoaderTopMost, Source={x:Static root:App.Settings}}">
+    <mah:MetroWindow.RightWindowCommands>
+        <mah:WindowCommands>
+            <CheckBox Content="Top Most"
+                      Margin="0,0,10,0"
+                      IsChecked="{Binding Path=LoaderTopMost, Source={x:Static root:App.Settings}}" />
+        </mah:WindowCommands>
+    </mah:MetroWindow.RightWindowCommands>
+
     <StackPanel Margin="20,0"
                 VerticalAlignment="Center">
         <Label Content="{Binding Path=LoadingStatus}"
