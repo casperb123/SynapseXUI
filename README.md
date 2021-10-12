@@ -1,4 +1,4 @@
-# About
+## About
 A custom Synapse X user interface with the following features:
 - Everything from the official UI
 - Both dark and light theme
@@ -7,10 +7,10 @@ A custom Synapse X user interface with the following features:
 - Built-in utilities
   - Kill Roblox
   
-# Screenshots
+## Screenshots
 
   
-# Installation
+## Installation
 1. Go to the Releases page and download the latest version
 2. Extract everything into your Synapse X folder
 3. Run SynapseXUI.exe and the UI should open
