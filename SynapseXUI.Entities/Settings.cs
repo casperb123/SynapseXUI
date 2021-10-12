@@ -75,6 +75,7 @@ namespace SynapseXUI.Entities
 
         public Settings()
         {
+            LoaderTopMost = true;
             SaveTabs = true;
             DeleteFileConfirmation = true;
             Theme = new Theme();
