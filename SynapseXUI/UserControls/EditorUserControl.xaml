@@ -69,7 +69,9 @@
                  ItemsSource="{Binding Path=ScriptFiles}"
                  SelectedItem="{Binding Path=SelectedScriptFile}"
                  DisplayMemberPath="Filename"
-                 VirtualizingPanel.IsVirtualizing="False">
+                 VirtualizingPanel.IsVirtualizing="False"
+                 ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                 ScrollViewer.VerticalScrollBarVisibility="Visible">
             <ListBox.ContextMenu>
                 <ContextMenu x:Name="contextMenuScripts"
                              IsEnabled="{Binding Path=SelectedScriptFile, Mode=OneWay, Converter={StaticResource NullToBooleanConverter}}">
