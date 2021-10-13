@@ -178,7 +178,7 @@ namespace SynapseXUI.ViewModels
 
         private void Tabs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Tabs.Collection.ToList().ForEach(x => x.EnableCloseButton = Tabs.Collection.Count > 2 && !x.IsAddTabButton);
+            Tabs.Collection.ToList().ForEach(x => x.EnableCloseButton = !x.IsAddTabButton);
         }
 
         public void GetScripts()
