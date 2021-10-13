@@ -15,7 +15,7 @@ A custom Synapse X user interface with the following features:
 ![Synapse ui options](https://user-images.githubusercontent.com/42714453/136988873-e3086fb0-e2a1-4d3e-a938-7409a9b26f66.png)
 
 ## Installation
-1. Go to the Releases page and download the latest version
+1. Go to the [Releases](https://github.com/casperb123/SynapseXUI/releases) page and download the latest version
 2. Extract everything into your Synapse X folder
 3. Run SynapseXUI.exe and the UI should open
 4. Join a game and have fun
