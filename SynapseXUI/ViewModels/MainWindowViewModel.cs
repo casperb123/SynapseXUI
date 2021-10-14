@@ -81,7 +81,7 @@ namespace SynapseXUI.ViewModels
             scriptHubUserControl.ViewModel.Loaded = true;
         }
 
-        private async void Lib_AttachEvent(SxLibBase.SynAttachEvents e, object Param)
+        private void Lib_AttachEvent(SxLibBase.SynAttachEvents e, object Param)
         {
             switch (e)
             {
@@ -109,7 +109,7 @@ namespace SynapseXUI.ViewModels
                     ResetSynapseStatus();
                     break;
                 case SxLibBase.SynAttachEvents.NOT_INJECTED:
-                    await mainWindow.ShowMessageAsync("Execution error", "Please attach Synapse X before executing a script");
+                    App.ShowPrompt("Execution error", "Please attach Synapse X before executing a script", PromptType.OK);
                     break;
                 case SxLibBase.SynAttachEvents.ALREADY_INJECTED:
                     SynapseStatus = "Synapse X - Already injected!";

@@ -4,6 +4,7 @@ using ControlzEx.Theming;
 using MahApps.Metro.Controls.Dialogs;
 using sxlib.Specialized;
 using SynapseXUI.Entities;
+using SynapseXUI.Windows;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -94,6 +95,15 @@ namespace SynapseXUI
         public static void SetTheme(string theme, string color)
         {
             ThemeManager.Current.ChangeTheme(Current, $"{theme}.{color}");
+        }
+
+        public static bool ShowPrompt(string title, string message, PromptType type)
+        {
+            PromptWindow prompt = new PromptWindow(title, message, type)
+            {
+                Owner = Current.MainWindow
+            };
+            return prompt.ShowDialog().Value;
         }
     }
 }

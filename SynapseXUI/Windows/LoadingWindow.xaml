@@ -14,8 +14,6 @@
                  Height="120"
                  Width="400"
                  ShowCloseButton="False"
-                 ShowMaxRestoreButton="False"
-                 ShowMinButton="False"
                  ResizeMode="NoResize"
                  WindowStartupLocation="CenterScreen"
                  Background="{DynamicResource MahApps.Brushes.ThemeBackground}"

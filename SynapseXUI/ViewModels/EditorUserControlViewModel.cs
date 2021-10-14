@@ -5,6 +5,7 @@ using MahApps.Metro.IconPacks;
 using Microsoft.Win32;
 using SynapseXUI.Entities;
 using SynapseXUI.UserControls;
+using SynapseXUI.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -316,15 +317,11 @@ namespace SynapseXUI.ViewModels
             return scriptTab;
         }
 
-        public async void CloseTab(ScriptTab scriptTab, bool saveTabs)
+        public void CloseTab(ScriptTab scriptTab, bool saveTabs)
         {
-            if (App.SxOptions.CloseConfirmation)
+            if (App.SxOptions.CloseConfirmation && !App.ShowPrompt("Close Tab", "Are you sure that you want to close this tab? All changes will be lost!", PromptType.YesNo))
             {
-                MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync("Close Tab", "Are you sure that you want to close this tab? All changes will be lost!", MessageDialogStyle.AffirmativeAndNegative, App.DialogSettings);
-                if (result == MessageDialogResult.Negative)
-                {
-                    return;
-                }
+                return;
             }
 
             if (scriptTab.Editor.IsBrowserInitialized)
@@ -403,15 +400,11 @@ namespace SynapseXUI.ViewModels
             });
         }
 
-        public async void ClearEditorText()
+        public void ClearEditorText()
         {
-            if (App.SxOptions.ClearConfirmation)
+            if (App.SxOptions.ClearConfirmation && !App.ShowPrompt("Clear Editor", "Are you sure that you want to clear the editor?", PromptType.YesNo))
             {
-                MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync("Clear Editor", "Are you sure that you want to clear the editor?", MessageDialogStyle.AffirmativeAndNegative, App.DialogSettings);
-                if (result == MessageDialogResult.Negative)
-                {
-                    return;
-                }
+                return;
             }
 
             SelectedTab.Text = string.Empty;
@@ -478,15 +471,11 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public async void DeleteFile()
+        public void DeleteFile()
         {
-            if (App.Settings.DeleteFileConfirmation)
+            if (App.Settings.DeleteFileConfirmation && !App.ShowPrompt("Delete File", "Are you sure that you want to delete this file? This can't be undone!", PromptType.YesNo))
             {
-                MessageDialogResult result = await MainWindow.Instance.ShowMessageAsync("Delete File", "Are you sure that you want to delete this file? This can't be undone!", MessageDialogStyle.AffirmativeAndNegative, App.DialogSettings);
-                if (result == MessageDialogResult.Negative)
-                {
-                    return;
-                }
+                return;
             }
 
             if (selectedScriptFile != null)
