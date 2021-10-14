@@ -31,6 +31,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>false</MapFileExtensions>
+    <SupportUrl>https://github.com/casperb123/SynapseXUI</SupportUrl>
+    <ErrorReportUrl>https://github.com/casperb123/SynapseXUI</ErrorReportUrl>
     <ProductName>Synapse X UI</ProductName>
     <PublisherName>Casper Bastholm</PublisherName>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
