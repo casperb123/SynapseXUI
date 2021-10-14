@@ -5,7 +5,9 @@ using MahApps.Metro.Controls.Dialogs;
 using sxlib.Specialized;
 using SynapseXUI.Entities;
 using System;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using static sxlib.Static.Data;
 
@@ -43,6 +45,12 @@ namespace SynapseXUI
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            if (Process.GetProcessesByName("SynapseXUI").ToList().Count > 1)
+            {
+                MessageBox.Show("An instance of this application is already running", "Synapse X UI", MessageBoxButton.OK, MessageBoxImage.Error);
+                Environment.Exit(32);
+            }
+
             Instance = this;
             StartupFolderPath = Directory.GetCurrentDirectory();
             ScriptsFolderPath = Path.Combine(StartupFolderPath, "scripts");
@@ -63,7 +71,7 @@ namespace SynapseXUI
                 !Directory.Exists(binFolderPath) ||
                 !Directory.Exists(ScriptsFolderPath))
             {
-                MessageBox.Show("Please open the official Synapse X UI before using our UI", "Error occured", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Please open the official Synapse X UI before using our UI", "Synapse X UI", MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(2);
             }
 
