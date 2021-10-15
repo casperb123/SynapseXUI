@@ -1,6 +1,5 @@
 ﻿using sxlib.Specialized;
 using System.ComponentModel;
-using System.Windows;
 
 namespace SynapseXUI.Entities
 {

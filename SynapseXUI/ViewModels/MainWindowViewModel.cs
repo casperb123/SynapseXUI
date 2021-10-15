@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls.Dialogs;
-using sxlib.Specialized;
+﻿using sxlib.Specialized;
 using SynapseXUI.Entities;
 using SynapseXUI.UserControls;
 using System.Collections.Generic;

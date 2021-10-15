@@ -55,7 +55,7 @@ namespace SynapseXUI.Entities
 
         public Theme Theme
         {
-            get { return theme; }
+            get => theme;
             set
             {
                 theme = value;

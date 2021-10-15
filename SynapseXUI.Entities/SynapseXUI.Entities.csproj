@@ -108,14 +108,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\BooleanAndBooleanConverter.cs" />
     <Compile Include="Converters\EnumToVisibilityConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
-    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Converters\StringToBooleanConverter.cs" />
     <Compile Include="MetroProgressBarAnimateBehavior.cs" />
-    <Compile Include="PromptType.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="ScriptTabs.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

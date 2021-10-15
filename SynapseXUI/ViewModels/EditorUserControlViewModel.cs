@@ -1,11 +1,9 @@
 ﻿using CefSharp;
 using CefSharp.Wpf;
-using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.IconPacks;
 using Microsoft.Win32;
 using SynapseXUI.Entities;
 using SynapseXUI.UserControls;
-using SynapseXUI.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

@@ -1,4 +1,5 @@
 ﻿using SynapseXUI.Entities;
+using SynapseXUI.Windows;
 using System.ComponentModel;
 
 namespace SynapseXUI.ViewModels
@@ -49,11 +50,22 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public PromptWindowViewModel(string title, string message, PromptType type)
+        public PromptWindowViewModel(PromptWindow window, string title, string message, PromptType type)
         {
             Title = title;
             Message = message;
             Type = type;
+
+            window.Topmost = App.SxOptions is null ? true : App.SxOptions.TopMost;
+
+            if (type == PromptType.OK)
+            {
+                window.buttonOk.Focus();
+            }
+            else if (type == PromptType.YesNo)
+            {
+                window.buttonYes.Focus();
+            }
         }
     }
 }
