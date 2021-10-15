@@ -4,6 +4,7 @@ A custom Synapse X user interface with the following features:
 - Both dark and light theme
 - Lots of color options
 - More context menu options
+- Custom message/prompt window
 - Built-in utilities
   - Kill Roblox
 
