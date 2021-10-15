@@ -3,6 +3,7 @@ using sxlib.Specialized;
 using SynapseXUI.Entities;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SynapseXUI.ViewModels
 {
@@ -102,6 +103,8 @@ namespace SynapseXUI.ViewModels
 
                     await Task.Delay(1000);
                     MainWindow mainWindow = new MainWindow();
+                    Application.Current.MainWindow = mainWindow;
+
                     mainWindow.Show();
                     App.Lib.SetWindow(mainWindow);
                     loadingWindow.Close();
