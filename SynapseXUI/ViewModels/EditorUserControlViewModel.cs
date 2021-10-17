@@ -324,6 +324,7 @@ namespace SynapseXUI.ViewModels
             };
             Tabs.Collection.Insert(Tabs.Collection.Count - 1, scriptTab);
             SelectedTab = scriptTab;
+            userControl.tabControlEditors.GetSelectedTabItem().BringIntoView(new Rect(new Size(10000, 0)));
 
             if (saveTabs && string.IsNullOrEmpty(text))
             {
