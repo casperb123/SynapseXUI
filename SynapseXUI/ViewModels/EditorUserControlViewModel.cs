@@ -204,7 +204,7 @@ namespace SynapseXUI.ViewModels
 
         public void ChangeTab()
         {
-            if (SelectedTab is null || !tabsLoaded)
+            if (!detectScriptTabChange || SelectedTab is null || !tabsLoaded)
             {
                 return;
             }
@@ -515,9 +515,8 @@ namespace SynapseXUI.ViewModels
                 : Tabs.Collection.Where(x => x != tabToExclude && !x.IsAddTabButton).ToList();
 
             tabs.ForEach(x => CloseTab(x, false, true));
-            SaveTabs();
             detectScriptTabChange = true;
-            //FocusEditor();
+            SetEditorText(SelectedTab.Text, true);
         }
 
         #region CEF Sharp Methods
