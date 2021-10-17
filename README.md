@@ -27,3 +27,4 @@ A custom Synapse X user interface with the following features:
 ## Credits
 - StitchTheSecond#3549 (570478646851010562)
 - Synapse X Developers (sxlib)
+- [Stack Overflow](https://stackoverflow.com) for helping with errors
