@@ -21,6 +21,9 @@ A custom Synapse X user interface with the following features:
 3. Run SynapseXUI.exe and the UI should open
 4. Join a game and have fun
 
+## Known bugs
+- Very rarely it crashes with an encrypted data is null exception (i haven't experienced it in the latest version but it can happen)
+
 ## Credits
 - StitchTheSecond#3549 (570478646851010562)
 - Synapse X Developers (sxlib)
