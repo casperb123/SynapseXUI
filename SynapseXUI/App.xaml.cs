@@ -59,6 +59,8 @@ namespace SynapseXUI
             string binFolderPath = Path.Combine(StartupFolderPath, "bin");
             string libsFolderPath = Path.Combine(StartupFolderPath, "libs");
             string aceFolderPath = Path.Combine(libsFolderPath, "ace");
+            string slInjectorLibsFilePath = Path.Combine(libsFolderPath, "SLInjector.dll");
+            string slInjectorBinFilePath = Path.Combine(binFolderPath, "SLInjector.dll");
             DataFolderPath = Path.Combine(libsFolderPath, "data");
             EditorFilePath = Path.Combine(aceFolderPath, "Editor.html");
             DialogSettings = new MetroDialogSettings
@@ -74,6 +76,11 @@ namespace SynapseXUI
             {
                 ShowPrompt("Synapse X UI", "Please open the official Synapse X UI before using our UI", PromptType.OK);
                 Environment.Exit(2);
+            }
+
+            if (!File.Exists(slInjectorBinFilePath))
+            {
+                File.Copy(slInjectorLibsFilePath, slInjectorBinFilePath);
             }
 
             if (!Directory.Exists(DataFolderPath))
