@@ -480,9 +480,9 @@
     <Content Include="libs\ace\Editor.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="libs\SLInjector.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Content Include="libs\SLInjector.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="synapse.ico" />
   </ItemGroup>
   <ItemGroup />
