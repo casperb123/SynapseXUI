@@ -131,7 +131,7 @@ namespace SynapseXUI.ViewModels
 
             App.Settings.Save(App.SettingsFilePath);
             App.SetTheme(theme, color);
-            MainWindow.Instance.ViewModel.EditorUserControl.ViewModel.SetAllEditorThemes(theme);
+            MainWindow.Instance.ViewModel.EditorUserControl.ViewModel.SetEditorTheme(theme);
         }
     }
 }

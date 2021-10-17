@@ -1,5 +1,4 @@
-﻿using CefSharp.Wpf;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.IO;
 
@@ -11,8 +10,6 @@ namespace SynapseXUI.Entities
         private string fullFilename;
         private object header;
         private bool enableCloseButton;
-        [NonSerialized]
-        private ChromiumWebBrowser editor;
         private string text;
 
         public string Text
@@ -22,18 +19,6 @@ namespace SynapseXUI.Entities
             {
                 text = value;
                 OnPropertyChanged(nameof(Text));
-            }
-        }
-
-        public bool EditorReady { get; set; }
-
-        public ChromiumWebBrowser Editor
-        {
-            get => editor;
-            set
-            {
-                editor = value;
-                OnPropertyChanged(nameof(Editor));
             }
         }
 
@@ -81,10 +66,8 @@ namespace SynapseXUI.Entities
             }
         }
 
-        public ScriptTab(ChromiumWebBrowser browser = null, string filePath = null)
+        public ScriptTab(string filePath = null)
         {
-            Editor = browser;
-
             if (filePath is null)
             {
                 Header = "Untitled";

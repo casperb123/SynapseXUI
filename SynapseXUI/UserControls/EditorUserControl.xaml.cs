@@ -1,6 +1,5 @@
 ﻿using SynapseXUI.Entities;
 using SynapseXUI.ViewModels;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using static MahApps.Metro.Controls.BaseMetroTabControl;
@@ -92,13 +91,13 @@ namespace SynapseXUI.UserControls
         {
             e.Cancel = true;
 
-            ScriptTab scriptTab = ViewModel.Tabs.Collection.FirstOrDefault(x => x.Editor == e.ClosingTabItem.Content);
+            ScriptTab scriptTab = e.ClosingTabItem.Tag as ScriptTab;
             ViewModel.CloseTab(scriptTab, true);
         }
 
         private void TabControlEditors_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ViewModel.FocusEditor(ViewModel.SelectedTab);
+            ViewModel.ChangeTab();
         }
     }
 }

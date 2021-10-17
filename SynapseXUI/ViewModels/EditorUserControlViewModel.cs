@@ -7,7 +7,6 @@ using SynapseXUI.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -25,12 +24,26 @@ namespace SynapseXUI.ViewModels
         public static EditorUserControlViewModel Instance { get; private set; }
 
         private readonly EditorUserControl userControl;
+        private bool editorReady;
+        private bool tabsLoaded;
         private string editorText;
         private ScriptTabs tabs;
         private ScriptTab selectedTab;
+        private int selectedTabIndex;
         private ObservableCollection<ScriptFile> scriptFiles;
         private ScriptFile selectedScriptFile;
         private bool detectScriptTabChange;
+        private ChromiumWebBrowser editor;
+
+        public ChromiumWebBrowser Editor
+        {
+            get => editor;
+            set
+            {
+                editor = value;
+                OnPropertyChanged(nameof(Editor));
+            }
+        }
 
         public ScriptFile SelectedScriptFile
         {
@@ -49,6 +62,16 @@ namespace SynapseXUI.ViewModels
             {
                 scriptFiles = value;
                 OnPropertyChanged(nameof(ScriptFiles));
+            }
+        }
+
+        public int SelectedTabIndex
+        {
+            get => selectedTabIndex;
+            set
+            {
+                selectedTabIndex = value;
+                OnPropertyChanged(nameof(SelectedTabIndex));
             }
         }
 
@@ -96,9 +119,19 @@ namespace SynapseXUI.ViewModels
         {
             Instance = this;
             this.userControl = userControl;
+            Editor = new ChromiumWebBrowser(App.EditorFilePath);
+            Editor.JavascriptObjectRepository.Register("synServiceAsync", this, true);
+            Editor.FrameLoadEnd += (s, e) =>
+            {
+                if (e.Frame.IsMain)
+                {
+                    editorReady = true;
+                    FocusEditor();
+                }
+            };
+
             detectScriptTabChange = true;
             Tabs = new ScriptTabs();
-            Tabs.Collection.CollectionChanged += Tabs_CollectionChanged;
             ScriptFiles = new ObservableCollection<ScriptFile>();
             GetScripts();
 
@@ -114,7 +147,8 @@ namespace SynapseXUI.ViewModels
             ScriptTab scriptTab = new ScriptTab
             {
                 Header = icon,
-                IsAddTabButton = true
+                IsAddTabButton = true,
+                EnableCloseButton = false
             };
             Tabs.Collection.Add(scriptTab);
 
@@ -128,7 +162,6 @@ namespace SynapseXUI.ViewModels
                 {
                     userControl.tabControlEditors.SelectedIndex = 0;
                     userControl.tabControlEditors.GetSelectedTabItem().PreviewMouseDown += EditorsAddTab_PreviewMouseDown;
-                    userControl.tabControlEditors.SelectionChanged += TabControlEditors_SelectionChanged;
 
                     if (App.Settings.SaveTabs && File.Exists(App.TabsFilePath) && !string.IsNullOrWhiteSpace(File.ReadAllText(App.TabsFilePath)))
                     {
@@ -140,6 +173,8 @@ namespace SynapseXUI.ViewModels
                     }
 
                     timer.Stop();
+                    tabsLoaded = true;
+                    SetEditorText(SelectedTab.Text, false);
                 }
             };
             timer.Start();
@@ -161,23 +196,26 @@ namespace SynapseXUI.ViewModels
             });
         }
 
-        private void TabControlEditors_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (SelectedTab != null && SelectedTab.IsAddTabButton)
-            {
-                userControl.tabControlEditors.SelectedIndex = Tabs.Collection.Count - 2;
-            }
-        }
-
         private void EditorsAddTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
             AddTab(true);
         }
 
-        private void Tabs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        public void ChangeTab()
         {
-            Tabs.Collection.ToList().ForEach(x => x.EnableCloseButton = !x.IsAddTabButton);
+            if (SelectedTab is null || !tabsLoaded)
+            {
+                return;
+            }
+
+            if (SelectedTab.IsAddTabButton)
+            {
+                SelectedTabIndex = Tabs.Collection.Count - 2;
+            }
+
+            SetEditorText(SelectedTab.Text, false);
+            FocusEditor();
         }
 
         public void GetScripts()
@@ -278,55 +316,33 @@ namespace SynapseXUI.ViewModels
 
         public ScriptTab AddTab(bool saveTabs, string filePath = null, string text = null)
         {
-            ChromiumWebBrowser browser = new ChromiumWebBrowser(App.EditorFilePath);
-            browser.JavascriptObjectRepository.Register("synServiceAsync", this, true);
-
             string theme = App.Settings.Theme.ApplicationTheme;
-            ScriptTab scriptTab = new ScriptTab(browser, filePath);
+            ScriptTab scriptTab = new ScriptTab(filePath)
+            {
+                Text = text,
+                EnableCloseButton = true
+            };
             Tabs.Collection.Insert(Tabs.Collection.Count - 1, scriptTab);
             SelectedTab = scriptTab;
 
-            browser.FrameLoadEnd += (s, e) =>
+            if (saveTabs && string.IsNullOrEmpty(text))
             {
-                if (e.Frame.IsMain)
+                userControl.Dispatcher.Invoke(() =>
                 {
-                    scriptTab.EditorReady = true;
-                }
-            };
-
-            SetEditorTheme(scriptTab, theme);
-
-            if (string.IsNullOrEmpty(text))
-            {
-                if (saveTabs)
-                {
-                    userControl.Dispatcher.Invoke(() =>
-                    {
-                        SaveTabs();
-                    });
-                }
-            }
-            else
-            {
-                scriptTab.Text = text;
-                SetEditorText(scriptTab, text, saveTabs);
+                    SaveTabs();
+                });
             }
 
             return scriptTab;
         }
 
-        public void CloseTab(ScriptTab scriptTab, bool saveTabs)
+        public void CloseTab(ScriptTab scriptTab, bool saveTabs, bool skipConfirmation = false)
         {
-            if (App.SxOptions.CloseConfirmation && !App.ShowPrompt("Close Tab", "Are you sure that you want to close this tab? All changes will be lost!", PromptType.YesNo))
+            if (!skipConfirmation &&
+                App.SxOptions.CloseConfirmation &&
+                !App.ShowPrompt("Close Tab", "Are you sure that you want to close this tab? All changes will be lost!", PromptType.YesNo))
             {
                 return;
-            }
-
-            if (scriptTab.Editor.IsBrowserInitialized)
-            {
-                IBrowserHost browserHost = scriptTab.Editor.GetBrowserHost();
-                browserHost.CloseBrowser(true);
-                browserHost.CloseDevTools();
             }
 
             Tabs.Collection.Remove(scriptTab);
@@ -334,7 +350,7 @@ namespace SynapseXUI.ViewModels
             if (Tabs.Collection.Count == 1)
             {
                 AddTab(false);
-                FocusEditor(SelectedTab, true);
+                //FocusEditor(true);
             }
 
             if (saveTabs)
@@ -343,53 +359,49 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public void FocusEditor(ScriptTab scriptTab, bool skipDetectCheck = false)
+        public void FocusEditor(bool skipDetectCheck = false)
         {
-            if ((skipDetectCheck || detectScriptTabChange) && scriptTab != null)
+            if ((skipDetectCheck || detectScriptTabChange) && SelectedTab != null)
             {
                 Task.Run(() =>
                 {
-                    while (!scriptTab.EditorReady) { }
+                    while (!editorReady) { }
                     userControl.Dispatcher.Invoke(() =>
                     {
-                        scriptTab.Editor.ExecuteScriptAsync("editor.focus();");
+                        Editor.Focus();
+                        Editor.ExecuteScriptAsync("editor.focus();");
                     });
                 });
             }
         }
 
-        public void SetEditorTheme(ScriptTab scriptTab, string theme)
+        public void SetEditorTheme(string theme)
         {
             Task.Run(() =>
             {
-                while (!scriptTab.EditorReady) { }
+                while (!editorReady) { }
                 userControl.Dispatcher.Invoke(() =>
                 {
                     if (theme == "Dark")
                     {
-                        scriptTab.Editor.ExecuteScriptAsync("SetTheme", "tomorrow_night_eighties");
+                        Editor.ExecuteScriptAsync("SetTheme", "tomorrow_night_eighties");
                     }
                     else
                     {
-                        scriptTab.Editor.ExecuteScriptAsync("SetTheme", "chrome");
+                        Editor.ExecuteScriptAsync("SetTheme", "chrome");
                     }
                 });
             });
         }
 
-        public void SetAllEditorThemes(string theme)
-        {
-            Tabs.Collection.Where(x => !x.IsAddTabButton).ToList().ForEach(x => SetEditorTheme(x, theme));
-        }
-
-        public void SetEditorText(ScriptTab scriptTab, string text, bool saveTabs)
+        public void SetEditorText(string text, bool saveTabs)
         {
             Task.Run(() =>
             {
-                while (!scriptTab.EditorReady) { }
+                while (!editorReady) { }
                 userControl.Dispatcher.Invoke(() =>
                 {
-                    scriptTab.Editor.ExecuteScriptAsync("SetText", text);
+                    Editor.ExecuteScriptAsync("SetText", text);
                     if (saveTabs)
                     {
                         SaveTabs();
@@ -406,7 +418,7 @@ namespace SynapseXUI.ViewModels
             }
 
             SelectedTab.Text = string.Empty;
-            SelectedTab.Editor.ExecuteScriptAsync("ClearText()");
+            Editor.ExecuteScriptAsync("ClearText()");
         }
 
         public void SaveFileAs(string text)
@@ -465,7 +477,8 @@ namespace SynapseXUI.ViewModels
                 string script = File.ReadAllText(scriptFilePath);
 
                 scriptTab.Text = script;
-                SetEditorText(scriptTab, script, true);
+                SetEditorText(script, true);
+                FocusEditor();
             }
         }
 
@@ -484,14 +497,27 @@ namespace SynapseXUI.ViewModels
 
         public void CloseAllTabs(ScriptTab tabToExclude = null)
         {
+            if (App.SxOptions.CloseConfirmation)
+            {
+                if ((tabToExclude is null &&
+                    !App.ShowPrompt("Close All Tabs", "Are you sure that you want to close all tabs?", PromptType.YesNo))
+                    ||
+                    (tabToExclude != null &&
+                    !App.ShowPrompt("Close All Tabs", "Are you sure that you want to close all but selected tabs?", PromptType.YesNo)))
+                {
+                    return;
+                }
+            }
+
             detectScriptTabChange = false;
             List<ScriptTab> tabs = tabToExclude is null
                 ? Tabs.Collection.Where(x => !x.IsAddTabButton).ToList()
                 : Tabs.Collection.Where(x => x != tabToExclude && !x.IsAddTabButton).ToList();
 
-            tabs.ForEach(x => CloseTab(x, false));
+            tabs.ForEach(x => CloseTab(x, false, true));
             SaveTabs();
             detectScriptTabChange = true;
+            //FocusEditor();
         }
 
         #region CEF Sharp Methods
