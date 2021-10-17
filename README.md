@@ -8,6 +8,8 @@ A custom Synapse X user interface with the following features:
 - Built-in utilities
   - Kill Roblox
 
+### Any virus results are false positives, it's because of sxlib.dll
+
 ## Screenshots
 ![Synapse loader initializing](https://user-images.githubusercontent.com/42714453/136986287-ebf8cae4-d9e1-4e45-9fab-1e214d8b9847.png)
 ![Synapse loader ready](https://user-images.githubusercontent.com/42714453/136986330-5e986a96-07a1-46d4-bca4-e269a0b796c2.png)
