@@ -8,7 +8,7 @@
 - Built-in utilities
   - Kill Roblox
 
-#### IMPORTANT: Any virus results are false positives, it's because of sxlib.dll and SLInjector.dll (which is a part of Synapse X)
+#### Any virus results are false positives, it's because of sxlib.dll and SLInjector.dll (which is a part of Synapse X)
 
 ## Screenshots
 ![Synapse loader initializing](https://user-images.githubusercontent.com/42714453/136986287-ebf8cae4-d9e1-4e45-9fab-1e214d8b9847.png)
