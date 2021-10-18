@@ -24,7 +24,7 @@
 4. Join a game and have fun
 
 ## Known bugs
-- Very rarely it crashes with an encrypted data is null exception (i haven't experienced it in the latest version but it can happen)
+- Very rarely it crashes with an encrypted data is null exception (i haven't experienced it since version 1.0.2 but it can happen)
 
 ## Credits
 - StitchTheSecond#3549 (570478646851010562)
