@@ -7,7 +7,7 @@
                  xmlns:viewmodels="clr-namespace:SynapseXUI.ViewModels"
                  d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
                  mc:Ignorable="d"
-                 Title="{Binding Path=SynapseStatus}"
+                 Title="{Binding Path=SynapseStatus, StringFormat='Synapse X{0}'}"
                  Height="500"
                  Width="800"
                  MinHeight="500"
@@ -16,10 +16,10 @@
                  Closing="MetroWindow_Closing">
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
-            <Button x:Name="buttonUtilities"
-                    Content="Utilities"
+            <Button x:Name="buttonKillRoblox"
+                    Content="Kill Roblox"
                     Cursor="Hand"
-                    Click="ButtonUtilities_Click" />
+                    Click="ButtonKillRoblox_Click" />
             <Button x:Name="buttonAttach"
                     Content="Attach"
                     Cursor="Hand"
@@ -59,21 +59,6 @@
                             mah:ControlsHelper.ContentCharacterCasing="Normal"
                             Click="ButtonExecuteHubScript_Click" />
                 </Grid>
-            </mah:Flyout>
-            <mah:Flyout x:Name="flyoutUtilities"
-                        Header="Utilities"
-                        Position="Right"
-                        Theme="Adapt"
-                        Width="350"
-                        IsPinned="False">
-                <StackPanel Margin="10,0,10,10">
-                    <Button x:Name="buttonKillRoblox"
-                            Content="Kill Roblox"
-                            Padding="0,10"
-                            Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"
-                            mah:ControlsHelper.ContentCharacterCasing="Normal"
-                            Click="ButtonKillRoblox_Click" />
-                </StackPanel>
             </mah:Flyout>
         </mah:FlyoutsControl>
     </mah:MetroWindow.Flyouts>

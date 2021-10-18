@@ -51,11 +51,6 @@ namespace SynapseXUI
             ViewModel.SelectedHubScript.Script.Execute();
         }
 
-        private void ButtonUtilities_Click(object sender, RoutedEventArgs e)
-        {
-            flyoutUtilities.IsOpen = true;
-        }
-
         private void ButtonKillRoblox_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.KillRoblox();
