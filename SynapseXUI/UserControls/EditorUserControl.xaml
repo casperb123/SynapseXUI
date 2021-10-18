@@ -43,14 +43,30 @@
             </mah:MetroAnimatedSingleRowTabControl.Resources>
             <mah:MetroAnimatedSingleRowTabControl.ContextMenu>
                 <ContextMenu x:Name="contextMenuEditors">
+                    <ContextMenu.Resources>
+                        <Style TargetType="icons:PackIconMaterialDesign">
+                            <Setter Property="Width"
+                                    Value="12" />
+                            <Setter Property="Height"
+                                    Value="12" />
+                            <Setter Property="Margin"
+                                    Value="5,0,0,0" />
+                        </Style>
+                    </ContextMenu.Resources>
+
+                    <MenuItem x:Name="menuItemReloadFile"
+                              Header="Reload Tab"
+                              IsEnabled="{Binding Path=SelectedTab.FullFilename, Converter={StaticResource NullToBooleanConverter}}"
+                              Click="MenuItemReloadTab_Click">
+                        <MenuItem.Icon>
+                            <icons:PackIconMaterialDesign Kind="Refresh" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <MenuItem x:Name="menuItemEditorsCloseAllTabs"
                               Header="Close All Tabs"
                               Click="MenuItemEditorsCloseAllTabs_Click">
                         <MenuItem.Icon>
-                            <icons:PackIconMaterialDesign Kind="Close"
-                                                          Width="12"
-                                                          Height="12"
-                                                          Margin="5,0,0,0" />
+                            <icons:PackIconMaterialDesign Kind="Close" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="menuItemEditorsCloseAllButSelected"
@@ -58,10 +74,7 @@
                               IsEnabled="{Binding Path=SelectedTab, Mode=OneWay, Converter={StaticResource NullToBooleanConverter}}"
                               Click="MenuItemEditorsCloseAllButSelected_Click">
                         <MenuItem.Icon>
-                            <icons:PackIconMaterialDesign Kind="Close"
-                                                          Width="12"
-                                                          Height="12"
-                                                          Margin="5,0,0,0" />
+                            <icons:PackIconMaterialDesign Kind="Close" />
                         </MenuItem.Icon>
                     </MenuItem>
                 </ContextMenu>
@@ -78,44 +91,43 @@
             <ListBox.ContextMenu>
                 <ContextMenu x:Name="contextMenuScripts"
                              IsEnabled="{Binding Path=SelectedScriptFile, Mode=OneWay, Converter={StaticResource NullToBooleanConverter}}">
+                    <ContextMenu.Resources>
+                        <Style TargetType="icons:PackIconMaterialDesign">
+                            <Setter Property="Width"
+                                    Value="12" />
+                            <Setter Property="Height"
+                                    Value="12" />
+                            <Setter Property="Margin"
+                                    Value="5,0,0,0" />
+                        </Style>
+                    </ContextMenu.Resources>
+                    
                     <MenuItem x:Name="menuItemScriptsExecute"
                               Header="Execute"
                               Click="MenuItemScriptsExecute_Click">
                         <MenuItem.Icon>
-                            <icons:PackIconMaterialDesign Kind="PlayArrow"
-                                                          Width="12"
-                                                          Height="12"
-                                                          Margin="5,0,0,0" />
+                            <icons:PackIconMaterialDesign Kind="PlayArrow" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="menuItemScriptsLoadCurrentTab"
                               Header="Load to current tab"
                               Click="MenuItemScriptsLoadCurrentTab_Click">
                         <MenuItem.Icon>
-                            <icons:PackIconMaterialDesign Kind="OpenInBrowser"
-                                                          Width="12"
-                                                          Height="12"
-                                                          Margin="5,0,0,0" />
+                            <icons:PackIconMaterialDesign Kind="OpenInBrowser" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="menuItemScriptsLoadNewTab"
                               Header="Load to new tab"
                               Click="MenuItemScriptsLoadNewTab_Click">
                         <MenuItem.Icon>
-                            <icons:PackIconMaterialDesign Kind="OpenInNew"
-                                                          Width="12"
-                                                          Height="12"
-                                                          Margin="5,0,0,0" />
+                            <icons:PackIconMaterialDesign Kind="OpenInNew" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="menuItemScriptsDelete"
                               Header="Delete"
                               Click="MenuItemScriptsDelete_Click">
                         <MenuItem.Icon>
-                            <icons:PackIconMaterialDesign Kind="Delete"
-                                                          Width="12"
-                                                          Height="12"
-                                                          Margin="5,0,0,0" />
+                            <icons:PackIconMaterialDesign Kind="Delete" />
                         </MenuItem.Icon>
                     </MenuItem>
                 </ContextMenu>

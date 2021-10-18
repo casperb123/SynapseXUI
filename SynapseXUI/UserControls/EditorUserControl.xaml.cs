@@ -60,6 +60,11 @@ namespace SynapseXUI.UserControls
             ViewModel.DeleteFile();
         }
 
+        private void MenuItemReloadTab_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ReloadTab();
+        }
+
         private void MenuItemEditorsCloseAllTabs_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.CloseAllTabs();

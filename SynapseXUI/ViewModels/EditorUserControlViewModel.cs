@@ -500,6 +500,14 @@ namespace SynapseXUI.ViewModels
             }
         }
 
+        public void ReloadTab()
+        {
+            string text = File.ReadAllText(SelectedTab.FullFilename);
+
+            SelectedTab.Text = text;
+            SetEditorText(text, true);
+        }
+
         public void CloseAllTabs(ScriptTab tabToExclude = null)
         {
             if (App.SxOptions.CloseConfirmation)
