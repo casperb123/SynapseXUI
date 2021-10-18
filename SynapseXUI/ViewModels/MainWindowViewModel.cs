@@ -79,9 +79,9 @@ namespace SynapseXUI.ViewModels
             scriptHubUserControl.ViewModel.Loaded = true;
         }
 
-        private void Lib_AttachEvent(SxLibBase.SynAttachEvents e, object Param)
+        private void Lib_AttachEvent(SxLibBase.SynAttachEvents Event, object Param)
         {
-            switch (e)
+            switch (Event)
             {
                 case SxLibBase.SynAttachEvents.CHECKING:
                     SetSynapseStatus("Checking...");

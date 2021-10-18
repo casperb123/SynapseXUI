@@ -261,15 +261,16 @@ namespace SynapseXUI.ViewModels
                     {
                         if (!string.IsNullOrEmpty(tab.FullFilename) && File.Exists(tab.FullFilename))
                         {
-                            AddTab(false, tab.FullFilename, tab.Text);
+                            AddTab(false, tab.FullFilename, tab.Text, false);
                         }
                         else
                         {
-                            AddTab(false, text: tab.Text);
+                            AddTab(false, text: tab.Text, scrollToEnd: false);
                         }
                     }
 
                     userControl.tabControlEditors.SelectedIndex = scriptTabs.SelectedIndex;
+                    userControl.tabControlEditors.GetSelectedTabItem().BringIntoView();
                 }
             }
         }
@@ -314,7 +315,7 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public ScriptTab AddTab(bool saveTabs, string filePath = null, string text = null)
+        public ScriptTab AddTab(bool saveTabs, string filePath = null, string text = null, bool scrollToEnd = true)
         {
             string theme = App.Settings.Theme.ApplicationTheme;
             ScriptTab scriptTab = new ScriptTab(filePath)
@@ -324,7 +325,11 @@ namespace SynapseXUI.ViewModels
             };
             Tabs.Collection.Insert(Tabs.Collection.Count - 1, scriptTab);
             SelectedTab = scriptTab;
-            userControl.tabControlEditors.GetSelectedTabItem().BringIntoView(new Rect(new Size(10000, 0)));
+
+            if (scrollToEnd)
+            {
+                userControl.tabControlEditors.GetSelectedTabItem().BringIntoView(new Rect(new Size(10000, 0)));
+            }
 
             if (saveTabs && string.IsNullOrEmpty(text))
             {
@@ -351,7 +356,6 @@ namespace SynapseXUI.ViewModels
             if (Tabs.Collection.Count == 1)
             {
                 AddTab(false);
-                //FocusEditor(true);
             }
 
             if (saveTabs)
