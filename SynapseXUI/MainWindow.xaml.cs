@@ -30,7 +30,6 @@ namespace SynapseXUI
             ViewModel.EditorUserControl.ViewModel.SaveTabs();
             ViewModel.SaveSettings();
             Cef.ShutdownWithoutChecks();
-            ((IDisposable)App.Lib).Dispose();
         }
 
         private void ButtonAttach_Click(object sender, RoutedEventArgs e)
