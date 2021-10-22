@@ -11,6 +11,21 @@ namespace SynapseXUI.Entities
         private object header;
         private bool enableCloseButton;
         private string text;
+        [NonSerialized]
+        private bool textChanged;
+
+        [field: NonSerialized]
+        public bool IsInitialized { get; set; }
+
+        public bool TextChanged
+        {
+            get => textChanged;
+            set
+            {
+                textChanged = value;
+                OnPropertyChanged(nameof(TextChanged));
+            }
+        }
 
         public string Text
         {

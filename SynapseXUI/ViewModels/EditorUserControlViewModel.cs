@@ -165,7 +165,7 @@ namespace SynapseXUI.ViewModels
 
                     if (App.Settings.SaveTabs && File.Exists(App.TabsFilePath) && !string.IsNullOrWhiteSpace(File.ReadAllText(App.TabsFilePath)))
                     {
-                        GetTabs();
+                        LoadTabs();
                     }
                     else
                     {
@@ -243,7 +243,7 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        private void GetTabs()
+        private void LoadTabs()
         {
             using (StreamReader reader = new StreamReader(App.TabsFilePath))
             {
@@ -261,7 +261,7 @@ namespace SynapseXUI.ViewModels
                     {
                         if (!string.IsNullOrEmpty(tab.FullFilename) && File.Exists(tab.FullFilename))
                         {
-                            AddTab(false, tab.FullFilename, tab.Text, false);
+                            AddTab(false, tab.FullFilename, scrollToEnd: false);
                         }
                         else
                         {
@@ -320,9 +320,10 @@ namespace SynapseXUI.ViewModels
             string theme = App.Settings.Theme.ApplicationTheme;
             ScriptTab scriptTab = new ScriptTab(filePath)
             {
-                Text = text,
+                Text = string.IsNullOrEmpty(filePath) ? text : File.ReadAllText(filePath),
                 EnableCloseButton = true
             };
+
             Tabs.Collection.Insert(Tabs.Collection.Count - 1, scriptTab);
             SelectedTab = scriptTab;
 
@@ -424,6 +425,7 @@ namespace SynapseXUI.ViewModels
 
             SelectedTab.Text = string.Empty;
             Editor.ExecuteScriptAsync("ClearText()");
+            SelectedTab.TextChanged = true;
         }
 
         public void SaveFileAs(string text)
@@ -439,12 +441,14 @@ namespace SynapseXUI.ViewModels
             {
                 File.WriteAllText(dialog.FileName, text);
                 SelectedTab.FullFilename = dialog.FileName;
+                SelectedTab.TextChanged = false;
             }
         }
 
         public void SaveFile(ScriptTab scriptTab)
         {
             File.WriteAllText(scriptTab.FullFilename, scriptTab.Text);
+            SelectedTab.TextChanged = false;
         }
 
         public void OpenFile(bool newTab, string filePath = null)
@@ -535,7 +539,12 @@ namespace SynapseXUI.ViewModels
         #region CEF Sharp Methods
         public void TextChanged(string text)
         {
+            if (SelectedTab.IsInitialized && SelectedTab.Text != text)
+            {
+                SelectedTab.TextChanged = true;
+            }
             SelectedTab.Text = text;
+            SelectedTab.IsInitialized = true;
         }
         #endregion
     }

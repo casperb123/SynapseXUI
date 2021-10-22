@@ -39,6 +39,19 @@
                             Value="{Binding Path=Editor, Source={x:Static viewModels:EditorUserControlViewModel.Instance}}" />
                     <Setter Property="Tag"
                             Value="{Binding}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=TextChanged}"
+                                     Value="True">
+                            <Setter Property="HeaderTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}"
+                                                   TextDecorations="Underline" />
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
                 </Style>
             </mah:MetroAnimatedSingleRowTabControl.Resources>
             <mah:MetroAnimatedSingleRowTabControl.ContextMenu>
