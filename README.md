@@ -21,7 +21,7 @@
 1. Go to the [latest release](https://github.com/casperb123/SynapseXUI/releases/latest) and download SynapseXUI.zip
 2. Extract everything into your Synapse X folder
 3. Run SynapseXUI.exe and the UI should open
-4. Join a game and have fun
+4. Join a game, click on the Attach button and have fun
 
 ## Known bugs
 - Very rarely it crashes with an encrypted data is null exception (i haven't experienced it since version 1.0.2 but it can happen)
