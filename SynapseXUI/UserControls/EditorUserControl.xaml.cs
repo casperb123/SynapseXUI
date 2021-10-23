@@ -1,4 +1,4 @@
-﻿using SynapseXUI.Entities;
+﻿using SynapseXUI.Entities.Scripts;
 using SynapseXUI.ViewModels;
 using System.Windows;
 using System.Windows.Controls;

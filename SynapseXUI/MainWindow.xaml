@@ -41,8 +41,8 @@
 
     <mah:MetroWindow.Flyouts>
         <mah:FlyoutsControl>
-            <mah:Flyout x:Name="flyoutScript"
-                        Header="{Binding Path=SelectedHubScript.Name}"
+            <mah:Flyout x:Name="flyoutSynapseScript"
+                        Header="{Binding Path=SelectedSynapseHubScript.Name}"
                         Position="Right"
                         Theme="Adapt"
                         Width="350"
@@ -57,19 +57,19 @@
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
 
-                    <Image Source="{Binding Path=SelectedHubScript.Picture}"
+                    <Image Source="{Binding Path=SelectedSynapseHubScript.Picture}"
                            Stretch="UniformToFill" />
-                    <TextBlock Text="{Binding Path=SelectedHubScript.Description}"
+                    <TextBlock Text="{Binding Path=SelectedSynapseHubScript.Description}"
                                Grid.Row="1"
                                Margin="0,10,0,0"
                                TextWrapping="Wrap" />
-                    <Button x:Name="buttonExecuteHubScript"
+                    <Button x:Name="buttonExecuteSynapseHubScript"
                             Content="Execute"
                             Grid.Row="2"
                             Padding="0,10"
                             Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"
                             mah:ControlsHelper.ContentCharacterCasing="Normal"
-                            Click="ButtonExecuteHubScript_Click" />
+                            Click="ButtonExecuteSynapseHubScript_Click" />
                 </Grid>
             </mah:Flyout>
         </mah:FlyoutsControl>

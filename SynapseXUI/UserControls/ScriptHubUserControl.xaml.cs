@@ -1,7 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using SynapseXUI.ViewModels;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace SynapseXUI.UserControls
 {
@@ -10,18 +7,15 @@ namespace SynapseXUI.UserControls
     /// </summary>
     public partial class ScriptHubUserControl : UserControl
     {
-        public readonly ScriptHubUserControlViewModel ViewModel;
-
         public ScriptHubUserControl()
         {
             InitializeComponent();
-            ViewModel = new ScriptHubUserControlViewModel();
-            DataContext = ViewModel;
         }
 
-        private void Tile_Click(object sender, RoutedEventArgs e)
+        public void InitiateScriptHubs()
         {
-            ViewModel.OpenScript(sender as Tile);
+            userControlSynapseHub.Content = new SynapseHubUserControl();
+            userControlRbxScripts.Content = new RbxScriptsHubUserControl();
         }
     }
 }

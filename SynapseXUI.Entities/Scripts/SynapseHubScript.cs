@@ -1,9 +1,9 @@
 ﻿using sxlib.Specialized;
 using System.ComponentModel;
 
-namespace SynapseXUI.Entities
+namespace SynapseXUI.Entities.Scripts
 {
-    public class ScriptHubScript : INotifyPropertyChanged
+    public class SynapseHubScript : INotifyPropertyChanged
     {
         private string name;
         private string picture;
@@ -51,7 +51,7 @@ namespace SynapseXUI.Entities
             }
         }
 
-        public ScriptHubScript(SxLibBase.SynHubEntry script)
+        public SynapseHubScript(SxLibBase.SynHubEntry script)
         {
             Name = script.Name;
             Picture = script.Picture;

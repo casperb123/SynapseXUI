@@ -1,14 +1,16 @@
 ﻿using MahApps.Metro.Controls;
-using SynapseXUI.Entities;
+using sxlib.Specialized;
+using SynapseXUI.Entities.Scripts;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 
 namespace SynapseXUI.ViewModels
 {
-    public class ScriptHubUserControlViewModel : INotifyPropertyChanged
+    public class SynapseHubUserControlViewModel : INotifyPropertyChanged
     {
-        private ObservableCollection<ScriptHubScript> scripts;
+        private ObservableCollection<SynapseHubScript> scripts;
         private bool loaded;
 
         public bool Loaded
@@ -21,7 +23,7 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public ObservableCollection<ScriptHubScript> Scripts
+        public ObservableCollection<SynapseHubScript> Scripts
         {
             get => scripts;
             set
@@ -41,15 +43,23 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public ScriptHubUserControlViewModel()
+        public SynapseHubUserControlViewModel()
         {
-            Scripts = new ObservableCollection<ScriptHubScript>();
+            Scripts = new ObservableCollection<SynapseHubScript>();
+            App.Lib.ScriptHubEvent += Lib_ScriptHubEvent;
+            App.Lib.ScriptHub();
+        }
+
+        private void Lib_ScriptHubEvent(List<SxLibBase.SynHubEntry> e)
+        {
+            e.ForEach(x => Scripts.Add(new SynapseHubScript(x)));
+            Loaded = true;
         }
 
         public void OpenScript(Tile tile)
         {
-            MainWindow.Instance.ViewModel.SelectedHubScript = Scripts.FirstOrDefault(x => x.Name == tile.Title);
-            MainWindow.Instance.flyoutScript.IsOpen = true;
+            MainWindow.Instance.ViewModel.SelectedSynapseHubScript = Scripts.FirstOrDefault(x => x.Name == tile.Title);
+            MainWindow.Instance.flyoutSynapseScript.IsOpen = true;
         }
     }
 }

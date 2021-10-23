@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.IO;
 
-namespace SynapseXUI.Entities
+namespace SynapseXUI.Entities.Scripts
 {
     [Serializable]
     public class ScriptTab : INotifyPropertyChanged

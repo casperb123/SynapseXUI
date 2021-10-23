@@ -1,5 +1,6 @@
 ﻿using sxlib.Specialized;
 using SynapseXUI.Entities;
+using SynapseXUI.Entities.Scripts;
 using SynapseXUI.UserControls;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,20 +13,31 @@ namespace SynapseXUI.ViewModels
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private readonly MainWindow mainWindow;
-        private readonly ScriptHubUserControl scriptHubUserControl;
         private readonly OptionsUserControl optionsUserControl;
         private string synapseStatus;
-        private ScriptHubScript selectedHubScript;
+        private SynapseHubScript selectedSynapseHubScript;
+        private RbxHubScript selectedRbxHubcScript;
 
         public EditorUserControl EditorUserControl { get; private set; }
+        public ScriptHubUserControl ScriptHubUserControl { get; private set; }
 
-        public ScriptHubScript SelectedHubScript
+        public RbxHubScript SelectedRbxHubScript
         {
-            get => selectedHubScript;
+            get => selectedRbxHubcScript;
             set
             {
-                selectedHubScript = value;
-                OnPropertyChanged(nameof(SelectedHubScript));
+                selectedRbxHubcScript = value;
+                OnPropertyChanged(nameof(SelectedRbxHubScript));
+            }
+        }
+
+        public SynapseHubScript SelectedSynapseHubScript
+        {
+            get => selectedSynapseHubScript;
+            set
+            {
+                selectedSynapseHubScript = value;
+                OnPropertyChanged(nameof(SelectedSynapseHubScript));
             }
         }
 
@@ -52,15 +64,13 @@ namespace SynapseXUI.ViewModels
         public MainWindowViewModel(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
-
-            App.Lib.ScriptHubEvent += Lib_ScriptHubEvent;
             App.Lib.AttachEvent += Lib_AttachEvent;
 
             EditorUserControl = new EditorUserControl();
-            scriptHubUserControl = new ScriptHubUserControl();
+            ScriptHubUserControl = new ScriptHubUserControl();
             optionsUserControl = new OptionsUserControl();
             mainWindow.userControlEditor.Content = EditorUserControl;
-            mainWindow.userControlScriptHub.Content = scriptHubUserControl;
+            mainWindow.userControlScriptHub.Content = ScriptHubUserControl;
             mainWindow.userControlOptions.Content = optionsUserControl;
 
             if (App.Settings.WindowSize.SaveWindowSize &&
@@ -71,12 +81,6 @@ namespace SynapseXUI.ViewModels
                 mainWindow.Height = App.Settings.WindowSize.WindowHeight;
                 mainWindow.WindowState = App.Settings.WindowSize.WindowState;
             }
-        }
-
-        private void Lib_ScriptHubEvent(List<SxLibBase.SynHubEntry> e)
-        {
-            e.ForEach(x => scriptHubUserControl.ViewModel.Scripts.Add(new ScriptHubScript(x)));
-            scriptHubUserControl.ViewModel.Loaded = true;
         }
 
         private void Lib_AttachEvent(SxLibBase.SynAttachEvents Event, object Param)

@@ -131,6 +131,9 @@
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.37\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="sxlib">
       <HintPath>..\..\..\..\Desktop\Hacks\Synapse X\bin\sxlib\sxlib.dll</HintPath>
     </Reference>
@@ -159,7 +162,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="UserControls\RbxScriptsHubUserControl.xaml.cs">
+      <DependentUpon>RbxScriptsHubUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SynapseHubUserControl.xaml.cs">
+      <DependentUpon>SynapseHubUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\PromptWindowViewModel.cs" />
+    <Compile Include="ViewModels\RbxScriptsHubUserControlViewModel.cs" />
+    <Compile Include="ViewModels\SynapseHubUserControlViewModel.cs" />
     <Compile Include="Windows\LoadingWindow.xaml.cs">
       <DependentUpon>LoadingWindow.xaml</DependentUpon>
     </Compile>
@@ -176,10 +187,17 @@
     <Compile Include="ViewModels\LoadingWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\OptionsUserControlViewModel.cs" />
-    <Compile Include="ViewModels\ScriptHubUserControlViewModel.cs" />
     <Compile Include="Windows\PromptWindow.xaml.cs">
       <DependentUpon>PromptWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="UserControls\RbxScriptsHubUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\SynapseHubUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\LoadingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

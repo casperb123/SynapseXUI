@@ -14,6 +14,8 @@ namespace SynapseXUI
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        private bool hubsInitiated;
+
         public readonly MainWindowViewModel ViewModel;
 
         public static MainWindow Instance { get; private set; }
@@ -40,15 +42,21 @@ namespace SynapseXUI
 
         private void TabControlMain_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (tabItemScriptHub.IsSelected)
+            if (tabItemScriptHub.IsSelected && !hubsInitiated)
             {
-                App.Lib.ScriptHub();
+                ViewModel.ScriptHubUserControl.InitiateScriptHubs();
+                hubsInitiated = true;
             }
         }
 
-        private void ButtonExecuteHubScript_Click(object sender, RoutedEventArgs e)
+        private void ButtonExecuteSynapseHubScript_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.SelectedHubScript.Script.Execute();
+            ViewModel.SelectedSynapseHubScript.Script.Execute();
+        }
+
+        private void ButtonExecuteRbxHubScript_Click(object sender, RoutedEventArgs e)
+        {
+            App.Lib.Execute(ViewModel.SelectedRbxHubScript.Excerpt);
         }
 
         private void ButtonKillRoblox_Click(object sender, RoutedEventArgs e)
