@@ -13,7 +13,19 @@
                  MinHeight="500"
                  MinWidth="800"
                  Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
+                 Icon="synapse.ico"
+                 ShowIconOnTitleBar="True"
                  Closing="MetroWindow_Closing">
+    <mah:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <Grid Margin="0,4"
+                  RenderOptions.EdgeMode="Aliased"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  PreviewMouseDown="IconGrid_PreviewMouseDown">
+                <Image Source="synapse.ico" />
+            </Grid>
+        </DataTemplate>
+    </mah:MetroWindow.IconTemplate>
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
             <Button x:Name="buttonKillRoblox"

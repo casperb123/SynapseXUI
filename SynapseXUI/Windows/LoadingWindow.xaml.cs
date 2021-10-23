@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using SynapseXUI.ViewModels;
+using System.Windows.Input;
 
 namespace SynapseXUI
 {
@@ -17,9 +18,9 @@ namespace SynapseXUI
             DataContext = viewModel;
         }
 
-        private void CheckBox_Checked(object sender, System.Windows.RoutedEventArgs e)
+        private void IconGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            e.Handled = true;
         }
     }
 }

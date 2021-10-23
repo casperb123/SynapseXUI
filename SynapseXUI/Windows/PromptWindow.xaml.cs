@@ -2,6 +2,7 @@
 using SynapseXUI.Entities;
 using SynapseXUI.ViewModels;
 using System.Windows;
+using System.Windows.Input;
 
 namespace SynapseXUI.Windows
 {
@@ -32,6 +33,11 @@ namespace SynapseXUI.Windows
         private void ButtonNo_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
+        }
+
+        private void IconGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }

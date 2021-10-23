@@ -3,9 +3,9 @@ using MahApps.Metro.Controls;
 using SynapseXUI.Entities;
 using SynapseXUI.ViewModels;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace SynapseXUI
 {
@@ -54,6 +54,13 @@ namespace SynapseXUI
         private void ButtonKillRoblox_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.KillRoblox();
+        }
+
+        private void IconGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            App.ShowPrompt("Synapse X", "This UI is developed by Casper:\n" +
+                                        "Discord: CasperTheGhost#3549", PromptType.OK);
         }
     }
 }

@@ -17,7 +17,19 @@
                  ResizeMode="NoResize"
                  WindowStartupLocation="CenterScreen"
                  Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
+                 Icon="../synapse.ico"
+                 ShowIconOnTitleBar="True"
                  Topmost="{Binding Path=LoaderTopMost, Source={x:Static root:App.Settings}}">
+    <mah:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <Grid Margin="0,4"
+                  RenderOptions.EdgeMode="Aliased"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  PreviewMouseDown="IconGrid_PreviewMouseDown">
+                <Image Source="../synapse.ico" />
+            </Grid>
+        </DataTemplate>
+    </mah:MetroWindow.IconTemplate>
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
             <CheckBox Content="Top Most"
