@@ -511,10 +511,13 @@ namespace SynapseXUI.ViewModels
 
         public void ReloadTab()
         {
-            string text = File.ReadAllText(SelectedTab.FullFilename);
-
-            SelectedTab.Text = text;
-            SetEditorText(text, true);
+            if (App.ShowPrompt("Reload Tab", "Are you sure you want to reload the current tab? All unsaved changes will be lost!", PromptType.YesNo))
+            {
+                string text = File.ReadAllText(SelectedTab.FullFilename);
+                SelectedTab.Text = text;
+                SelectedTab.TextChanged = false;
+                SetEditorText(text, true);
+            }
         }
 
         public void CloseAllTabs(ScriptTab tabToExclude = null)

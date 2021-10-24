@@ -67,7 +67,6 @@
                         Click="ButtonYes_Click" />
                 <Button x:Name="buttonNo"
                         Content="No"
-                        Margin="5,0,0,0"
                         Click="ButtonNo_Click" />
             </StackPanel>
         </Grid>

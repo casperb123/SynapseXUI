@@ -74,7 +74,8 @@
             </StackPanel>
         </Grid>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1"
+              Margin="0,5,0,0">
             <mah:ProgressRing Foreground="{DynamicResource MahApps.Brushes.Accent}"
                               IsActive="{Binding Path=IsLoading}" />
             <ScrollViewer HorizontalScrollBarVisibility="Disabled"
