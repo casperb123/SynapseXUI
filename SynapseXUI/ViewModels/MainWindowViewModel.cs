@@ -183,6 +183,8 @@ namespace SynapseXUI.ViewModels
         {
             if (App.ShowPrompt("Reinstall Roblox", "Are you sure you want to reinstall roblox?", PromptType.YesNo))
             {
+                ReinstallingRoblox = true;
+
                 string localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
                 string robloxPath = Path.Combine(localAppData, "Roblox");
                 string robloxFilePath = Path.Combine(App.StartupFolderPath, "RobloxPlayerLauncher.exe");
@@ -226,6 +228,8 @@ namespace SynapseXUI.ViewModels
                         App.ShowPrompt("Roblox Reinstalled", "Roblox has been reinstalled, but the installation file couldn't be deleted. Please delete it yourself", PromptType.OK);
                         Process.Start("explorer.exe", $@"/select,""{robloxFilePath}""");
                     }
+
+                    ReinstallingRoblox = false;
                 }
             }
         }
