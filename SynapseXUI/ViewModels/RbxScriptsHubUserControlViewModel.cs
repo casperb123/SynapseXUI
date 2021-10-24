@@ -1,7 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using Newtonsoft.Json;
 using SynapseXUI.Entities;
-using SynapseXUI.Entities.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

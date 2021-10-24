@@ -35,9 +35,10 @@
                 <mah:ToggleSwitch Header="Unlock FPS"
                                   IsOn="{Binding Path=UnlockFps}"
                                   Toggled="ToggleSwitchSxOptions_Toggled" />
-                <mah:ToggleSwitch Header="Auto Launch"
+                <mah:ToggleSwitch x:Name="toggleSwitchAutoLaunch"
+                                  Header="Auto Launch"
                                   IsOn="{Binding Path=AutoLaunch}"
-                                  Toggled="ToggleSwitchSxOptions_Toggled" />
+                                  Toggled="ToggleSwitchAutoLaunch_Toggled" />
                 <mah:ToggleSwitch Header="Auto Attach"
                                   IsOn="{Binding Path=AutoAttach}"
                                   Toggled="ToggleSwitchSxOptions_Toggled" />

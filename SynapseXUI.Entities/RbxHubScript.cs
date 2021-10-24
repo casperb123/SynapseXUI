@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace SynapseXUI.Entities.Scripts
+namespace SynapseXUI.Entities
 {
     public class RbxHubScript
     {

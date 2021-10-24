@@ -112,13 +112,13 @@
     <Compile Include="Converters\NullToBooleanConverter.cs" />
     <Compile Include="MetroProgressBarAnimateBehavior.cs" />
     <Compile Include="Enums.cs" />
-    <Compile Include="Scripts\RbxHubScript.cs" />
-    <Compile Include="Scripts\ScriptTabs.cs" />
+    <Compile Include="RbxHubScript.cs" />
+    <Compile Include="ScriptTabs.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scripts\ScriptFile.cs" />
-    <Compile Include="Scripts\SynapseHubScript.cs" />
-    <Compile Include="Scripts\ScriptTab.cs" />
+    <Compile Include="ScriptFile.cs" />
+    <Compile Include="SynapseHubScript.cs" />
+    <Compile Include="ScriptTab.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

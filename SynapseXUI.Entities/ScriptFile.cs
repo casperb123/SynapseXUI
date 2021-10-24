@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.IO;
 
-namespace SynapseXUI.Entities.Scripts
+namespace SynapseXUI.Entities
 {
     public class ScriptFile : INotifyPropertyChanged
     {

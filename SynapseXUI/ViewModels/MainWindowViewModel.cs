@@ -1,8 +1,6 @@
 ﻿using sxlib.Specialized;
 using SynapseXUI.Entities;
-using SynapseXUI.Entities.Scripts;
 using SynapseXUI.UserControls;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;

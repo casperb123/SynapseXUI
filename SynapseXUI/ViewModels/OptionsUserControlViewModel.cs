@@ -1,4 +1,5 @@
 ﻿using ControlzEx.Theming;
+using SynapseXUI.Entities;
 using SynapseXUI.UserControls;
 using System.ComponentModel;
 

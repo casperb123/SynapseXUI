@@ -1,4 +1,5 @@
-﻿using SynapseXUI.ViewModels;
+﻿using SynapseXUI.Entities;
+using SynapseXUI.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -20,7 +21,25 @@ namespace SynapseXUI.UserControls
 
         private void ToggleSwitchSxOptions_Toggled(object sender, RoutedEventArgs e)
         {
-            viewModel.SaveSxOptions();
+            if (IsLoaded)
+            {
+                viewModel.SaveSxOptions();
+            }
+        }
+
+        private void ToggleSwitchAutoLaunch_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (IsLoaded &&
+                viewModel.AutoLaunch &&
+                App.ShowPrompt("Auto Launch", "You have selected to enable the Auto Launch option.\n\n" +
+                                              "Please note that this option replaces your launcher with a custom one made by Synapse X. Are you sure you want to continue?", PromptType.YesNo))
+            {
+                viewModel.SaveSxOptions();
+            }
+            else
+            {
+                viewModel.AutoLaunch = false;
+            }
         }
 
         private void ComboBoxSettings_SelectionChanged(object sender, SelectionChangedEventArgs e)

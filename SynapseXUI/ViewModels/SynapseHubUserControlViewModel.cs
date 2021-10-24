@@ -1,6 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using sxlib.Specialized;
-using SynapseXUI.Entities.Scripts;
+using SynapseXUI.Entities;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

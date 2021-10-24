@@ -3,7 +3,6 @@ using CefSharp.Wpf;
 using MahApps.Metro.IconPacks;
 using Microsoft.Win32;
 using SynapseXUI.Entities;
-using SynapseXUI.Entities.Scripts;
 using SynapseXUI.UserControls;
 using System;
 using System.Collections.Generic;
@@ -128,6 +127,7 @@ namespace SynapseXUI.ViewModels
                 {
                     editorReady = true;
                     FocusEditor();
+                    SetEditorTheme(App.Settings.Theme.ApplicationTheme);
                 }
             };
 

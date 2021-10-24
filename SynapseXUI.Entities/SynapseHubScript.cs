@@ -1,7 +1,7 @@
 ﻿using sxlib.Specialized;
 using System.ComponentModel;
 
-namespace SynapseXUI.Entities.Scripts
+namespace SynapseXUI.Entities
 {
     public class SynapseHubScript : INotifyPropertyChanged
     {
