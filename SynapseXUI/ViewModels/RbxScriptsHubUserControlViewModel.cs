@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Net;
+using System.Windows.Input;
 
 namespace SynapseXUI.ViewModels
 {
@@ -14,8 +15,20 @@ namespace SynapseXUI.ViewModels
     {
         private readonly Uri rbxScriptsLink;
         private readonly WebClient webClient;
+        private List<RbxHubScript> loadedScripts;
         private ObservableCollection<RbxHubScript> scripts;
         private bool loaded;
+        private string searchQuery;
+
+        public string SearchQuery
+        {
+            get => searchQuery;
+            set
+            {
+                searchQuery = value;
+                OnPropertyChanged(nameof(SearchQuery));
+            }
+        }
 
         public bool Loaded
         {
@@ -69,10 +82,23 @@ namespace SynapseXUI.ViewModels
             }
             else
             {
-                List<RbxHubScript> scripts = JsonConvert.DeserializeObject<RbxHubScript[]>(e.Result).ToList();
-                scripts.ForEach(x => Scripts.Add(x));
-                Loaded = true;
+                loadedScripts = JsonConvert.DeserializeObject<RbxHubScript[]>(e.Result).ToList();
+                FilterScripts();
             }
+        }
+
+        public void FilterScripts()
+        {
+            Scripts.Clear();
+            if (string.IsNullOrWhiteSpace(SearchQuery))
+            {
+                loadedScripts.ForEach(x => Scripts.Add(x));
+            }
+            else
+            {
+                loadedScripts.Where(x => x.Title.ToLower().Contains(SearchQuery.ToLower())).ToList().ForEach(x => Scripts.Add(x));
+            }
+            Loaded = true;
         }
 
         public void ExecuteScript(Tile tile)

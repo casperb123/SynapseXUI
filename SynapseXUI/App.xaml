@@ -17,6 +17,7 @@
             <converters:NullToBooleanConverter x:Key="NullToBooleanConverter" />
             <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
             <converters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
+            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <!-- #endregion -->
         </ResourceDictionary>
     </Application.Resources>

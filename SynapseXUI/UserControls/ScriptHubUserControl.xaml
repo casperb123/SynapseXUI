@@ -9,7 +9,7 @@
              d:DesignWidth="800">
     <mah:MetroAnimatedSingleRowTabControl x:Name="tabControlHubs"
                                           mah:TabControlHelper.Underlined="SelectedTabItem"
-                                          mah:HeaderedControlHelper.HeaderFontSize="14"
+                                          mah:HeaderedControlHelper.HeaderFontSize="16"
                                           Padding="5">
         <TabItem Header="Synapse Scripts">
             <UserControl x:Name="userControlSynapseHub" />
