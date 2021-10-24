@@ -43,15 +43,11 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <TextBox Text="{Binding Path=Message}"
-                 TextWrapping="Wrap"
-                 FontSize="13"
-                 Margin="0,0,0,15"
-                 Background="Transparent"
-                 BorderThickness="0"
-                 IsReadOnly="True"
-                 Padding="0"
-                 Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" />
+        <TextBlock Text="{Binding Path=Message}"
+                   TextWrapping="Wrap"
+                   FontSize="13"
+                   Margin="0,0,0,15"
+                   Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" />
 
         <Grid Grid.Row="1"
               HorizontalAlignment="Right">
