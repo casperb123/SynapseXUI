@@ -23,11 +23,13 @@
                                       mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
                                       Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
                                       FontWeight="DemiBold"
-                                      Width="120"
+                                      Width="185"
                                       Height="120"
                                       Click="Tile_Click">
                                 <Grid>
-                                    <Image Source="{Binding Path=Picture}" />
+                                    <Image Source="{Binding Path=Picture}"
+                                           Width="185"
+                                           Stretch="UniformToFill" />
                                     <Rectangle Fill="{DynamicResource MahApps.Brushes.ThemeBackground}"
                                                Opacity=".6" />
                                 </Grid>

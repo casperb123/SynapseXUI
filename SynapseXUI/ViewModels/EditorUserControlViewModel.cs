@@ -296,7 +296,11 @@ namespace SynapseXUI.ViewModels
 
         public void ExecuteScript(string script)
         {
-            if (!string.IsNullOrWhiteSpace(script))
+            if (string.IsNullOrWhiteSpace(script))
+            {
+                App.ShowPrompt("Execution error", "You can't execute an empty script", PromptType.OK);
+            }
+            else
             {
                 App.Lib.Execute(script);
             }

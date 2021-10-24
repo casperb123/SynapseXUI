@@ -7,7 +7,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Net;
-using System.Windows.Input;
 
 namespace SynapseXUI.ViewModels
 {
@@ -17,7 +16,7 @@ namespace SynapseXUI.ViewModels
         private readonly WebClient webClient;
         private List<RbxHubScript> loadedScripts;
         private ObservableCollection<RbxHubScript> scripts;
-        private bool loaded;
+        private bool isLoading;
         private string searchQuery;
 
         public string SearchQuery
@@ -30,13 +29,13 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public bool Loaded
+        public bool IsLoading
         {
-            get => loaded;
+            get => isLoading;
             set
             {
-                loaded = value;
-                OnPropertyChanged(nameof(Loaded));
+                isLoading = value;
+                OnPropertyChanged(nameof(IsLoading));
             }
         }
 
@@ -66,7 +65,7 @@ namespace SynapseXUI.ViewModels
             Scripts = new ObservableCollection<RbxHubScript>();
             webClient = new WebClient();
             webClient.DownloadStringCompleted += Client_DownloadStringCompleted;
-            webClient.DownloadStringAsync(rbxScriptsLink);
+            GetScripts();
         }
 
         private void Client_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
@@ -87,6 +86,13 @@ namespace SynapseXUI.ViewModels
             }
         }
 
+        public void GetScripts()
+        {
+            IsLoading = true;
+            Scripts.Clear();
+            webClient.DownloadStringAsync(rbxScriptsLink);
+        }
+
         public void FilterScripts()
         {
             Scripts.Clear();
@@ -98,7 +104,7 @@ namespace SynapseXUI.ViewModels
             {
                 loadedScripts.Where(x => x.Title.ToLower().Contains(SearchQuery.ToLower())).ToList().ForEach(x => Scripts.Add(x));
             }
-            Loaded = true;
+            IsLoading = false;
         }
 
         public void ExecuteScript(Tile tile)

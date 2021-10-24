@@ -50,8 +50,14 @@ namespace SynapseXUI.UserControls
 
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            textBoxSearch.Focus();
             viewModel.SearchQuery = null;
             viewModel.FilterScripts();
+        }
+
+        private void ButtonReload_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.GetScripts();
         }
     }
 }

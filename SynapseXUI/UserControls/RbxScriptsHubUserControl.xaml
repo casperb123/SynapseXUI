@@ -15,7 +15,7 @@
         <CommandBinding Command="{x:Static local:RbxScriptsHubUserControl.ClearTextCommand}"
                         Executed="CommandBinding_Executed" />
     </UserControl.CommandBindings>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -28,12 +28,19 @@
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
 
-            <StackPanel Orientation="Horizontal"
-                        Margin="5">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="buttonReload"
+                        Margin="0,0,5,0"
+                        Width="30"
+                        IsEnabled="{Binding Path=IsLoading, Converter={StaticResource InverseBooleanConverter}}"
+                        Click="ButtonReload_Click">
+                    <icons:PackIconMaterialDesign Kind="Refresh" />
+                </Button>
                 <TextBlock Text="{Binding Path=Scripts.Count, StringFormat='RBX Scripts ({0})'}"
                            FontWeight="Bold"
                            FontSize="14"
-                           Margin="0,0,5,0"
+                           Margin="5,0,5,0"
+                           VerticalAlignment="Center"
                            Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" />
                 <TextBlock VerticalAlignment="Center"
                            FontSize="14"
@@ -48,11 +55,12 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right"
-                        Grid.Column="1">
+                        Grid.Column="1"
+                        IsEnabled="{Binding Path=IsLoading, Converter={StaticResource InverseBooleanConverter}}">
                 <TextBox x:Name="textBoxSearch"
                          Text="{Binding Path=SearchQuery, UpdateSourceTrigger=PropertyChanged}"
                          mah:TextBoxHelper.Watermark="Search for title"
-                         mah:TextBoxHelper.ClearTextButton="True"
+                         mah:TextBoxHelper.ClearTextButton="{Binding Path=IsFocused, RelativeSource={RelativeSource Self}}"
                          mah:TextBoxHelper.ButtonCommand="{x:Static local:RbxScriptsHubUserControl.ClearTextCommand}"
                          Width="400"
                          Margin="0,0,5,0"
@@ -68,7 +76,7 @@
 
         <Grid Grid.Row="1">
             <mah:ProgressRing Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                              IsActive="{Binding Path=Loaded, Converter={StaticResource InverseBooleanConverter}}" />
+                              IsActive="{Binding Path=IsLoading}" />
             <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                           VerticalScrollBarVisibility="Auto">
                 <WrapPanel Orientation="Horizontal">
@@ -81,12 +89,13 @@
                                           Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
                                           FontWeight="DemiBold"
                                           Tag="{Binding Path=Id}"
-                                          Width="120"
+                                          Width="185"
                                           Height="120"
-                                          Visibility="{Binding Path=Display, Converter={StaticResource BooleanToVisibilityConverter}}"
                                           Click="Tile_Click">
                                     <Grid>
-                                        <Image Source="{Binding Path=FeaturedImage.Thumbnail}" />
+                                        <Image Source="{Binding Path=FeaturedImage.Thumbnail}"
+                                               Width="200"
+                                               Stretch="UniformToFill" />
                                         <Rectangle Fill="{DynamicResource MahApps.Brushes.ThemeBackground}"
                                                    Opacity=".6" />
                                     </Grid>

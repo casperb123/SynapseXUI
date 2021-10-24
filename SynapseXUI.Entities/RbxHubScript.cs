@@ -5,18 +5,6 @@ namespace SynapseXUI.Entities
 {
     public class RbxHubScript : INotifyPropertyChanged
     {
-        private bool display;
-
-        public bool Display
-        {
-            get => display;
-            set
-            {
-                display = value;
-                OnPropertyChanged(nameof(Display));
-            }
-        }
-
         [JsonProperty("id")]
         public int Id { get; set; }
 
@@ -43,11 +31,6 @@ namespace SynapseXUI.Entities
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
             }
-        }
-
-        public RbxHubScript()
-        {
-            Display = true;
         }
     }
 
