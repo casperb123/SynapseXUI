@@ -64,6 +64,11 @@ namespace SynapseXUI
             ViewModel.KillRoblox();
         }
 
+        private void ButtonReinstallRoblox_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ReinstallRoblox();
+        }
+
         private void IconGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;

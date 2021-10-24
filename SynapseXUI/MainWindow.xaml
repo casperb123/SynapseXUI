@@ -28,6 +28,11 @@
     </mah:MetroWindow.IconTemplate>
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
+            <Button x:Name="buttonReinstallRoblox"
+                    Content="Reinstall Roblox"
+                    Cursor="Hand"
+                    IsEnabled="{Binding Path=ReinstallingRoblox, Converter={StaticResource InverseBooleanConverter}}"
+                    Click="ButtonReinstallRoblox_Click" />
             <Button x:Name="buttonKillRoblox"
                     Content="Kill Roblox"
                     Cursor="Hand"
