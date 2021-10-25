@@ -62,7 +62,7 @@
                          mah:TextBoxHelper.Watermark="Search for title"
                          mah:TextBoxHelper.ClearTextButton="{Binding Path=IsFocused, RelativeSource={RelativeSource Self}}"
                          mah:TextBoxHelper.ButtonCommand="{x:Static local:RbxScriptsHubUserControl.ClearTextCommand}"
-                         Width="400"
+                         Width="380"
                          Margin="0,0,0,0"
                          KeyDown="TextBoxSearch_KeyDown" />
                 <Button x:Name="buttonSearch"
