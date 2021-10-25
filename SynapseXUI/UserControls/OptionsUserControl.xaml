@@ -76,11 +76,6 @@
                                       OffContent="Disabled"
                                       IsOn="{Binding Path=SaveTabs, Source={x:Static root:App.Settings}}"
                                       Toggled="ToggleSwitchSettings_Toggled" />
-                    <mah:ToggleSwitch Header="Delete File Confirmation"
-                                      OnContent="Enabled"
-                                      OffContent="Disabled"
-                                      IsOn="{Binding Path=DeleteFileConfirmation, Source={x:Static root:App.Settings}}"
-                                      Toggled="ToggleSwitchSettings_Toggled" />
                     <mah:ToggleSwitch Header="Save Window Size"
                                       OnContent="Enabled"
                                       OffContent="Disabled"

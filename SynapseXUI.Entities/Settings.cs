@@ -9,7 +9,6 @@ namespace SynapseXUI.Entities
     {
         private Theme theme;
         private WindowSize windowSize;
-        private bool deleteFileConfirmation;
         private bool saveTabs;
         private bool loaderTopMost;
 
@@ -30,16 +29,6 @@ namespace SynapseXUI.Entities
             {
                 saveTabs = value;
                 OnPropertyChanged(nameof(SaveTabs));
-            }
-        }
-
-        public bool DeleteFileConfirmation
-        {
-            get => deleteFileConfirmation;
-            set
-            {
-                deleteFileConfirmation = value;
-                OnPropertyChanged(nameof(DeleteFileConfirmation));
             }
         }
 
@@ -77,7 +66,6 @@ namespace SynapseXUI.Entities
         {
             LoaderTopMost = true;
             SaveTabs = true;
-            DeleteFileConfirmation = true;
             Theme = new Theme();
             WindowSize = new WindowSize();
         }
