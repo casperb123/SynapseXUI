@@ -53,25 +53,29 @@
                     </Hyperlink>
                 </TextBlock>
             </StackPanel>
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Right"
-                        Grid.Column="1"
-                        IsEnabled="{Binding Path=IsLoading, Converter={StaticResource InverseBooleanConverter}}">
+            <Grid Grid.Column="1"
+                  Margin="20,0,0,0"
+                  IsEnabled="{Binding Path=IsLoading, Converter={StaticResource InverseBooleanConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                
                 <TextBox x:Name="textBoxSearch"
                          Text="{Binding Path=SearchQuery, UpdateSourceTrigger=PropertyChanged}"
                          mah:TextBoxHelper.Watermark="Search for title"
                          mah:TextBoxHelper.ClearTextButton="{Binding Path=IsFocused, RelativeSource={RelativeSource Self}}"
                          mah:TextBoxHelper.ButtonCommand="{x:Static local:RbxScriptsHubUserControl.ClearTextCommand}"
-                         Width="380"
                          Margin="0,0,0,0"
                          KeyDown="TextBoxSearch_KeyDown" />
                 <Button x:Name="buttonSearch"
                         Margin="5,0,0,0"
                         Width="30"
+                        Grid.Column="1"
                         Click="ButtonSearch_Click">
                     <icons:PackIconMaterialDesign Kind="Search" />
                 </Button>
-            </StackPanel>
+            </Grid>
         </Grid>
 
         <Grid Grid.Row="1"
