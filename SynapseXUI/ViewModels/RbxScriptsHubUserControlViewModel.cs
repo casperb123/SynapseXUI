@@ -64,7 +64,6 @@ namespace SynapseXUI.ViewModels
             Scripts = new ObservableCollection<RbxHubScript>();
             webClient = new WebClient();
             webClient.DownloadStringCompleted += Client_DownloadStringCompleted;
-            GetScripts();
         }
 
         private void Client_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)

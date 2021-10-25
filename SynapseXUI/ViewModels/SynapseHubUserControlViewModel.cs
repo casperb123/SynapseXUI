@@ -47,13 +47,17 @@ namespace SynapseXUI.ViewModels
         {
             Scripts = new ObservableCollection<SynapseHubScript>();
             App.Lib.ScriptHubEvent += Lib_ScriptHubEvent;
-            App.Lib.ScriptHub();
         }
 
         private void Lib_ScriptHubEvent(List<SxLibBase.SynHubEntry> e)
         {
             e.ForEach(x => Scripts.Add(new SynapseHubScript(x)));
             Loaded = true;
+        }
+
+        public void GetScripts()
+        {
+            App.Lib.ScriptHub();
         }
 
         public void OpenScript(Tile tile)

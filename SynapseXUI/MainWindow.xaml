@@ -83,8 +83,7 @@
     <Grid>
         <mah:MetroAnimatedSingleRowTabControl x:Name="tabControlMain"
                                               mah:TabControlHelper.Underlined="SelectedTabItem"
-                                              Padding="5"
-                                              SelectionChanged="TabControlMain_SelectionChanged">
+                                              Padding="5">
             <TabItem Header="Editor">
                 <UserControl x:Name="userControlEditor" />
             </TabItem>

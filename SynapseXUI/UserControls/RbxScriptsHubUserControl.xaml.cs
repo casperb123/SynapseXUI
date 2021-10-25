@@ -14,13 +14,13 @@ namespace SynapseXUI.UserControls
     {
         public static RoutedCommand ClearTextCommand = new RoutedCommand();
 
-        private readonly RbxScriptsHubUserControlViewModel viewModel;
+        public RbxScriptsHubUserControlViewModel ViewModel { get; private set; }
 
         public RbxScriptsHubUserControl()
         {
             InitializeComponent();
-            viewModel = new RbxScriptsHubUserControlViewModel();
-            DataContext = viewModel;
+            ViewModel = new RbxScriptsHubUserControlViewModel();
+            DataContext = ViewModel;
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -33,25 +33,25 @@ namespace SynapseXUI.UserControls
         {
             if (e.Key == Key.Enter)
             {
-                viewModel.FilterScripts();
+                ViewModel.FilterScripts();
             }
         }
 
         private void ButtonSearch_Click(object sender, RoutedEventArgs e)
         {
-            viewModel.FilterScripts();
+            ViewModel.FilterScripts();
         }
 
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             textBoxSearch.Focus();
-            viewModel.SearchQuery = null;
-            viewModel.FilterScripts();
+            ViewModel.SearchQuery = null;
+            ViewModel.FilterScripts();
         }
 
         private void ButtonReload_Click(object sender, RoutedEventArgs e)
         {
-            viewModel.GetScripts();
+            ViewModel.GetScripts();
         }
 
         private void ButtonExecute_Click(object sender, RoutedEventArgs e)

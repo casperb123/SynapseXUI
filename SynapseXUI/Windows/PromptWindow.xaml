@@ -10,7 +10,7 @@
                  mc:Ignorable="d"
                  Title="{Binding Path=Title}"
                  Height="160"
-                 Width="400"
+                 Width="380"
                  ResizeMode="NoResize"
                  ShowCloseButton="False"
                  WindowStartupLocation="CenterOwner"

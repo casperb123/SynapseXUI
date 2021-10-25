@@ -4,7 +4,6 @@ using SynapseXUI.Entities;
 using SynapseXUI.ViewModels;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace SynapseXUI
@@ -14,8 +13,6 @@ namespace SynapseXUI
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        private bool hubsInitiated;
-
         public readonly MainWindowViewModel ViewModel;
 
         public static MainWindow Instance { get; private set; }
@@ -38,15 +35,6 @@ namespace SynapseXUI
         private void ButtonAttach_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.Attach();
-        }
-
-        private void TabControlMain_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (tabItemScriptHub.IsSelected && !hubsInitiated)
-            {
-                ViewModel.ScriptHubUserControl.InitiateScriptHubs();
-                hubsInitiated = true;
-            }
         }
 
         private void ButtonExecuteSynapseHubScript_Click(object sender, RoutedEventArgs e)

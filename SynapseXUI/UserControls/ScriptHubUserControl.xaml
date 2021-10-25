@@ -10,11 +10,14 @@
     <mah:MetroAnimatedSingleRowTabControl x:Name="tabControlHubs"
                                           mah:TabControlHelper.Underlined="SelectedTabItem"
                                           mah:HeaderedControlHelper.HeaderFontSize="16"
-                                          Padding="5">
-        <TabItem Header="Synapse Scripts">
+                                          Padding="5"
+                                          SelectionChanged="TabControlHubs_SelectionChanged">
+        <TabItem x:Name="tabItemSynapse"
+                 Header="Synapse Scripts">
             <UserControl x:Name="userControlSynapseHub" />
         </TabItem>
-        <TabItem Header="RBX Scripts">
+        <TabItem x:Name="tabItemRbx"
+                 Header="RBX Scripts">
             <UserControl x:Name="userControlRbxScripts" />
         </TabItem>
     </mah:MetroAnimatedSingleRowTabControl>
