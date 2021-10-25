@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using SynapseXUI.Entities;
 using System;
 using System.Collections.Generic;
@@ -105,12 +104,6 @@ namespace SynapseXUI.ViewModels
                 loadedScripts.Where(x => x.Title.ToLower().Contains(SearchQuery.ToLower())).ToList().ForEach(x => Scripts.Add(x));
             }
             IsLoading = false;
-        }
-
-        public void ExecuteScript(Tile tile)
-        {
-            RbxHubScript script = Scripts.FirstOrDefault(x => x.Id == (int)tile.Tag);
-            App.Lib.Execute(script.Excerpt);
         }
     }
 }

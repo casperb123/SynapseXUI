@@ -63,7 +63,7 @@
                          mah:TextBoxHelper.ClearTextButton="{Binding Path=IsFocused, RelativeSource={RelativeSource Self}}"
                          mah:TextBoxHelper.ButtonCommand="{x:Static local:RbxScriptsHubUserControl.ClearTextCommand}"
                          Width="400"
-                         Margin="0,0,5,0"
+                         Margin="0,0,0,0"
                          KeyDown="TextBoxSearch_KeyDown" />
                 <Button x:Name="buttonSearch"
                         Margin="5,0,0,0"
@@ -84,23 +84,55 @@
                     <ItemsControl ItemsSource="{Binding Path=Scripts}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <mah:Tile Title="{Binding Path=Title}"
-                                          Margin="3"
-                                          mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
-                                          Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
-                                          FontWeight="DemiBold"
-                                          Tag="{Binding Path=Id}"
-                                          Width="185"
-                                          Height="120"
-                                          Click="Tile_Click">
-                                    <Grid>
+                                <Grid Margin="2.5"
+                                      Width="185"
+                                      Height="120">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.RowSpan="2">
                                         <Image Source="{Binding Path=FeaturedImage.Thumbnail}"
-                                               Width="200"
                                                Stretch="UniformToFill" />
                                         <Rectangle Fill="{DynamicResource MahApps.Brushes.ThemeBackground}"
                                                    Opacity=".6" />
                                     </Grid>
-                                </mah:Tile>
+                                    <TextBlock Text="{Binding Path=Title}"
+                                               TextTrimming="CharacterEllipsis"
+                                               TextWrapping="Wrap"
+                                               FontSize="16"
+                                               FontWeight="DemiBold"
+                                               Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                                               Margin="8,8,8,0" />
+                                    <StackPanel HorizontalAlignment="Right"
+                                                VerticalAlignment="Bottom"
+                                                Margin="5"
+                                                Orientation="Horizontal"
+                                                Grid.Row="1">
+                                        <Button Style="{DynamicResource MahApps.Styles.Button.Circle}"
+                                                BorderThickness="0"
+                                                Margin="0,0,5,0"
+                                                Tag="{Binding Path=Slug}"
+                                                Cursor="Hand"
+                                                Focusable="False"
+                                                Click="ButtonOpen_Click">
+                                            <icons:PackIconMaterial Kind="CloudCircle"
+                                                                    Width="25"
+                                                                    Height="25" />
+                                        </Button>
+                                        <Button Style="{DynamicResource MahApps.Styles.Button.Circle}"
+                                                BorderThickness="0"
+                                                Tag="{Binding Path=Excerpt}"
+                                                Cursor="Hand"
+                                                Focusable="False"
+                                                Click="ButtonExecute_Click">
+                                            <icons:PackIconMaterial Kind="PlayCircleOutline"
+                                                                    Width="25"
+                                                                    Height="25" />
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                         <ItemsControl.ItemsPanel>

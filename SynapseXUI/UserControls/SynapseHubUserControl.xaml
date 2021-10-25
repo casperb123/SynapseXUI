@@ -19,7 +19,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <mah:Tile Title="{Binding Path=Name}"
-                                      Margin="3"
+                                      Margin="2.5"
                                       mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
                                       Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
                                       FontWeight="DemiBold"

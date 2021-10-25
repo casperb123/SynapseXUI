@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System.ComponentModel;
 
 namespace SynapseXUI.Entities
 {
-    public class RbxHubScript : INotifyPropertyChanged
+    public class RbxHubScript
     {
         [JsonProperty("id")]
         public int Id { get; set; }
@@ -22,16 +21,6 @@ namespace SynapseXUI.Entities
 
         [JsonProperty("featured_image")]
         public FeaturedImage FeaturedImage { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged(string prop)
-        {
-            if (!string.IsNullOrWhiteSpace(prop))
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-            }
-        }
     }
 
     public class FeaturedImage

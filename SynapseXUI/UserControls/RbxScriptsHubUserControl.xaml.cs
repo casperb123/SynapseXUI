@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using SynapseXUI.ViewModels;
+﻿using SynapseXUI.ViewModels;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,11 +21,6 @@ namespace SynapseXUI.UserControls
             InitializeComponent();
             viewModel = new RbxScriptsHubUserControlViewModel();
             DataContext = viewModel;
-        }
-
-        private void Tile_Click(object sender, RoutedEventArgs e)
-        {
-            viewModel.ExecuteScript(sender as Tile);
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -58,6 +52,18 @@ namespace SynapseXUI.UserControls
         private void ButtonReload_Click(object sender, RoutedEventArgs e)
         {
             viewModel.GetScripts();
+        }
+
+        private void ButtonExecute_Click(object sender, RoutedEventArgs e)
+        {
+            string script = ((Button)sender).Tag as string;
+            App.Lib.Execute(script);
+        }
+
+        private void ButtonOpen_Click(object sender, RoutedEventArgs e)
+        {
+            string slug = ((Button)sender).Tag as string;
+            Process.Start($"https://rbxscripts.xyz/{slug}");
         }
     }
 }
