@@ -104,7 +104,8 @@
                                                FontSize="16"
                                                FontWeight="DemiBold"
                                                Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
-                                               Margin="8,8,8,0" />
+                                               Margin="8,8,8,0"
+                                               ToolTip="{Binding Path=Title}" />
                                     <StackPanel HorizontalAlignment="Right"
                                                 VerticalAlignment="Bottom"
                                                 Margin="5"
