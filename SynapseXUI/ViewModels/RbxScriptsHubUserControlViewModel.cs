@@ -1,12 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Win32;
+using Newtonsoft.Json;
 using SynapseXUI.Entities;
 using SynapseXUI.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 
 namespace SynapseXUI.ViewModels
 {
@@ -104,6 +107,24 @@ namespace SynapseXUI.ViewModels
                 loadedScripts.Where(x => x.Title.ToLower().Contains(SearchQuery.ToLower())).ToList().ForEach(x => Scripts.Add(x));
             }
             IsLoading = false;
+        }
+
+        public void DownloadScript(RbxHubScript script)
+        {
+            string name = Regex.Replace(script.Slug, "[^a-zA-Z0-9-_.]+", "", RegexOptions.Compiled);
+
+            SaveFileDialog dialog = new SaveFileDialog
+            {
+                Title = "Download script",
+                Filter = "Script Files|*.lua;*.txt",
+                InitialDirectory = App.ScriptsFolderPath,
+                FileName = name
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                File.WriteAllText(dialog.FileName, script.Excerpt);
+            }
         }
     }
 }

@@ -115,26 +115,35 @@
                                                 Margin="5"
                                                 Orientation="Horizontal"
                                                 Grid.Row="1">
-                                        <Button Style="{DynamicResource MahApps.Styles.Button.Circle}"
-                                                BorderThickness="0"
-                                                Margin="0,0,5,0"
+                                        <StackPanel.Resources>
+                                            <Style TargetType="Button"
+                                                   BasedOn="{StaticResource MahApps.Styles.Button.Circle}">
+                                                <Setter Property="BorderThickness"
+                                                        Value="0" />
+                                                <Setter Property="Cursor"
+                                                        Value="Hand" />
+                                            </Style>
+                                            <Style TargetType="icons:PackIconMaterial">
+                                                <Setter Property="Width"
+                                                        Value="25" />
+                                                <Setter Property="Height"
+                                                        Value="25" />
+                                            </Style>
+                                        </StackPanel.Resources>
+                                        
+                                        <Button Margin="0,0,5,0"
                                                 Tag="{Binding Path=Slug}"
-                                                Cursor="Hand"
-                                                Focusable="False"
                                                 Click="ButtonOpen_Click">
-                                            <icons:PackIconMaterial Kind="CloudCircle"
-                                                                    Width="25"
-                                                                    Height="25" />
+                                            <icons:PackIconMaterial Kind="CloudCircle" />
                                         </Button>
-                                        <Button Style="{DynamicResource MahApps.Styles.Button.Circle}"
-                                                BorderThickness="0"
-                                                Tag="{Binding Path=Excerpt}"
-                                                Cursor="Hand"
-                                                Focusable="False"
+                                        <Button Margin="0,0,5,0"
+                                                Tag="{Binding}"
+                                                Click="ButtonDownload_Click">
+                                            <icons:PackIconMaterial Kind="DownloadCircleOutline" />
+                                        </Button>
+                                        <Button Tag="{Binding Path=Excerpt}"
                                                 Click="ButtonExecute_Click">
-                                            <icons:PackIconMaterial Kind="PlayCircleOutline"
-                                                                    Width="25"
-                                                                    Height="25" />
+                                            <icons:PackIconMaterial Kind="PlayCircleOutline" />
                                         </Button>
                                     </StackPanel>
                                 </Grid>

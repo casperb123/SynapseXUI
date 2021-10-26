@@ -1,4 +1,5 @@
-﻿using SynapseXUI.ViewModels;
+﻿using SynapseXUI.Entities;
+using SynapseXUI.ViewModels;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -58,6 +59,12 @@ namespace SynapseXUI.UserControls
         {
             string script = ((Button)sender).Tag as string;
             App.Lib.Execute(script);
+        }
+
+        private void ButtonDownload_Click(object sender, RoutedEventArgs e)
+        {
+            RbxHubScript script = ((Button)sender).Tag as RbxHubScript;
+            ViewModel.DownloadScript(script);
         }
 
         private void ButtonOpen_Click(object sender, RoutedEventArgs e)
