@@ -39,5 +39,20 @@ namespace SynapseXUI.Windows
         {
             e.Handled = true;
         }
+
+        public static bool Show(string title, string message, PromptType type)
+        {
+            PromptWindow prompt = new PromptWindow(title, message, type);
+            if (Application.Current.MainWindow != prompt)
+            {
+                prompt.Owner = Application.Current.MainWindow;
+            }
+            else
+            {
+                prompt.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            }
+
+            return prompt.ShowDialog().Value;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SynapseXUI.Entities;
+using SynapseXUI.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -70,7 +71,7 @@ namespace SynapseXUI.ViewModels
         {
             if (e.Error != null)
             {
-                if (App.ShowPrompt("Getting scripts failed", "Getting the scripts from rbxscriptx.xyz failed, would you like to try again?\n\n" +
+                if (PromptWindow.Show("Getting scripts failed", "Getting the scripts from rbxscriptx.xyz failed, would you like to try again?\n\n" +
                                                              "Error:\n" +
                                                              $"{e.Error.Message}", PromptType.YesNo))
                 {

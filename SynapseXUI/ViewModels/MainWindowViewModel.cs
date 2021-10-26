@@ -1,6 +1,7 @@
 ﻿using sxlib.Specialized;
 using SynapseXUI.Entities;
 using SynapseXUI.UserControls;
+using SynapseXUI.Windows;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -123,7 +124,7 @@ namespace SynapseXUI.ViewModels
                     ResetSynapseStatus();
                     break;
                 case SxLibBase.SynAttachEvents.NOT_INJECTED:
-                    App.ShowPrompt("Execution error", "Please attach Synapse X before executing a script", PromptType.OK);
+                    PromptWindow.Show("Execution error", "Please attach Synapse X before executing a script", PromptType.OK);
                     break;
                 case SxLibBase.SynAttachEvents.ALREADY_INJECTED:
                     SetSynapseStatus("Already injected");
@@ -181,7 +182,7 @@ namespace SynapseXUI.ViewModels
 
         public async void ReinstallRoblox()
         {
-            if (App.ShowPrompt("Reinstall Roblox", "Are you sure you want to reinstall roblox?", PromptType.YesNo))
+            if (PromptWindow.Show("Reinstall Roblox", "Are you sure you want to reinstall roblox?", PromptType.YesNo))
             {
                 ReinstallingRoblox = true;
 
@@ -221,11 +222,11 @@ namespace SynapseXUI.ViewModels
 
                     if (fileDeleted)
                     {
-                        App.ShowPrompt("Roblox Reinstalled", "Roblox has been reinstalled", PromptType.OK);
+                        PromptWindow.Show("Roblox Reinstalled", "Roblox has been reinstalled", PromptType.OK);
                     }
                     else
                     {
-                        App.ShowPrompt("Roblox Reinstalled", "Roblox has been reinstalled, but the installation file couldn't be deleted. Please delete it yourself", PromptType.OK);
+                        PromptWindow.Show("Roblox Reinstalled", "Roblox has been reinstalled, but the installation file couldn't be deleted. Please delete it yourself", PromptType.OK);
                         Process.Start("explorer.exe", $@"/select,""{robloxFilePath}""");
                     }
 

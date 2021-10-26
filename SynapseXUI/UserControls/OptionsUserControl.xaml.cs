@@ -1,5 +1,6 @@
 ﻿using SynapseXUI.Entities;
 using SynapseXUI.ViewModels;
+using SynapseXUI.Windows;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -31,7 +32,7 @@ namespace SynapseXUI.UserControls
         {
             if (IsLoaded &&
                 viewModel.AutoLaunch &&
-                App.ShowPrompt("Auto Launch", "You have selected to enable the Auto Launch option. Currently this works just as the Auto Attach option, so you need to have this UI open before opening roblox.\n\n" +
+                PromptWindow.Show("Auto Launch", "You have selected to enable the Auto Launch option. Currently this works just as the Auto Attach option, so you need to have this UI open before opening roblox.\n\n" +
                                               "Please note that this option replaces your launcher with a custom one made by Synapse X. Are you sure you want to continue?", PromptType.YesNo))
             {
                 viewModel.SaveSxOptions();

@@ -48,7 +48,7 @@ namespace SynapseXUI
         {
             if (Process.GetProcessesByName("SynapseXUI").ToList().Count > 1)
             {
-                ShowPrompt("Synapse X UI", "An instance of this application is already running", PromptType.OK);
+                PromptWindow.Show("Synapse X UI", "An instance of this application is already running", PromptType.OK);
                 Environment.Exit(32);
             }
 
@@ -74,7 +74,7 @@ namespace SynapseXUI
                 !Directory.Exists(binFolderPath) ||
                 !Directory.Exists(ScriptsFolderPath))
             {
-                ShowPrompt("Synapse X UI", "Please open the official Synapse X UI before using our UI", PromptType.OK);
+                PromptWindow.Show("Synapse X UI", "Please open the official Synapse X UI before using our UI", PromptType.OK);
                 Environment.Exit(2);
             }
 
@@ -102,21 +102,6 @@ namespace SynapseXUI
         public static void SetTheme(string theme, string color)
         {
             ThemeManager.Current.ChangeTheme(Current, $"{theme}.{color}");
-        }
-
-        public static bool ShowPrompt(string title, string message, PromptType type)
-        {
-            PromptWindow prompt = new PromptWindow(title, message, type);
-            if (Current.MainWindow != prompt)
-            {
-                prompt.Owner = Current.MainWindow;
-            }
-            else
-            {
-                prompt.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            }
-
-            return prompt.ShowDialog().Value;
         }
     }
 }

@@ -4,6 +4,7 @@ using MahApps.Metro.IconPacks;
 using Microsoft.Win32;
 using SynapseXUI.Entities;
 using SynapseXUI.UserControls;
+using SynapseXUI.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -298,7 +299,7 @@ namespace SynapseXUI.ViewModels
         {
             if (string.IsNullOrWhiteSpace(script))
             {
-                App.ShowPrompt("Execution error", "You can't execute an empty script", PromptType.OK);
+                PromptWindow.Show("Execution error", "You can't execute an empty script", PromptType.OK);
             }
             else
             {
@@ -352,7 +353,7 @@ namespace SynapseXUI.ViewModels
         {
             if (!skipConfirmation &&
                 App.SxOptions.CloseConfirmation &&
-                !App.ShowPrompt("Close Tab", "Are you sure that you want to close this tab? All changes will be lost!", PromptType.YesNo))
+                !PromptWindow.Show("Close Tab", "Are you sure that you want to close this tab? All changes will be lost!", PromptType.YesNo))
             {
                 return;
             }
@@ -423,7 +424,7 @@ namespace SynapseXUI.ViewModels
 
         public void ClearEditorText()
         {
-            if (App.SxOptions.ClearConfirmation && !App.ShowPrompt("Clear Editor", "Are you sure that you want to clear the editor?", PromptType.YesNo))
+            if (App.SxOptions.ClearConfirmation && !PromptWindow.Show("Clear Editor", "Are you sure that you want to clear the editor?", PromptType.YesNo))
             {
                 return;
             }
@@ -498,7 +499,7 @@ namespace SynapseXUI.ViewModels
 
         public void DeleteFile()
         {
-            if (!App.ShowPrompt("Delete File", "Are you sure that you want to delete this file? This can't be undone!", PromptType.YesNo))
+            if (!PromptWindow.Show("Delete File", "Are you sure that you want to delete this file? This can't be undone!", PromptType.YesNo))
             {
                 return;
             }
@@ -511,7 +512,7 @@ namespace SynapseXUI.ViewModels
 
         public void ReloadTab()
         {
-            if (App.ShowPrompt("Reload Tab", "Are you sure you want to reload the current tab? All unsaved changes will be lost!", PromptType.YesNo))
+            if (PromptWindow.Show("Reload Tab", "Are you sure you want to reload the current tab? All unsaved changes will be lost!", PromptType.YesNo))
             {
                 string text = File.ReadAllText(SelectedTab.FullFilename);
                 SelectedTab.Text = text;
@@ -525,10 +526,10 @@ namespace SynapseXUI.ViewModels
             if (App.SxOptions.CloseConfirmation)
             {
                 if ((tabToExclude is null &&
-                    !App.ShowPrompt("Close All Tabs", "Are you sure that you want to close all tabs?", PromptType.YesNo))
+                    !PromptWindow.Show("Close All Tabs", "Are you sure that you want to close all tabs?", PromptType.YesNo))
                     ||
                     (tabToExclude != null &&
-                    !App.ShowPrompt("Close All Tabs", "Are you sure that you want to close all but selected tabs?", PromptType.YesNo)))
+                    !PromptWindow.Show("Close All Tabs", "Are you sure that you want to close all but selected tabs?", PromptType.YesNo)))
                 {
                     return;
                 }

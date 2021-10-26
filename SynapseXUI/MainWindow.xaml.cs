@@ -2,6 +2,7 @@
 using MahApps.Metro.Controls;
 using SynapseXUI.Entities;
 using SynapseXUI.ViewModels;
+using SynapseXUI.Windows;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
@@ -60,7 +61,7 @@ namespace SynapseXUI
         private void IconGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
-            App.ShowPrompt("Synapse X", "This UI is developed by Casper:\n" +
+            PromptWindow.Show("Synapse X", "This UI is developed by Casper:\n" +
                                         "Discord: CasperTheGhost#3549", PromptType.OK);
         }
     }
