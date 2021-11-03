@@ -180,58 +180,76 @@ namespace SynapseXUI.ViewModels
             SetSynapseStatus();
         }
 
-        public async void ReinstallRoblox()
+        public void ReinstallRoblox()
         {
             if (PromptWindow.Show("Reinstall Roblox", "Are you sure you want to reinstall roblox?", PromptType.YesNo))
             {
                 ReinstallingRoblox = true;
+                ProgressWindow progressWindow = ProgressWindow.Show("Reinstalling Roblox", "Downloading installer...", true);
 
-                string localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                string robloxPath = Path.Combine(localAppData, "Roblox");
-                string robloxFilePath = Path.Combine(App.StartupFolderPath, "RobloxPlayerLauncher.exe");
-                string downloadLink = "https://www.roblox.com/download/client";
-
-                using (WebClient client = new WebClient())
+                Task.Run(() =>
                 {
-                    if (Directory.Exists(robloxPath))
-                    {
-                        Directory.Delete(robloxPath, true);
-                    }
+                    string localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                    string robloxPath = Path.Combine(localAppData, "Roblox");
+                    string robloxFilePath = Path.Combine(App.StartupFolderPath, "RobloxPlayerLauncher.exe");
+                    Uri downloadLink = new Uri("https://www.roblox.com/download/client");
 
-                    await client.DownloadFileTaskAsync(downloadLink, robloxFilePath);
-                    bool fileDeleted = false;
-                    await Task.Run(() =>
+                    using (WebClient client = new WebClient())
                     {
-                        Process process = new Process
+                        if (Directory.Exists(robloxPath))
                         {
-                            StartInfo = new ProcessStartInfo(robloxFilePath)
-                        };
-                        process.Start();
-                        process.WaitForExit();
-                        Process[] processes = Process.GetProcessesByName("RobloxPlayerLauncher");
-                        if (processes.Count() >= 1)
-                        {
-                            processes[0].WaitForExit();
-                            if (File.Exists(robloxFilePath))
-                            {
-                                File.Delete(robloxFilePath);
-                            }
-                            fileDeleted = true;
+                            Directory.Delete(robloxPath, true);
                         }
-                    });
 
-                    if (fileDeleted)
-                    {
-                        PromptWindow.Show("Roblox Reinstalled", "Roblox has been reinstalled", PromptType.OK);
-                    }
-                    else
-                    {
-                        PromptWindow.Show("Roblox Reinstalled", "Roblox has been reinstalled, but the installation file couldn't be deleted. Please delete it yourself", PromptType.OK);
-                        Process.Start("explorer.exe", $@"/select,""{robloxFilePath}""");
-                    }
+                        client.DownloadProgressChanged += (s, e) =>
+                        {
+                            progressWindow.SetProgress(e.ProgressPercentage);
+                        };
+                        client.DownloadFileCompleted += (s, e) =>
+                        {
+                            progressWindow.SetMessage("Installing Roblox...");
 
-                    ReinstallingRoblox = false;
-                }
+                            bool fileDeleted = false;
+                            Process process = new Process
+                            {
+                                StartInfo = new ProcessStartInfo(robloxFilePath)
+                            };
+                            process.Start();
+                            process.WaitForExit();
+                            Process[] processes = Process.GetProcessesByName("RobloxPlayerLauncher");
+                            if (processes.Count() >= 1)
+                            {
+                                processes[0].WaitForExit();
+                                if (File.Exists(robloxFilePath))
+                                {
+                                    File.Delete(robloxFilePath);
+                                }
+                                fileDeleted = true;
+                            }
+                            progressWindow.SetButtonEnabled(true);
+
+                            if (fileDeleted)
+                            {
+                                progressWindow.SetMessage("Roblox has been reinstalled");
+                            }
+                            else
+                            {
+                                progressWindow.SetMessage("Roblox has been reinstalled, please delete the installation file");
+                            }
+
+                            progressWindow.Closed += (d, r) =>
+                            {
+                                ReinstallingRoblox = false;
+
+                                if (!fileDeleted)
+                                {
+                                    Process.Start("explorer.exe", $@"/select,""{robloxFilePath}""");
+                                }
+                            };
+                        };
+                        client.DownloadFileAsync(downloadLink, robloxFilePath);
+                    }
+                });
             }
         }
     }

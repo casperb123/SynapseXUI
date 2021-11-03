@@ -18,6 +18,16 @@ namespace SynapseXUI.Windows
             InitializeComponent();
             viewModel = new PromptWindowViewModel(this, title, message, type);
             DataContext = viewModel;
+
+            if (Application.Current.MainWindow != this)
+            {
+                Owner = Application.Current.MainWindow;
+                Topmost = App.SxOptions.TopMost;
+            }
+            else
+            {
+                WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            }
         }
 
         private void ButtonOk_Click(object sender, RoutedEventArgs e)
@@ -43,15 +53,6 @@ namespace SynapseXUI.Windows
         public static bool Show(string title, string message, PromptType type)
         {
             PromptWindow prompt = new PromptWindow(title, message, type);
-            if (Application.Current.MainWindow != prompt)
-            {
-                prompt.Owner = Application.Current.MainWindow;
-            }
-            else
-            {
-                prompt.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            }
-
             return prompt.ShowDialog().Value;
         }
     }

@@ -171,6 +171,7 @@
     <Compile Include="UserControls\SynapseHubUserControl.xaml.cs">
       <DependentUpon>SynapseHubUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\ProgressWindowViewModel.cs" />
     <Compile Include="ViewModels\PromptWindowViewModel.cs" />
     <Compile Include="ViewModels\RbxScriptsHubUserControlViewModel.cs" />
     <Compile Include="ViewModels\SynapseHubUserControlViewModel.cs" />
@@ -190,6 +191,9 @@
     <Compile Include="ViewModels\LoadingWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\OptionsUserControlViewModel.cs" />
+    <Compile Include="Windows\ProgressWindow.xaml.cs">
+      <DependentUpon>ProgressWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PromptWindow.xaml.cs">
       <DependentUpon>PromptWindow.xaml</DependentUpon>
     </Compile>
@@ -226,6 +230,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ScriptHubUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ProgressWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

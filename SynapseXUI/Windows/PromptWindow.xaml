@@ -36,8 +36,7 @@
         </Style>
     </mah:MetroWindow.Resources>
 
-    <Grid x:Name="gridMessage"
-          Margin="10">
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
             <RowDefinition Height="auto" />

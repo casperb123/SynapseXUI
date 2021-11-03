@@ -16,6 +16,7 @@
                  ShowCloseButton="False"
                  ResizeMode="NoResize"
                  WindowStartupLocation="CenterScreen"
+                 SizeToContent="Height"
                  Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
                  Icon="pack://application:,,/libs/synapse.ico"
                  ShowIconOnTitleBar="True"
@@ -38,7 +39,7 @@
         </mah:WindowCommands>
     </mah:MetroWindow.RightWindowCommands>
 
-    <StackPanel Margin="20,0"
+    <StackPanel Margin="20"
                 VerticalAlignment="Center">
         <Label Content="{Binding Path=LoadingStatus}"
                FontSize="15"

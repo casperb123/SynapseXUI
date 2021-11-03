@@ -1,0 +1,67 @@
+﻿<mah:MetroWindow x:Class="SynapseXUI.Windows.ProgressWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+                 xmlns:entities="clr-namespace:SynapseXUI.Entities;assembly=SynapseXUI.Entities"
+                 xmlns:root="clr-namespace:SynapseXUI"
+                 xmlns:viewModels="clr-namespace:SynapseXUI.ViewModels"
+                 d:DataContext="{d:DesignInstance Type=viewModels:ProgressWindowViewModel}"
+                 mc:Ignorable="d"
+                 Title="{Binding Path=Title}"
+                 Height="160"
+                 Width="380"
+                 ResizeMode="NoResize"
+                 ShowCloseButton="False"
+                 WindowStartupLocation="CenterOwner"
+                 SizeToContent="Height"
+                 Icon="pack://application:,,/libs/synapse.ico"
+                 ShowIconOnTitleBar="True"
+                 Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
+    <mah:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <Grid Margin="0,4"
+                  RenderOptions.EdgeMode="Aliased"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  PreviewMouseDown="IconGrid_PreviewMouseDown">
+                <Image Source="pack://application:,,/libs/synapse.ico" />
+            </Grid>
+        </DataTemplate>
+    </mah:MetroWindow.IconTemplate>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel VerticalAlignment="Center">
+            <Label Content="{Binding Path=Message}"
+                   HorizontalContentAlignment="Center" />
+            <Grid Margin="0,5,0,0">
+                <Rectangle Stroke="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                           StrokeThickness="1"
+                           Margin="-1" />
+                <mah:MetroProgressBar Minimum="0"
+                                      Maximum="100"
+                                      Height="20"
+                                      Value="{Binding Path=Progress}">
+                    <behaviors:Interaction.Behaviors>
+                        <entities:MetroProgressBarAnimateBehavior />
+                    </behaviors:Interaction.Behaviors>
+                </mah:MetroProgressBar>
+            </Grid>
+        </StackPanel>
+        <Button x:Name="buttonOk"
+                Content="Ok"
+                Padding="15,10"
+                Grid.Row="1"
+                HorizontalAlignment="Right"
+                Margin="0,10,0,0"
+                IsEnabled="{Binding Path=ButtonEnabled}"
+                Visibility="{Binding Path=ButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                Click="ButtonOk_Click" />
+    </Grid>
+</mah:MetroWindow>
