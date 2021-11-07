@@ -25,7 +25,7 @@
                                               SelectedItem="{Binding Path=SelectedTab}"
                                               SelectedIndex="{Binding Path=SelectedTabIndex}"
                                               mah:TabControlHelper.Underlined="SelectedTabItem"
-                                              mah:HeaderedControlHelper.HeaderFontSize="16"
+                                              mah:HeaderedControlHelper.HeaderFontSize="14"
                                               mah:TabControlHelper.Transition="Normal"
                                               TabItemClosingEvent="TabControlEditors_TabItemClosingEvent"
                                               SelectionChanged="TabControlEditors_SelectionChanged">

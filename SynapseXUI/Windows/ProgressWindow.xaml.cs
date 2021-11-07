@@ -1,7 +1,5 @@
 ﻿using MahApps.Metro.Controls;
 using SynapseXUI.ViewModels;
-using System;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -19,6 +17,11 @@ namespace SynapseXUI.Windows
             InitializeComponent();
             viewModel = new ProgressWindowViewModel(title, message, buttonVisible);
             DataContext = viewModel;
+
+            if (!buttonVisible)
+            {
+                gridMain.Margin = new Thickness(20);
+            }
 
             if (Application.Current.MainWindow != this)
             {

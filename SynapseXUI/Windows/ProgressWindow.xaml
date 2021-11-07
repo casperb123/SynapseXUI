@@ -31,7 +31,8 @@
         </DataTemplate>
     </mah:MetroWindow.IconTemplate>
 
-    <Grid Margin="10">
+    <Grid x:Name="gridMain"
+          Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
             <RowDefinition Height="auto" />

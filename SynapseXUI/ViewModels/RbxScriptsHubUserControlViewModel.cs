@@ -111,7 +111,7 @@ namespace SynapseXUI.ViewModels
 
         public void DownloadScript(RbxHubScript script)
         {
-            string name = Regex.Replace(script.Slug, "[^a-zA-Z0-9-_.]+", "", RegexOptions.Compiled);
+            string name = Regex.Replace(script.Title, "[^a-zA-Z0-9-_.]+", "", RegexOptions.Compiled);
 
             SaveFileDialog dialog = new SaveFileDialog
             {
