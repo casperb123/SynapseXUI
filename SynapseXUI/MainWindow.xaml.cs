@@ -43,11 +43,6 @@ namespace SynapseXUI
             ViewModel.SelectedSynapseHubScript.Script.Execute();
         }
 
-        private void ButtonExecuteRbxHubScript_Click(object sender, RoutedEventArgs e)
-        {
-            App.Lib.Execute(ViewModel.SelectedRbxHubScript.Excerpt);
-        }
-
         private void ButtonKillRoblox_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.KillRoblox();

@@ -18,7 +18,6 @@ namespace SynapseXUI.ViewModels
         private readonly OptionsUserControl optionsUserControl;
         private string synapseStatus;
         private SynapseHubScript selectedSynapseHubScript;
-        private RbxHubScript selectedRbxHubcScript;
         private bool reinstallingRoblox;
 
         public EditorUserControl EditorUserControl { get; private set; }
@@ -31,16 +30,6 @@ namespace SynapseXUI.ViewModels
             {
                 reinstallingRoblox = value;
                 OnPropertyChanged(nameof(ReinstallingRoblox));
-            }
-        }
-
-        public RbxHubScript SelectedRbxHubScript
-        {
-            get => selectedRbxHubcScript;
-            set
-            {
-                selectedRbxHubcScript = value;
-                OnPropertyChanged(nameof(SelectedRbxHubScript));
             }
         }
 
