@@ -211,7 +211,8 @@ namespace SynapseXUI.ViewModels
                 return;
             }
 
-            if (SelectedTab.IsAddTabButton)
+            int tabsCount = Tabs.Collection.Count;
+            if (SelectedTab.IsAddTabButton && tabsCount > 1)
             {
                 SelectedTabIndex = Tabs.Collection.Count - 2;
             }
