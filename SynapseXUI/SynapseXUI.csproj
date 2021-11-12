@@ -100,7 +100,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
     <CefSharpBuildAction>Content</CefSharpBuildAction>
   </PropertyGroup>
   <PropertyGroup>
@@ -137,8 +137,9 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="sxlib">
-      <HintPath>..\..\..\..\Desktop\Hacks\Synapse X\bin\sxlib\sxlib.dll</HintPath>
+    <Reference Include="sxlib, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>libs\sxlib\sxlib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -503,6 +504,8 @@
     <Content Include="libs\SLInjector.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="libs\sxlib\sxlib.dll" />
+    <Resource Include="libs\sxlib\sxlib.xml" />
     <Content Include="libs\synapse.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
