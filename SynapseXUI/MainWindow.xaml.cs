@@ -3,6 +3,7 @@ using MahApps.Metro.Controls;
 using SynapseXUI.Entities;
 using SynapseXUI.ViewModels;
 using SynapseXUI.Windows;
+using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
@@ -30,7 +31,7 @@ namespace SynapseXUI
         {
             ViewModel.EditorUserControl.ViewModel.SaveTabs();
             ViewModel.SaveSettings();
-            Cef.ShutdownWithoutChecks();
+            Environment.Exit(0);
         }
 
         private void ButtonAttach_Click(object sender, RoutedEventArgs e)
