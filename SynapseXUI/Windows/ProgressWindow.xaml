@@ -17,7 +17,7 @@
                  ShowCloseButton="False"
                  WindowStartupLocation="CenterOwner"
                  SizeToContent="Height"
-                 Icon="pack://application:,,/libs/synapse.ico"
+                 Icon="pack://application:,,/synapse.ico"
                  ShowIconOnTitleBar="True"
                  Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
     <mah:MetroWindow.IconTemplate>
@@ -26,7 +26,7 @@
                   RenderOptions.EdgeMode="Aliased"
                   RenderOptions.BitmapScalingMode="HighQuality"
                   PreviewMouseDown="IconGrid_PreviewMouseDown">
-                <Image Source="pack://application:,,/libs/synapse.ico" />
+                <Image Source="pack://application:,,/synapse.ico" />
             </Grid>
         </DataTemplate>
     </mah:MetroWindow.IconTemplate>
