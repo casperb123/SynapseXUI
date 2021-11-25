@@ -1,7 +1,6 @@
 ﻿using CefSharp;
 using CefSharp.Wpf;
 using ControlzEx.Theming;
-using MahApps.Metro.Controls.Dialogs;
 using sxlib.Specialized;
 using SynapseXUI.Entities;
 using SynapseXUI.Windows;
@@ -29,7 +28,6 @@ namespace SynapseXUI
         public static SxLibWPF Lib { get; set; }
         public static Options SxOptions { get; set; }
         public static Settings Settings { get; private set; }
-        public static MetroDialogSettings DialogSettings { get; private set; }
 
         public App()
         {
@@ -63,12 +61,8 @@ namespace SynapseXUI
             string slInjectorBinFilePath = Path.Combine(binFolderPath, "SLInjector.dll");
             DataFolderPath = Path.Combine(libsFolderPath, "data");
             EditorFilePath = Path.Combine(aceFolderPath, "Editor.html");
-            DialogSettings = new MetroDialogSettings
-            {
-                DefaultButtonFocus = MessageDialogResult.Affirmative,
-                AffirmativeButtonText = "Yes",
-                NegativeButtonText = "No"
-            };
+            SettingsFilePath = Path.Combine(DataFolderPath, "Options.ini");
+            TabsFilePath = Path.Combine(DataFolderPath, "Tabs.bin");
 
             if (!Directory.Exists(authFolderPath) ||
                 !Directory.Exists(binFolderPath) ||
@@ -87,9 +81,6 @@ namespace SynapseXUI
             {
                 Directory.CreateDirectory(DataFolderPath);
             }
-
-            SettingsFilePath = Path.Combine(DataFolderPath, "Options.ini");
-            TabsFilePath = Path.Combine(DataFolderPath, "Tabs.bin");
 
             Settings = Settings.GetSettings(SettingsFilePath);
             string theme = Settings.Theme.ApplicationTheme;
