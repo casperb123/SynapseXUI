@@ -58,5 +58,13 @@ namespace SynapseXUI.UserControls
                 viewModel.SaveSettings();
             }
         }
+
+        private void HyperlinkResetOptions_Click(object sender, RoutedEventArgs e)
+        {
+            if (PromptWindow.Show("Reset settings", "Are you sure that you want to reset the settings to default?", PromptType.YesNo))
+            {
+                App.ResetSettings();
+            }
+        }
     }
 }

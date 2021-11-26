@@ -23,8 +23,8 @@
                 <WrapPanel.Resources>
                     <Style TargetType="mah:ToggleSwitch"
                            BasedOn="{StaticResource MahApps.Styles.ToggleSwitch}">
-                        <Setter Property="Width"
-                                Value="185" />
+                        <!--<Setter Property="Width"
+                                Value="185" />-->
                         <Setter Property="OnContent"
                                 Value="Enabled" />
                         <Setter Property="OffContent"
@@ -56,9 +56,34 @@
                                   Toggled="ToggleSwitchSxOptions_Toggled" />
             </WrapPanel>
         </GroupBox>
-        <GroupBox Header="Application Options"
-                  Grid.Column="1"
+        <GroupBox Grid.Column="1"
                   Margin="2.5,0,0,0">
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Foreground="{DynamicResource MahApps.Brushes.Badged.Foreground}">
+                        APPLICATION OPTIONS - 
+                        <Hyperlink x:Name="hyperlinkResetOptions"
+                                   Foreground="{DynamicResource MahApps.Brushes.Badged.Foreground}"
+                                   Click="HyperlinkResetOptions_Click">
+                            <Hyperlink.Style>
+                                <Style TargetType="Hyperlink"
+                                       BasedOn="{StaticResource MahApps.Styles.Hyperlink}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver"
+                                                        Value="True">
+                                            <Setter Property="TextDecorations"
+                                                            Value="None" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>    
+                            </Hyperlink.Style>
+                            
+                            RESET TO DEFAULT
+                        </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+            </GroupBox.Header>
+
             <Grid Margin="5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
@@ -75,11 +100,6 @@
                                       OnContent="Enabled"
                                       OffContent="Disabled"
                                       IsOn="{Binding Path=SaveTabs, Source={x:Static root:App.Settings}}"
-                                      Toggled="ToggleSwitchSettings_Toggled" />
-                    <mah:ToggleSwitch Header="Save Window Size"
-                                      OnContent="Enabled"
-                                      OffContent="Disabled"
-                                      IsOn="{Binding Path=WindowSize.SaveWindowSize, Source={x:Static root:App.Settings}}"
                                       Toggled="ToggleSwitchSettings_Toggled" />
                 </StackPanel>
                 <StackPanel Grid.Column="1">

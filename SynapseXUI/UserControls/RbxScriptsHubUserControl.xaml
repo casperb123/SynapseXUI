@@ -48,7 +48,21 @@
                            Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}">
                     Powered by
                     <Hyperlink NavigateUri="https://rbxscripts.xyz"
+                               Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
                                RequestNavigate="Hyperlink_RequestNavigate">
+                        <Hyperlink.Style>
+                            <Style TargetType="Hyperlink"
+                                   BasedOn="{StaticResource MahApps.Styles.Hyperlink}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver"
+                                             Value="True">
+                                        <Setter Property="TextDecorations"
+                                                Value="None" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>    
+                        </Hyperlink.Style>
+                        
                         rbxscripts.xyz
                     </Hyperlink>
                 </TextBlock>
@@ -60,7 +74,7 @@
                     <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                
+
                 <TextBox x:Name="textBoxSearch"
                          Text="{Binding Path=SearchQuery, UpdateSourceTrigger=PropertyChanged}"
                          mah:TextBoxHelper.Watermark="Search for title"
@@ -130,7 +144,7 @@
                                                         Value="25" />
                                             </Style>
                                         </StackPanel.Resources>
-                                        
+
                                         <Button Margin="0,0,5,0"
                                                 Tag="{Binding Path=Slug}"
                                                 Click="ButtonOpen_Click">

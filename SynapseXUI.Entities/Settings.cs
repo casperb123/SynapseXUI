@@ -9,6 +9,7 @@ namespace SynapseXUI.Entities
     {
         private Theme theme;
         private WindowSize windowSize;
+        private GridLength scriptsListWidth;
         private bool saveTabs;
         private bool loaderTopMost;
 
@@ -29,6 +30,16 @@ namespace SynapseXUI.Entities
             {
                 saveTabs = value;
                 OnPropertyChanged(nameof(SaveTabs));
+            }
+        }
+
+        public GridLength ScriptsListWidth
+        {
+            get => scriptsListWidth;
+            set
+            {
+                scriptsListWidth = value;
+                OnPropertyChanged(nameof(ScriptsListWidth));
             }
         }
 
@@ -68,12 +79,22 @@ namespace SynapseXUI.Entities
             SaveTabs = true;
             Theme = new Theme();
             WindowSize = new WindowSize();
+            ScriptsListWidth = new GridLength(200);
         }
 
         public void Save(string settingsFilePath)
         {
             string json = JsonConvert.SerializeObject(this, Formatting.Indented);
             File.WriteAllText(settingsFilePath, json);
+        }
+
+        public void SetDefault()
+        {
+            LoaderTopMost = true;
+            SaveTabs = true;
+            Theme.SetDefault();
+            WindowSize.SetDefault();
+            ScriptsListWidth = new GridLength(200);
         }
 
         public static Settings GetSettings(string settingsFilePath)
@@ -126,6 +147,11 @@ namespace SynapseXUI.Entities
 
         public Theme()
         {
+            SetDefault();
+        }
+
+        public void SetDefault()
+        {
             ApplicationTheme = "Dark";
             ApplicationColor = "Blue";
         }
@@ -136,17 +162,6 @@ namespace SynapseXUI.Entities
         private double windowWidth;
         private double windowHeight;
         private WindowState windowState;
-        private bool saveWindowSize;
-
-        public bool SaveWindowSize
-        {
-            get => saveWindowSize;
-            set
-            {
-                saveWindowSize = value;
-                OnPropertyChanged(nameof(SaveWindowSize));
-            }
-        }
 
         public double WindowWidth
         {
@@ -186,6 +201,18 @@ namespace SynapseXUI.Entities
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
             }
+        }
+
+        public WindowSize()
+        {
+            SetDefault();
+        }
+
+        public void SetDefault()
+        {
+            WindowWidth = 800;
+            WindowHeight = 500;
+            WindowState = WindowState.Normal;
         }
     }
 }

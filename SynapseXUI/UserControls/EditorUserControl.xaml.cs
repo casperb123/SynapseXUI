@@ -11,11 +11,14 @@ namespace SynapseXUI.UserControls
     /// </summary>
     public partial class EditorUserControl : UserControl
     {
+        public static EditorUserControl Instance { get; private set; }
+
         public readonly EditorUserControlViewModel ViewModel;
 
         public EditorUserControl()
         {
             InitializeComponent();
+            Instance = this;
             ViewModel = new EditorUserControlViewModel(this);
             DataContext = ViewModel;
         }
@@ -103,6 +106,11 @@ namespace SynapseXUI.UserControls
         private void TabControlEditors_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ViewModel.ChangeTab();
+        }
+
+        private void ListBoxScripts_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            App.Settings.ScriptsListWidth = new GridLength(columnScripts.ActualWidth);
         }
     }
 }

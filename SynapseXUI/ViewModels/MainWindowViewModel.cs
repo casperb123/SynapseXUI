@@ -75,8 +75,7 @@ namespace SynapseXUI.ViewModels
             mainWindow.userControlScriptHub.Content = ScriptHubUserControl;
             mainWindow.userControlOptions.Content = optionsUserControl;
 
-            if (App.Settings.WindowSize.SaveWindowSize &&
-                App.Settings.WindowSize.WindowWidth >= mainWindow.MinWidth &&
+            if (App.Settings.WindowSize.WindowWidth >= mainWindow.MinWidth &&
                 App.Settings.WindowSize.WindowHeight >= mainWindow.MinHeight)
             {
                 mainWindow.Width = App.Settings.WindowSize.WindowWidth;
@@ -152,12 +151,9 @@ namespace SynapseXUI.ViewModels
 
         public void SaveSettings()
         {
-            if (App.Settings.WindowSize.SaveWindowSize)
-            {
-                App.Settings.WindowSize.WindowWidth = mainWindow.Width;
-                App.Settings.WindowSize.WindowHeight = mainWindow.Height;
-                App.Settings.WindowSize.WindowState = mainWindow.WindowState;
-            }
+            App.Settings.WindowSize.WindowWidth = mainWindow.Width;
+            App.Settings.WindowSize.WindowHeight = mainWindow.Height;
+            App.Settings.WindowSize.WindowState = mainWindow.WindowState;
 
             App.Settings.Save(App.SettingsFilePath);
         }

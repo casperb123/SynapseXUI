@@ -3,6 +3,7 @@ using CefSharp.Wpf;
 using ControlzEx.Theming;
 using sxlib.Specialized;
 using SynapseXUI.Entities;
+using SynapseXUI.UserControls;
 using SynapseXUI.Windows;
 using System;
 using System.Diagnostics;
@@ -93,6 +94,17 @@ namespace SynapseXUI
         public static void SetTheme(string theme, string color)
         {
             ThemeManager.Current.ChangeTheme(Current, $"{theme}.{color}");
+        }
+
+        public static void ResetSettings()
+        {
+            Settings.SetDefault();
+            EditorUserControl.Instance.columnScripts.Width = Settings.ScriptsListWidth;
+            Current.MainWindow.WindowState = Settings.WindowSize.WindowState;
+            Current.MainWindow.Width = Settings.WindowSize.WindowWidth;
+            Current.MainWindow.Height = Settings.WindowSize.WindowHeight;
+
+            Settings.Save(SettingsFilePath);
         }
     }
 }

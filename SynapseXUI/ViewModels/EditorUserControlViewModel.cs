@@ -24,7 +24,6 @@ namespace SynapseXUI.ViewModels
     {
         public static EditorUserControlViewModel Instance { get; private set; }
 
-        private readonly EditorUserControl userControl;
         private bool editorReady;
         private bool tabsLoaded;
         private string editorText;
@@ -35,6 +34,8 @@ namespace SynapseXUI.ViewModels
         private ScriptFile selectedScriptFile;
         private bool detectScriptTabChange;
         private ChromiumWebBrowser editor;
+
+        public readonly EditorUserControl UserControl;
 
         public ChromiumWebBrowser Editor
         {
@@ -119,7 +120,8 @@ namespace SynapseXUI.ViewModels
         public EditorUserControlViewModel(EditorUserControl userControl)
         {
             Instance = this;
-            this.userControl = userControl;
+            userControl.columnScripts.Width = App.Settings.ScriptsListWidth;
+            UserControl = userControl;
             Editor = new ChromiumWebBrowser(App.EditorFilePath);
             Editor.JavascriptObjectRepository.Register("synServiceAsync", this, true);
             Editor.FrameLoadEnd += (s, e) =>
@@ -191,7 +193,7 @@ namespace SynapseXUI.ViewModels
 
         private void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
-            userControl.Dispatcher.Invoke(() =>
+            UserControl.Dispatcher.Invoke(() =>
             {
                 GetScripts();
                 RefreshTabs();
@@ -272,8 +274,8 @@ namespace SynapseXUI.ViewModels
                         }
                     }
 
-                    userControl.tabControlEditors.SelectedIndex = scriptTabs.SelectedIndex;
-                    userControl.tabControlEditors.GetSelectedTabItem().BringIntoView();
+                    UserControl.tabControlEditors.SelectedIndex = scriptTabs.SelectedIndex;
+                    UserControl.tabControlEditors.GetSelectedTabItem().BringIntoView();
                 }
             }
         }
@@ -288,7 +290,7 @@ namespace SynapseXUI.ViewModels
                     ScriptTabs scriptTabs = new ScriptTabs
                     {
                         Collection = new ObservableCollection<ScriptTab>(Tabs.Collection.Where(x => !x.IsAddTabButton)),
-                        SelectedIndex = userControl.tabControlEditors.SelectedIndex
+                        SelectedIndex = UserControl.tabControlEditors.SelectedIndex
                     };
 
                     formatter.Serialize(writer.BaseStream, scriptTabs);
@@ -336,12 +338,12 @@ namespace SynapseXUI.ViewModels
 
             if (scrollToEnd)
             {
-                userControl.tabControlEditors.GetSelectedTabItem().BringIntoView(new Rect(new Size(10000, 0)));
+                UserControl.tabControlEditors.GetSelectedTabItem().BringIntoView(new Rect(new Size(10000, 0)));
             }
 
             if (saveTabs && string.IsNullOrEmpty(text))
             {
-                userControl.Dispatcher.Invoke(() =>
+                UserControl.Dispatcher.Invoke(() =>
                 {
                     SaveTabs();
                 });
@@ -379,7 +381,7 @@ namespace SynapseXUI.ViewModels
                 Task.Run(() =>
                 {
                     while (!editorReady) { }
-                    userControl.Dispatcher.Invoke(() =>
+                    UserControl.Dispatcher.Invoke(() =>
                     {
                         Editor.Focus();
                         Editor.ExecuteScriptAsync("editor.focus();");
@@ -393,7 +395,7 @@ namespace SynapseXUI.ViewModels
             Task.Run(() =>
             {
                 while (!editorReady) { }
-                userControl.Dispatcher.Invoke(() =>
+                UserControl.Dispatcher.Invoke(() =>
                 {
                     if (theme == "Dark")
                     {
@@ -412,7 +414,7 @@ namespace SynapseXUI.ViewModels
             Task.Run(() =>
             {
                 while (!editorReady) { }
-                userControl.Dispatcher.Invoke(() =>
+                UserControl.Dispatcher.Invoke(() =>
                 {
                     Editor.ExecuteScriptAsync("SetText", text);
                     if (saveTabs)

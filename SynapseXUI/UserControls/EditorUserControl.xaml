@@ -12,8 +12,12 @@
              d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*"
+                              MinWidth="200" />
+            <ColumnDefinition Width="3" />
+            <ColumnDefinition x:Name="columnScripts"
+                              Width="200"
+                              MinWidth="100" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
@@ -93,14 +97,18 @@
                 </ContextMenu>
             </mah:MetroAnimatedSingleRowTabControl.ContextMenu>
         </mah:MetroAnimatedSingleRowTabControl>
+        <GridSplitter Grid.Column="1"
+                      ResizeBehavior="PreviousAndNext"
+                      ShowsPreview="False" />
         <ListBox x:Name="listBoxScripts"
-                 Grid.Column="1"
+                 Grid.Column="2"
                  ItemsSource="{Binding Path=ScriptFiles}"
                  SelectedItem="{Binding Path=SelectedScriptFile}"
                  DisplayMemberPath="Filename"
                  VirtualizingPanel.IsVirtualizing="False"
                  ScrollViewer.HorizontalScrollBarVisibility="Visible"
-                 ScrollViewer.VerticalScrollBarVisibility="Visible">
+                 ScrollViewer.VerticalScrollBarVisibility="Visible"
+                 SizeChanged="ListBoxScripts_SizeChanged">
             <ListBox.ContextMenu>
                 <ContextMenu x:Name="contextMenuScripts"
                              IsEnabled="{Binding Path=SelectedScriptFile, Mode=OneWay, Converter={StaticResource NullToBooleanConverter}}">
@@ -114,7 +122,7 @@
                                     Value="5,0,0,0" />
                         </Style>
                     </ContextMenu.Resources>
-                    
+
                     <MenuItem x:Name="menuItemScriptsExecute"
                               Header="Execute"
                               Click="MenuItemScriptsExecute_Click">
@@ -149,7 +157,7 @@
 
         <StackPanel Orientation="Horizontal"
                     Grid.Row="1"
-                    Grid.ColumnSpan="2"
+                    Grid.ColumnSpan="3"
                     Margin="0,5,0,0">
             <Button x:Name="buttonExecute"
                     Content="Execute"
