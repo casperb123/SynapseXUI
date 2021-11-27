@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
-             xmlns:root="clr-namespace:SynapseXUI"
              xmlns:viewModels="clr-namespace:SynapseXUI.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewModels:EditorUserControlViewModel}"
              mc:Ignorable="d"
@@ -108,8 +107,6 @@
                  SelectedItem="{Binding Path=SelectedScriptFile}"
                  DisplayMemberPath="Filename"
                  VirtualizingPanel.IsVirtualizing="False"
-                 ScrollViewer.HorizontalScrollBarVisibility="Visible"
-                 ScrollViewer.VerticalScrollBarVisibility="Visible"
                  SizeChanged="ListBoxScripts_SizeChanged">
             <ListBox.ContextMenu>
                 <ContextMenu x:Name="contextMenuScripts"
