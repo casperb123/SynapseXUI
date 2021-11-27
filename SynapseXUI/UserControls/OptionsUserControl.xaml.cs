@@ -66,5 +66,22 @@ namespace SynapseXUI.UserControls
                 App.ResetSettings();
             }
         }
+
+        private void HyperlinkResetWindowSize_Click(object sender, RoutedEventArgs e)
+        {
+            if (PromptWindow.Show("Reset Window Size", "Are you sure that you want to reset the window size and state to default?", PromptType.YesNo))
+            {
+                App.Settings.WindowSize.SetDefault();
+            }
+        }
+
+        private void HyperlinkResetScriptsWidth_Click(object sender, RoutedEventArgs e)
+        {
+            if (PromptWindow.Show("Reset Scripts Width", "Are you sure that you want to reset the scripts listbox width to default?", PromptType.YesNo))
+            {
+                App.Settings.ScriptsListWidth = new GridLength(200);
+                EditorUserControl.Instance.columnScripts.Width = App.Settings.ScriptsListWidth;
+            }
+        }
     }
 }

@@ -110,7 +110,7 @@ namespace SynapseXUI.UserControls
 
         private void ListBoxScripts_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            App.Settings.ScriptsListWidth = new GridLength(columnScripts.ActualWidth);
+            App.Settings.ScriptsListWidth = columnScripts.Width;
         }
     }
 }

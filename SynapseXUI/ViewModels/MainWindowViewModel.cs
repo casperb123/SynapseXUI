@@ -74,14 +74,6 @@ namespace SynapseXUI.ViewModels
             mainWindow.userControlEditor.Content = EditorUserControl;
             mainWindow.userControlScriptHub.Content = ScriptHubUserControl;
             mainWindow.userControlOptions.Content = optionsUserControl;
-
-            if (App.Settings.WindowSize.WindowWidth >= mainWindow.MinWidth &&
-                App.Settings.WindowSize.WindowHeight >= mainWindow.MinHeight)
-            {
-                mainWindow.Width = App.Settings.WindowSize.WindowWidth;
-                mainWindow.Height = App.Settings.WindowSize.WindowHeight;
-                mainWindow.WindowState = App.Settings.WindowSize.WindowState;
-            }
         }
 
         private void Lib_AttachEvent(SxLibBase.SynAttachEvents Event, object Param)
@@ -147,15 +139,6 @@ namespace SynapseXUI.ViewModels
         {
             mainWindow.buttonAttach.IsEnabled = false;
             App.Lib.Attach();
-        }
-
-        public void SaveSettings()
-        {
-            App.Settings.WindowSize.WindowWidth = mainWindow.Width;
-            App.Settings.WindowSize.WindowHeight = mainWindow.Height;
-            App.Settings.WindowSize.WindowState = mainWindow.WindowState;
-
-            App.Settings.Save(App.SettingsFilePath);
         }
 
         public void KillRoblox()

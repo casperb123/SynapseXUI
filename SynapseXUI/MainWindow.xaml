@@ -4,17 +4,20 @@
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:root="clr-namespace:SynapseXUI"
                  xmlns:viewmodels="clr-namespace:SynapseXUI.ViewModels"
                  d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
                  mc:Ignorable="d"
                  Title="{Binding Path=SynapseStatus, StringFormat='Synapse X{0}'}"
-                 Height="500"
-                 Width="800"
-                 MinHeight="350"
+                 Height="{Binding Path=WindowSize.WindowHeight, Source={x:Static root:App.Settings}, Mode=TwoWay}"
+                 Width="{Binding Path=WindowSize.WindowWidth, Source={x:Static root:App.Settings}, Mode=TwoWay}"
+                 MinHeight="365"
                  MinWidth="680"
+                 WindowState="{Binding Path=WindowSize.WindowState, Source={x:Static root:App.Settings}, Mode=TwoWay}"
                  Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
                  Icon="pack://application:,,/libs/synapse.ico"
                  ShowIconOnTitleBar="True"
+                 SizeChanged="MetroWindow_SizeChanged"
                  Closing="MetroWindow_Closing">
     <mah:MetroWindow.IconTemplate>
         <DataTemplate>

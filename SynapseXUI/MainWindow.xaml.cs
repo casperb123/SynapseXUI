@@ -1,5 +1,4 @@
-﻿using CefSharp;
-using MahApps.Metro.Controls;
+﻿using MahApps.Metro.Controls;
 using SynapseXUI.Entities;
 using SynapseXUI.ViewModels;
 using SynapseXUI.Windows;
@@ -30,7 +29,7 @@ namespace SynapseXUI
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
             ViewModel.EditorUserControl.ViewModel.SaveTabs();
-            ViewModel.SaveSettings();
+            App.Settings.Save(App.SettingsFilePath);
             Environment.Exit(0);
         }
 
@@ -59,6 +58,17 @@ namespace SynapseXUI
             e.Handled = true;
             PromptWindow.Show("Synapse X", "This UI is developed by Casper:\n" +
                                         "Discord: CasperTheGhost#3549", PromptType.OK);
+        }
+
+        private void MetroWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double maxWidth = ActualWidth - 12 - ViewModel.EditorUserControl.columnGridSplitter.Width.Value - ViewModel.EditorUserControl.columnEditors.MinWidth;
+            ViewModel.EditorUserControl.columnScripts.MaxWidth = maxWidth;
+            if (App.Settings.ScriptsListWidth.Value > maxWidth)
+            {
+                App.Settings.ScriptsListWidth = new GridLength(maxWidth);
+                ViewModel.EditorUserControl.columnScripts.Width = App.Settings.ScriptsListWidth;
+            }
         }
     }
 }
