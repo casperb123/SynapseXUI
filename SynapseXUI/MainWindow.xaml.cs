@@ -62,13 +62,7 @@ namespace SynapseXUI
 
         private void MetroWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            double maxWidth = ActualWidth - 12 - ViewModel.EditorUserControl.columnGridSplitter.Width.Value - ViewModel.EditorUserControl.columnEditors.MinWidth;
-            ViewModel.EditorUserControl.columnScripts.MaxWidth = maxWidth;
-            if (App.Settings.ScriptsListWidth.Value > maxWidth)
-            {
-                App.Settings.ScriptsListWidth = new GridLength(maxWidth);
-                ViewModel.EditorUserControl.columnScripts.Width = App.Settings.ScriptsListWidth;
-            }
+            ViewModel.SetEditorScriptsMaxWidth();
         }
     }
 }

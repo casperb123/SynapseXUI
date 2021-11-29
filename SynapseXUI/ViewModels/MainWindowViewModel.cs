@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SynapseXUI.ViewModels
 {
@@ -133,6 +134,20 @@ namespace SynapseXUI.ViewModels
                     mainWindow.buttonAttach.IsEnabled = true;
                 });
             });
+        }
+
+        public void SetEditorScriptsMaxWidth()
+        {
+            double editorSplitterWidth = EditorUserControl.columnGridSplitter.Width.Value;
+            double editorMinWidth = EditorUserControl.columnEditors.MinWidth;
+            double maxWidth = mainWindow.ActualWidth - 12 - editorSplitterWidth - editorMinWidth;
+
+            EditorUserControl.columnScripts.MaxWidth = maxWidth;
+            if (App.Settings.ScriptsListWidth.Value > maxWidth)
+            {
+                App.Settings.ScriptsListWidth = new GridLength(maxWidth);
+                EditorUserControl.columnScripts.Width = App.Settings.ScriptsListWidth;
+            }
         }
 
         public void Attach()
