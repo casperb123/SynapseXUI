@@ -74,9 +74,9 @@ namespace SynapseXUI.ViewModels
         {
             if (e.Error != null)
             {
-                if (PromptWindow.Show("Getting scripts failed", "Getting the scripts from rbxscriptx.xyz failed, would you like to try again?\n\n" +
-                                                             "Error:\n" +
-                                                             $"{e.Error.Message}", PromptType.YesNo))
+                if (PromptWindow.Show("Getting scripts failed", $"An error occured while getting the scripts from rbxscripts.xyz, would you like to try again?\n\n" +
+                                                                $"Error:\n" +
+                                                                $"{e.Error.Message}", PromptType.YesNo))
                 {
                     webClient.DownloadStringAsync(rbxScriptsLink);
                 }

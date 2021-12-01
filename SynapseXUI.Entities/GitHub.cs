@@ -1,4 +1,5 @@
 ﻿using Octokit;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -80,21 +81,28 @@ namespace SynapseXUI.Entities
 
         public async Task<bool> CheckForUpdateAsync()
         {
-            IReadOnlyList<Release> releases = await client.Repository.Release.GetAll(gitHubUsername, gitHubRepositoryName);
-            Release release = releases.FirstOrDefault(x => Version.ConvertToVersion(x.TagName.Replace("v", "")) > currentVersion);
-
-            if (release is null)
+            try
             {
-                return false;
+                IReadOnlyList<Release> releases = await client.Repository.Release.GetAll(gitHubUsername, gitHubRepositoryName);
+                Release release = releases.FirstOrDefault(x => Version.ConvertToVersion(x.TagName.Replace("v", "")) > currentVersion);
+
+                if (release is null)
+                {
+                    return false;
+                }
+                else
+                {
+                    LatestVersion = Version.ConvertToVersion(release.TagName.Replace("v", ""));
+                    IsUpdateAvailable = true;
+                    Changelog = release.Body;
+                    releaseLink = release.Assets[0].BrowserDownloadUrl;
+
+                    return true;
+                }
             }
-            else
+            catch (Exception)
             {
-                LatestVersion = Version.ConvertToVersion(release.TagName.Replace("v", ""));
-                IsUpdateAvailable = true;
-                Changelog = release.Body;
-                releaseLink = release.Assets[0].BrowserDownloadUrl;
-
-                return true;
+                throw;
             }
         }
 

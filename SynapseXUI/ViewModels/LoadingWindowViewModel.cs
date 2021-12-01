@@ -2,6 +2,7 @@
 using sxlib.Specialized;
 using SynapseXUI.Entities;
 using SynapseXUI.Windows;
+using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
@@ -57,13 +58,29 @@ namespace SynapseXUI.ViewModels
         private async void Load()
         {
             await Task.Delay(1000);
-            bool updateAvailable = await App.GitHub.CheckForUpdateAsync();
-            if (updateAvailable)
-            {
-                App.NotifyUpdate();
-            }
-
+            await CheckForUpdates();
             App.Lib.Load();
+        }
+
+        private async Task CheckForUpdates()
+        {
+            try
+            {
+                bool updateAvailable = await App.GitHub.CheckForUpdateAsync();
+                if (updateAvailable)
+                {
+                    App.NotifyUpdate();
+                }
+            }
+            catch (Exception e)
+            {
+                if (PromptWindow.Show("Checking for updates failed", $"An error occured while checking for updates, would you like to try again?\n\n" +
+                                                                     $"Error:\n" +
+                                                                     $"{e.Message}", PromptType.YesNo))
+                {
+                    await CheckForUpdates();
+                }
+            }
         }
 
         private async void Lib_LoadEvent(SxLibBase.SynLoadEvents Event, object Param)
