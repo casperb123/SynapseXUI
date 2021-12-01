@@ -51,12 +51,18 @@ namespace SynapseXUI.ViewModels
             LoadingStatus = "Initializing...";
             App.Lib = SxLib.InitializeWPF(loadingWindow, App.StartupFolderPath);
             App.Lib.LoadEvent += Lib_LoadEvent;
-            LoadLib();
+            Load();
         }
 
-        private async void LoadLib()
+        private async void Load()
         {
             await Task.Delay(1000);
+            bool updateAvailable = await App.GitHub.CheckForUpdateAsync();
+            if (updateAvailable)
+            {
+                App.NotifyUpdate();
+            }
+
             App.Lib.Load();
         }
 

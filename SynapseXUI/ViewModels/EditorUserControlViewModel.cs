@@ -501,7 +501,7 @@ namespace SynapseXUI.ViewModels
 
         public void DeleteFile()
         {
-            if (!PromptWindow.Show("Delete File", $"Are you sure that you want to delete '{SelectedScriptFile.Filename}'? This can't be undone!", PromptType.YesNo))
+            if (!PromptWindow.Show("Delete File", $"Are you sure that you want to delete '{SelectedScriptFile.Filename}'?", PromptType.YesNo))
             {
                 return;
             }

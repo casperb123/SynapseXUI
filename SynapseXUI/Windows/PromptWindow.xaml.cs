@@ -22,7 +22,10 @@ namespace SynapseXUI.Windows
             if (Application.Current.MainWindow != this)
             {
                 Owner = Application.Current.MainWindow;
-                Topmost = App.SxOptions.TopMost;
+                if (App.SxOptions != null)
+                {
+                    Topmost = App.SxOptions.TopMost;
+                }
             }
             else
             {

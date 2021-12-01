@@ -29,6 +29,7 @@ namespace SynapseXUI
         public static SxLibWPF Lib { get; set; }
         public static Options SxOptions { get; set; }
         public static Settings Settings { get; private set; }
+        public static GitHub GitHub { get; private set; }
 
         public App()
         {
@@ -52,6 +53,7 @@ namespace SynapseXUI
             }
 
             Instance = this;
+            GitHub = new GitHub("casperb123", "SynapseXUI");
             StartupFolderPath = Directory.GetCurrentDirectory();
             ScriptsFolderPath = Path.Combine(StartupFolderPath, "scripts");
             string authFolderPath = Path.Combine(StartupFolderPath, "auth");
@@ -105,6 +107,17 @@ namespace SynapseXUI
             Current.MainWindow.Height = Settings.WindowSize.WindowHeight;
 
             Settings.Save(SettingsFilePath);
+        }
+
+        public static void NotifyUpdate()
+        {
+            if (PromptWindow.Show("Update Available", $"An update is available, would you like to download it?\n" +
+                                                      $"Current Version: {GitHub.CurrentVersion}\n" +
+                                                      $"Latest Version: {GitHub.LatestVersion}\n\n" +
+                                                      $"{GitHub.Changelog}", PromptType.YesNo))
+            {
+                GitHub.DownloadLatestRelease();
+            }
         }
     }
 }
