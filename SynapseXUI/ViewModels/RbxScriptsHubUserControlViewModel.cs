@@ -20,6 +20,7 @@ namespace SynapseXUI.ViewModels
         private List<RbxHubScript> loadedScripts;
         private ObservableCollection<RbxHubScript> scripts;
         private bool isLoading;
+        private bool errorLoading;
         private string searchQuery;
 
         public string SearchQuery
@@ -29,6 +30,16 @@ namespace SynapseXUI.ViewModels
             {
                 searchQuery = value;
                 OnPropertyChanged(nameof(SearchQuery));
+            }
+        }
+
+        public bool ErrorLoading
+        {
+            get => errorLoading;
+            set
+            {
+                errorLoading = value;
+                OnPropertyChanged(nameof(ErrorLoading));
             }
         }
 
@@ -72,12 +83,18 @@ namespace SynapseXUI.ViewModels
 
         private void Client_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
+            ErrorLoading = false;
+
             if (e.Error != null)
             {
+                IsLoading = false;
+                ErrorLoading = true;
+
                 if (PromptWindow.Show("Getting scripts failed", $"An error occured while getting the scripts from rbxscripts.xyz, would you like to try again?\n\n" +
                                                                 $"Error:\n" +
                                                                 $"{e.Error.Message}", PromptType.YesNo))
                 {
+                    IsLoading = true;
                     webClient.DownloadStringAsync(rbxScriptsLink);
                 }
             }
@@ -91,6 +108,7 @@ namespace SynapseXUI.ViewModels
         public void GetScripts()
         {
             IsLoading = true;
+            ErrorLoading = false;
             Scripts.Clear();
             webClient.DownloadStringAsync(rbxScriptsLink);
         }

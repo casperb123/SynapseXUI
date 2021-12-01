@@ -11,15 +11,15 @@ namespace SynapseXUI.ViewModels
     public class SynapseHubUserControlViewModel : INotifyPropertyChanged
     {
         private ObservableCollection<SynapseHubScript> scripts;
-        private bool loaded;
+        private bool isLoading;
 
-        public bool Loaded
+        public bool IsLoading
         {
-            get => loaded;
+            get => isLoading;
             set
             {
-                loaded = value;
-                OnPropertyChanged(nameof(Loaded));
+                isLoading = value;
+                OnPropertyChanged(nameof(IsLoading));
             }
         }
 
@@ -52,11 +52,12 @@ namespace SynapseXUI.ViewModels
         private void Lib_ScriptHubEvent(List<SxLibBase.SynHubEntry> e)
         {
             e.ForEach(x => Scripts.Add(new SynapseHubScript(x)));
-            Loaded = true;
+            IsLoading = false;
         }
 
         public void GetScripts()
         {
+            IsLoading = true;
             App.Lib.ScriptHub();
         }
 

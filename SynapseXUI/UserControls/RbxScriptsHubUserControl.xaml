@@ -96,6 +96,19 @@
               Margin="0,5,0,0">
             <mah:ProgressRing Foreground="{DynamicResource MahApps.Brushes.Accent}"
                               IsActive="{Binding Path=IsLoading}" />
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Visibility="{Binding Path=ErrorLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Label HorizontalContentAlignment="Center">
+                    <icons:PackIconMaterialDesign Kind="Error"
+                                                  Width="40"
+                                                  Height="40" />
+                </Label>
+                <Label Content="Getting the scripts failed"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="14"/>
+            </StackPanel>
             <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                           VerticalScrollBarVisibility="Auto">
                 <WrapPanel Orientation="Horizontal">
