@@ -20,7 +20,7 @@
     ![Synapse x folder](https://user-images.githubusercontent.com/42714453/140601088-875d6cbd-ad6d-41fb-bcfe-06ae5a4232b5.png)
     
 4. Run SynapseXUI.exe and the UI should open
-5. Join a game, click on the Attach button and have fun
+5. Join a game, click the Attach button and have fun
 
 ## Screenshots
 ![Synapse loader initializing](https://user-images.githubusercontent.com/42714453/138700720-5b2bec2b-b3fb-498d-bf32-d8b20c60e94e.png)
@@ -28,7 +28,7 @@
 ![Synapse editor](https://user-images.githubusercontent.com/42714453/143599974-2b01ea7c-7af9-448e-9333-08d045641b5c.png)
 ![Synapse scripthub](https://user-images.githubusercontent.com/42714453/143208629-e29243af-be96-41bc-969c-cb43b79a831f.png)
 ![Synapse rbxhub](https://user-images.githubusercontent.com/42714453/143208641-5fe5e819-56dd-47a5-93f5-b78a05187ed6.png)
-![Synapse options](https://user-images.githubusercontent.com/42714453/143599992-ad7b20a1-2e6e-4f87-9bc7-74ebbb9bec0e.png)
+![Synapse options](https://user-images.githubusercontent.com/42714453/144039426-bed9e055-5db4-4e48-980e-6d64c438f719.png)
 
 ## Known bugs
 - Very rarely it crashes with an encrypted data is null exception (i haven't experienced it since version 1.0.2 but it can happen)
