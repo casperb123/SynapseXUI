@@ -1,6 +1,7 @@
 ## About
 ### A custom Synapse X user interface with the following features:
 - Everything from the official UI
+- Update checker/notifier
 - Resizable scripts listbox
 - Both dark and light theme
 - Lots of color options
