@@ -117,7 +117,6 @@ namespace SynapseXUI.ViewModels
             {
                 Title = "Download script",
                 Filter = "Script Files|*.lua;*.txt",
-                InitialDirectory = App.ScriptsFolderPath,
                 FileName = name
             };
 

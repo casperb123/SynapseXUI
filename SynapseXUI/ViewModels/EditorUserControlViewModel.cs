@@ -442,8 +442,7 @@ namespace SynapseXUI.ViewModels
             SaveFileDialog dialog = new SaveFileDialog
             {
                 Title = "Save script",
-                Filter = "Script Files|*.lua;*.txt",
-                InitialDirectory = App.ScriptsFolderPath
+                Filter = "Script Files|*.lua;*.txt"
             };
 
             if (dialog.ShowDialog() == true)
