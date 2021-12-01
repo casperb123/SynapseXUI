@@ -1,3 +1,10 @@
+### Table of Contents
+- [About](#about)
+- [Installation](#installation)
+- [Screenshots](#screenshots)
+- [Known Bugs](#known-bugs)
+- [Credits](#credits)
+
 ## About
 ### A custom Synapse X user interface with the following features:
 - Everything from the official UI
