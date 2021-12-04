@@ -6,7 +6,6 @@
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                  xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
                  xmlns:entities="clr-namespace:SynapseXUI.Entities;assembly=SynapseXUI.Entities"
-                 xmlns:root="clr-namespace:SynapseXUI"
                  xmlns:viewModels="clr-namespace:SynapseXUI.ViewModels"
                  d:DataContext="{d:DesignInstance Type=viewModels:ProgressWindowViewModel}"
                  mc:Ignorable="d"
@@ -17,7 +16,7 @@
                  ShowCloseButton="False"
                  WindowStartupLocation="CenterOwner"
                  SizeToContent="Height"
-                 Icon="pack://application:,,/libs/synapse.ico"
+                 Icon="pack://application:,,,/libs/synapse.ico"
                  ShowIconOnTitleBar="True"
                  Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
     <mah:MetroWindow.IconTemplate>
@@ -26,7 +25,7 @@
                   RenderOptions.EdgeMode="Aliased"
                   RenderOptions.BitmapScalingMode="HighQuality"
                   PreviewMouseDown="IconGrid_PreviewMouseDown">
-                <Image Source="pack://application:,,/libs/synapse.ico" />
+                <Image Source="pack://application:,,,/libs/synapse.ico" />
             </Grid>
         </DataTemplate>
     </mah:MetroWindow.IconTemplate>
