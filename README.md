@@ -21,7 +21,7 @@
 #### Any virus results are false positives, it's because of sxlib.dll and SLInjector.dll (which is a part of Synapse X)
 
 ## Installation
-1. Go to the [latest release](https://github.com/casperb123/SynapseXUI/releases/latest) and download SynapseXUI.zip
+1. Go to the [latest release](https://github.com/casperb123/SynapseXUI/releases/latest) and download **SynapseXUI.zip**
 2. Extract everything into your Synapse X folder
 3. Make sure your Synapse X folder contains these folders and files:
 
