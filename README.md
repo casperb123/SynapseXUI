@@ -21,14 +21,15 @@
 #### Any virus results are false positives, it's because of sxlib.dll and SLInjector.dll (which is a part of Synapse X)
 
 ## Installation
-1. Go to the [latest release](https://github.com/casperb123/SynapseXUI/releases/latest) and download **SynapseXUI.zip**
-2. Extract everything into your Synapse X folder
-3. Make sure your Synapse X folder contains these folders and files:
+1. Make sure that you have [.NET Framework 4.8 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-web-installer) installed
+2. Go to the [latest release](https://github.com/casperb123/SynapseXUI/releases/latest) and download **SynapseXUI.zip**
+3. Extract everything into your Synapse X folder
+4. Make sure your Synapse X folder contains these folders and files:
 
     ![Synapse x folder](https://user-images.githubusercontent.com/42714453/140601088-875d6cbd-ad6d-41fb-bcfe-06ae5a4232b5.png)
     
-4. Run SynapseXUI.exe and the UI should open
-5. Join a game, click the Attach button and have fun
+5. Run SynapseXUI.exe and the UI should open
+6. Join a game, click the Attach button and have fun
 
 ## Screenshots
 ![Synapse loader initializing](https://user-images.githubusercontent.com/42714453/138700720-5b2bec2b-b3fb-498d-bf32-d8b20c60e94e.png)
