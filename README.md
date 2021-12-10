@@ -43,7 +43,6 @@
 - Very rarely it crashes with an encrypted data is null exception (i haven't experienced it since version 1.0.2 but it can happen)
 
 ## Credits
-- CasperTheGhost#3549 (570478646851010562)
+- [CasperTheGhost#3549](https://discord.com/users/570478646851010562)
 - Synapse X developers (sxlib)
-- [rbxscripts.xyz](https://rbxscripts.xyz/) developers
 - [Stack Overflow](https://stackoverflow.com) for helping with errors
