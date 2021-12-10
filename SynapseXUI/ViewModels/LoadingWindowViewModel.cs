@@ -88,22 +88,23 @@ namespace SynapseXUI.ViewModels
             switch (Event)
             {
                 case SxLibBase.SynLoadEvents.UNKNOWN:
-                    PromptWindow.Show("Loading Synapse X", "An unknown error occured, please open the official UI", PromptType.OK);
+                    PromptWindow.Show("Loading Synapse X", "An unknown error occured. Please open the official UI", PromptType.OK);
                     break;
                 case SxLibBase.SynLoadEvents.NOT_LOGGED_IN:
-                    PromptWindow.Show("Loading Synapse X", "You are not logged in to Synapse X, please open the official UI", PromptType.OK);
+                    PromptWindow.Show("Loading Synapse X", "You are not logged in to Synapse X. Please open the official UI", PromptType.OK);
                     break;
                 case SxLibBase.SynLoadEvents.NOT_UPDATED:
-                    PromptWindow.Show("Loading Synapse X", "Synapse X hasn't been updated yet", PromptType.OK);
+                    PromptWindow.Show("Loading Synapse X", "Synapse X is not currently updated. Please wait for an update to release", PromptType.OK);
+                    Environment.Exit(0);
                     break;
                 case SxLibBase.SynLoadEvents.FAILED_TO_VERIFY:
-                    PromptWindow.Show("Loading Synapse X", "Failed to verify data, please open the official UI", PromptType.OK);
+                    PromptWindow.Show("Loading Synapse X", "Failed to verify data. Please open the official UI", PromptType.OK);
                     break;
                 case SxLibBase.SynLoadEvents.FAILED_TO_DOWNLOAD:
-                    PromptWindow.Show("Loading Synapse X", "Failed to download data, please check your anti-virus software", PromptType.OK);
+                    PromptWindow.Show("Loading Synapse X", "Failed to download data. Please check your anti-virus software", PromptType.OK);
                     break;
                 case SxLibBase.SynLoadEvents.UNAUTHORIZED_HWID:
-                    PromptWindow.Show("Loading Synapse X", "Unauthorized Hwid detected, please open the official UI", PromptType.OK);
+                    PromptWindow.Show("Loading Synapse X", "Unauthorized Hwid detected Please open the official UI", PromptType.OK);
                     break;
                 case SxLibBase.SynLoadEvents.CHECKING_WL:
                     LoadingStatus = "Checking whitelist...";

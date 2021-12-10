@@ -315,7 +315,7 @@ namespace SynapseXUI.ViewModels
             OpenFileDialog dialog = new OpenFileDialog
             {
                 Title = "Execute File",
-                Filter = "Script Files | *.lua;*.txt"
+                Filter = "Script Files|*.lua;*.txt"
             };
 
             if (dialog.ShowDialog() == true)
