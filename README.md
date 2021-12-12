@@ -21,7 +21,7 @@
 #### Any virus results are false positives, it's because of sxlib.dll and SLInjector.dll (which is a part of Synapse X)
 
 ## Installation
-1. Make sure that you have [.NET Framework 4.8 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-web-installer) or newer installed
+1. Make sure that you have [.NET Framework 4.8 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48) or newer installed
 2. Go to the [latest release](https://github.com/casperb123/SynapseXUI/releases/latest) and download **SynapseXUI.zip**
 3. Extract everything into your Synapse X folder
 4. Make sure your Synapse X folder contains these folders and files:
@@ -43,7 +43,6 @@
 - Very rarely it crashes with an encrypted data is null exception (i haven't experienced it since version 1.0.2 but it can happen)
 
 ## Credits
-- StitchTheSecond#3549 (570478646851010562)
+- [CasperTheGhost#3549](https://discord.com/users/570478646851010562)
 - Synapse X developers (sxlib)
-- [rbxscripts.xyz](https://rbxscripts.xyz/) developers
 - [Stack Overflow](https://stackoverflow.com) for helping with errors
