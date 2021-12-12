@@ -74,7 +74,7 @@ namespace SynapseXUI.ViewModels
             }
             catch (Exception e)
             {
-                if (PromptWindow.Show("Checking for updates failed", $"An error occured while checking for updates, would you like to try again?\n\n" +
+                if (PromptWindow.Show("Checking for updates failed", $"An error occured while checking for updates. Would you like to try again?\n\n" +
                                                                      $"Error:\n" +
                                                                      $"{e.Message}", PromptType.YesNo))
                 {
@@ -108,7 +108,7 @@ namespace SynapseXUI.ViewModels
                     Environment.Exit(0);
                     break;
                 case SxLibBase.SynLoadEvents.UNAUTHORIZED_HWID:
-                    PromptWindow.Show("Loading Synapse X", "Unauthorized Hwid detected Please open the official UI", PromptType.OK);
+                    PromptWindow.Show("Loading Synapse X", "Unauthorized Hwid detected. Please open the official UI", PromptType.OK);
                     Environment.Exit(0);
                     break;
                 case SxLibBase.SynLoadEvents.CHECKING_WL:
