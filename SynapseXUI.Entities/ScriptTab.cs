@@ -92,5 +92,20 @@ namespace SynapseXUI.Entities
                 FullFilename = filePath;
             }
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is ScriptTab scriptTab)
+            {
+                return string.Equals(Header.ToString(), scriptTab.Header.ToString());
+            }
+
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

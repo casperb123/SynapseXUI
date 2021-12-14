@@ -172,10 +172,14 @@
     <Compile Include="UserControls\SynapseHubUserControl.xaml.cs">
       <DependentUpon>SynapseHubUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\DragDropWindowViewModel.cs" />
     <Compile Include="ViewModels\ProgressWindowViewModel.cs" />
     <Compile Include="ViewModels\PromptWindowViewModel.cs" />
     <Compile Include="ViewModels\RbxScriptsHubUserControlViewModel.cs" />
     <Compile Include="ViewModels\SynapseHubUserControlViewModel.cs" />
+    <Compile Include="Windows\DragDropWindow.xaml.cs">
+      <DependentUpon>DragDropWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\LoadingWindow.xaml.cs">
       <DependentUpon>LoadingWindow.xaml</DependentUpon>
     </Compile>
@@ -203,6 +207,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\SynapseHubUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\DragDropWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

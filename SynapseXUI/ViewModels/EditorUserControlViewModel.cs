@@ -1,5 +1,6 @@
 ﻿using CefSharp;
 using CefSharp.Wpf;
+using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
 using Microsoft.Win32;
 using SynapseXUI.Entities;
@@ -11,17 +12,30 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace SynapseXUI.ViewModels
 {
     public class EditorUserControlViewModel : INotifyPropertyChanged
     {
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetCursorPos(ref Win32Point pt);
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct Win32Point
+        {
+            public int X;
+            public int Y;
+        }
+
         public static EditorUserControlViewModel Instance { get; private set; }
 
         private bool editorReady;
@@ -34,8 +48,13 @@ namespace SynapseXUI.ViewModels
         private ScriptFile selectedScriptFile;
         private bool detectScriptTabChange;
         private ChromiumWebBrowser editor;
+        private DragDropWindow dragDropWindow;
+        private Point startPoint;
 
         public readonly EditorUserControl UserControl;
+        public delegate Point GetPosition(IInputElement element);
+        public bool IsDragging { get; private set; }
+        public (int index, ScriptTab tab) Dragging { get; private set; }
 
         public ChromiumWebBrowser Editor
         {
@@ -164,8 +183,11 @@ namespace SynapseXUI.ViewModels
             {
                 if (userControl.tabControlEditors.Items.Count == 1)
                 {
+                    TabItem tabItem = userControl.tabControlEditors.GetSelectedTabItem();
+
                     userControl.tabControlEditors.SelectedIndex = 0;
-                    userControl.tabControlEditors.GetSelectedTabItem().PreviewMouseDown += EditorsAddTab_PreviewMouseDown;
+                    tabItem.PreviewMouseUp += EditorsAddTab_PreviewMouseUp;
+                    tabItem.PreviewMouseDown += EditorsAddTab_PreviewMouseDown;
 
                     if (App.Settings.SaveTabs && File.Exists(App.TabsFilePath) && !string.IsNullOrWhiteSpace(File.ReadAllText(App.TabsFilePath)))
                     {
@@ -200,10 +222,16 @@ namespace SynapseXUI.ViewModels
             });
         }
 
-        private void EditorsAddTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void EditorsAddTab_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
             AddTab(true);
+        }
+
+        private void EditorsAddTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            SetStartPoint(new Point(-1, -1));
         }
 
         public void ChangeTab()
@@ -213,14 +241,21 @@ namespace SynapseXUI.ViewModels
                 return;
             }
 
-            int tabsCount = Tabs.Collection.Count;
-            if (SelectedTab.IsAddTabButton && tabsCount > 1)
+            if (IsDragging)
             {
-                SelectedTabIndex = Tabs.Collection.Count - 2;
+                SelectedTab = null;
             }
+            else
+            {
+                int tabsCount = Tabs.Collection.Count;
+                if (SelectedTab.IsAddTabButton && tabsCount > 1)
+                {
+                    SelectedTabIndex = Tabs.Collection.Count - 2;
+                }
 
-            SetEditorText(SelectedTab.Text, false);
-            FocusEditor();
+                SetEditorText(SelectedTab.Text, false);
+                FocusEditor();
+            }
         }
 
         public void GetScripts()
@@ -545,6 +580,106 @@ namespace SynapseXUI.ViewModels
             tabs.ForEach(x => CloseTab(x, false, true));
             detectScriptTabChange = true;
             SetEditorText(SelectedTab.Text, true);
+        }
+
+        public ScriptTab GetTargetScriptTab(object source)
+        {
+            var current = source as DependencyObject;
+
+            while (current != null)
+            {
+                if (current is MetroTabItem tabItem)
+                {
+                    return tabItem.Tag as ScriptTab;
+                }
+
+                current = VisualTreeHelper.GetParent(current);
+            }
+
+            return null;
+        }
+
+        private void CreateDragDropWindow(MetroTabItem tabItem)
+        {
+            dragDropWindow = new DragDropWindow(tabItem.Header.ToString(), tabItem.IsSelected);
+            dragDropWindow.Show();
+            MoveDragDropWindow();
+        }
+
+        public void MoveDragDropWindow()
+        {
+            Win32Point point = new Win32Point();
+            GetCursorPos(ref point);
+
+            dragDropWindow.Left = point.X + 10;
+            dragDropWindow.Top = point.Y + 10;
+        }
+
+        public void EndDragDrop(bool resetDrag = false)
+        {
+            if (IsDragging)
+            {
+                IsDragging = false;
+
+                if (resetDrag && Dragging.tab != null)
+                {
+                    Tabs.Collection.Insert(Dragging.index, Dragging.tab);
+                    SelectedTabIndex = Dragging.index;
+                }
+
+                dragDropWindow?.Close();
+                dragDropWindow = null;
+                Dragging = (-1, null);
+            }
+        }
+
+        public void SetStartPoint(Point point)
+        {
+            startPoint = point;
+        }
+
+        public void TriggerDragDrop(Point position, MetroAnimatedSingleRowTabControl tabControl, MetroTabItem tabItem)
+        {
+            if (startPoint.X != -1 &&
+                startPoint.Y != -1 &&
+                (Math.Abs(position.X - startPoint.X) > SystemParameters.MinimumHorizontalDragDistance ||
+                Math.Abs(position.Y - startPoint.Y) > SystemParameters.MinimumVerticalDragDistance))
+            {
+                ScriptTab scriptTab = tabItem.Tag as ScriptTab;
+                DataObject data = new DataObject();
+                data.SetData("ScriptTab", scriptTab);
+                CreateDragDropWindow(tabItem);
+
+                IsDragging = true;
+                Dragging = (Tabs.Collection.IndexOf(scriptTab), scriptTab);
+                Tabs.Collection.Remove(scriptTab);
+
+                DragDrop.DoDragDrop(tabControl, data, DragDropEffects.Move);
+            }
+        }
+
+        public void DropScriptTab(object source)
+        {
+            ScriptTab scriptTabTarget = GetTargetScriptTab(source);
+            if (scriptTabTarget != null)
+            {
+                if (!scriptTabTarget.Equals(Dragging.tab))
+                {
+                    int targetIndex = Tabs.Collection.IndexOf(scriptTabTarget);
+
+                    Tabs.Collection.Insert(targetIndex, Dragging.tab);
+                    EndDragDrop();
+                    SelectedTabIndex = targetIndex;
+                }
+            }
+            else
+            {
+                int targetIndex = Tabs.Collection.Count - 1;
+
+                Tabs.Collection.Insert(targetIndex, Dragging.tab);
+                EndDragDrop();
+                SelectedTabIndex = targetIndex;
+            }
         }
 
         #region CEF Sharp Methods

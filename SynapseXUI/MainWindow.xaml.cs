@@ -69,5 +69,13 @@ namespace SynapseXUI
         {
             ViewModel.SetEditorScriptsMaxWidth();
         }
+
+        private void MetroWindow_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Released)
+            {
+                ViewModel.EditorUserControl.ViewModel.EndDragDrop(true);
+            }
+        }
     }
 }

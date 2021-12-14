@@ -33,8 +33,11 @@
                                               mah:TabControlHelper.Underlined="SelectedTabItem"
                                               mah:HeaderedControlHelper.HeaderFontSize="14"
                                               mah:TabControlHelper.Transition="Normal"
+                                              AllowDrop="True"
                                               TabItemClosingEvent="TabControlEditors_TabItemClosingEvent"
-                                              SelectionChanged="TabControlEditors_SelectionChanged">
+                                              SelectionChanged="TabControlEditors_SelectionChanged"
+                                              PreviewGiveFeedback="TabControlEditors_PreviewGiveFeedback"
+                                              Drop="TabControlEditors_Drop">
             <mah:MetroAnimatedSingleRowTabControl.Resources>
                 <Style TargetType="mah:MetroTabItem">
                     <Setter Property="Header"
@@ -45,6 +48,14 @@
                             Value="{Binding Path=Editor, Source={x:Static viewModels:EditorUserControlViewModel.Instance}}" />
                     <Setter Property="Tag"
                             Value="{Binding}" />
+                    <Setter Property="AllowDrop"
+                            Value="True" />
+                    <EventSetter Event="Drop"
+                                 Handler="MetroTabItem_Drop" />
+                    <EventSetter Event="PreviewMouseDown"
+                                 Handler="MetroTabItem_PreviewMouseDown" />
+                    <EventSetter Event="PreviewMouseMove"
+                                 Handler="MetroTabItem_PreviewMouseMove" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Path=TextChanged}"
                                      Value="True">

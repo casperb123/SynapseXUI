@@ -18,7 +18,8 @@
                  Icon="pack://application:,,,/libs/synapse.ico"
                  ShowIconOnTitleBar="True"
                  SizeChanged="MetroWindow_SizeChanged"
-                 Closing="MetroWindow_Closing">
+                 Closing="MetroWindow_Closing"
+                 PreviewMouseMove="MetroWindow_PreviewMouseMove">
     <mah:MetroWindow.IconTemplate>
         <DataTemplate>
             <Grid Margin="0,4"

@@ -1,7 +1,9 @@
-﻿using SynapseXUI.Entities;
+﻿using MahApps.Metro.Controls;
+using SynapseXUI.Entities;
 using SynapseXUI.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using static MahApps.Metro.Controls.BaseMetroTabControl;
 
 namespace SynapseXUI.UserControls
@@ -111,6 +113,51 @@ namespace SynapseXUI.UserControls
         private void ListBoxScripts_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             App.Settings.ScriptsListWidth = columnScripts.Width;
+        }
+
+        private void MetroTabItem_Drop(object sender, DragEventArgs e)
+        {
+            if (e.AllowedEffects.HasFlag(DragDropEffects.Move) &&
+                e.Data.GetDataPresent("ScriptTab") &&
+                ViewModel.Dragging.tab != null)
+            {
+                ViewModel.DropScriptTab(e.OriginalSource);
+                e.Effects = DragDropEffects.Move;
+            }
+        }
+
+        private void TabControlEditors_Drop(object sender, DragEventArgs e)
+        {
+            if (e.AllowedEffects.HasFlag(DragDropEffects.Move) &&
+                e.Data.GetDataPresent("ScriptTab") &&
+                ViewModel.Dragging.tab != null)
+            {
+                ViewModel.DropScriptTab(e.OriginalSource);
+                e.Effects = DragDropEffects.Move;
+            }
+        }
+
+        private void TabControlEditors_PreviewGiveFeedback(object sender, GiveFeedbackEventArgs e)
+        {
+            ViewModel.MoveDragDropWindow();
+        }
+
+        private void MetroTabItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ViewModel.SetStartPoint(e.GetPosition(null));
+        }
+
+        private void MetroTabItem_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed && !ViewModel.IsDragging)
+            {
+                Point position = e.GetPosition(null);
+                MetroTabItem tabItem = sender as MetroTabItem;
+                if (!((ScriptTab)tabItem.Tag).IsAddTabButton && ViewModel.Tabs.Collection.Count > 2)
+                {
+                    ViewModel.TriggerDragDrop(position, tabControlEditors, tabItem);
+                }
+            }
         }
     }
 }
