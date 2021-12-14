@@ -611,8 +611,8 @@ namespace SynapseXUI.ViewModels
             Win32Point point = new Win32Point();
             GetCursorPos(ref point);
 
-            dragDropWindow.Left = point.X + 10;
-            dragDropWindow.Top = point.Y + 10;
+            dragDropWindow.Left = point.X;
+            dragDropWindow.Top = point.Y;
         }
 
         public void EndDragDrop(bool resetDrag = false)
