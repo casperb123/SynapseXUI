@@ -49,12 +49,13 @@ namespace SynapseXUI.ViewModels
         private bool detectScriptTabChange;
         private ChromiumWebBrowser editor;
         private DragDropWindow dragDropWindow;
-        private Point startPoint;
 
         public readonly EditorUserControl UserControl;
         public delegate Point GetPosition(IInputElement element);
         public bool IsDragging { get; private set; }
         public (int index, ScriptTab tab) Dragging { get; private set; }
+        public Point DragStartPoint { get; set; }
+        public Point RelativeDragStartPoint { get; set; }
 
         public ChromiumWebBrowser Editor
         {
@@ -231,7 +232,7 @@ namespace SynapseXUI.ViewModels
         private void EditorsAddTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
-            SetStartPoint(new Point(-1, -1));
+            DragStartPoint = new Point(-1, -1);
         }
 
         public void ChangeTab()
@@ -611,8 +612,8 @@ namespace SynapseXUI.ViewModels
             Win32Point point = new Win32Point();
             GetCursorPos(ref point);
 
-            dragDropWindow.Left = point.X;
-            dragDropWindow.Top = point.Y;
+            dragDropWindow.Left = point.X - RelativeDragStartPoint.X;
+            dragDropWindow.Top = point.Y - RelativeDragStartPoint.Y;
         }
 
         public void EndDragDrop(bool resetDrag = false)
@@ -633,17 +634,12 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public void SetStartPoint(Point point)
-        {
-            startPoint = point;
-        }
-
         public void TriggerDragDrop(Point position, MetroAnimatedSingleRowTabControl tabControl, MetroTabItem tabItem)
         {
-            if (startPoint.X != -1 &&
-                startPoint.Y != -1 &&
-                (Math.Abs(position.X - startPoint.X) > SystemParameters.MinimumHorizontalDragDistance ||
-                Math.Abs(position.Y - startPoint.Y) > SystemParameters.MinimumVerticalDragDistance))
+            if (DragStartPoint.X != -1 &&
+                DragStartPoint.Y != -1 &&
+                (Math.Abs(position.X - DragStartPoint.X) > SystemParameters.MinimumHorizontalDragDistance ||
+                Math.Abs(position.Y - DragStartPoint.Y) > SystemParameters.MinimumVerticalDragDistance))
             {
                 ScriptTab scriptTab = tabItem.Tag as ScriptTab;
                 DataObject data = new DataObject();

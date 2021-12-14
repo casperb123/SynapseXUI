@@ -144,7 +144,8 @@ namespace SynapseXUI.UserControls
 
         private void MetroTabItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            ViewModel.SetStartPoint(e.GetPosition(null));
+            ViewModel.DragStartPoint = e.GetPosition(null);
+            ViewModel.RelativeDragStartPoint = e.GetPosition(sender as MetroTabItem);
         }
 
         private void MetroTabItem_PreviewMouseMove(object sender, MouseEventArgs e)

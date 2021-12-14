@@ -25,8 +25,10 @@
                  Focusable="False">
     <mah:MetroTabControl mah:TabControlHelper.Underlined="SelectedTabItem"
                          mah:HeaderedControlHelper.HeaderFontSize="14"
-                         Margin="10">
+                         IsHitTestVisible="False"
+                         Opacity=".7">
         <mah:MetroTabItem Header="{Binding Path=Header}"
-                          IsSelected="{Binding Path=IsSelected}" />
+                          IsSelected="{Binding Path=IsSelected}"
+                          IsHitTestVisible="False" />
     </mah:MetroTabControl>
 </mah:MetroWindow>
