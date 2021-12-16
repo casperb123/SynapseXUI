@@ -84,6 +84,13 @@
                         </Style>
                     </ContextMenu.Resources>
 
+                    <MenuItem x:Name="menuItemRenameTab"
+                              Header="Rename Tab"
+                              Click="MenuItemRenameTab_Click">
+                        <MenuItem.Icon>
+                            <icons:PackIconMaterialDesign Kind="TextFields" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <MenuItem x:Name="menuItemReloadFile"
                               Header="Reload Tab"
                               IsEnabled="{Binding Path=SelectedTab.FullFilename, Converter={StaticResource NullToBooleanConverter}}"
@@ -154,6 +161,13 @@
                             <icons:PackIconMaterialDesign Kind="OpenInNew" />
                         </MenuItem.Icon>
                     </MenuItem>
+                    <MenuItem x:Name="menuItemScriptsRename"
+                              Header="Rename"
+                              Click="MenuItemScriptsRename_Click">
+                        <MenuItem.Icon>
+                            <icons:PackIconMaterialDesign Kind="TextFields" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <MenuItem x:Name="menuItemScriptsDelete"
                               Header="Delete"
                               Click="MenuItemScriptsDelete_Click">
@@ -189,15 +203,15 @@
                     Margin="0,0,5,0"
                     Padding="20,10"
                     Click="ButtonExecuteFile_Click" />
-            <Button x:Name="buttonSaveFile"
-                    Content="Save File"
+            <Button x:Name="buttonSaveScript"
+                    Content="Save Script"
                     Margin="0,0,5,0"
                     Padding="20,10"
-                    Click="ButtonSaveFile_Click" />
-            <Button x:Name="buttonSaveFileAs"
-                    Content="Save File As"
+                    Click="ButtonSaveScript_Click" />
+            <Button x:Name="buttonSaveScriptAs"
+                    Content="Save Script As"
                     Padding="20,10"
-                    Click="ButtonSaveFileAs_Click" />
+                    Click="ButtonSaveScriptAs_Click" />
         </StackPanel>
     </Grid>
 </UserControl>

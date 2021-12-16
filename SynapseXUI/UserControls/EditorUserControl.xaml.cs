@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.Controls;
 using SynapseXUI.Entities;
 using SynapseXUI.ViewModels;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -60,9 +61,26 @@ namespace SynapseXUI.UserControls
             ViewModel.OpenFile(true, ViewModel.SelectedScriptFile.FullFilename);
         }
 
+        private void MenuItemScriptsRename_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.RenameFile(ViewModel.SelectedScriptFile);
+        }
+
         private void MenuItemScriptsDelete_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.DeleteFile();
+        }
+
+        private void MenuItemRenameTab_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(ViewModel.SelectedTab.FullFilename))
+            {
+                ViewModel.RenameTab();
+            }
+            else
+            {
+                ViewModel.RenameFile(ViewModel.ScriptFiles.FirstOrDefault(x => x.FullFilename == ViewModel.SelectedTab.FullFilename));
+            }
         }
 
         private void MenuItemReloadTab_Click(object sender, RoutedEventArgs e)
@@ -80,21 +98,21 @@ namespace SynapseXUI.UserControls
             ViewModel.CloseAllTabs(ViewModel.SelectedTab);
         }
 
-        private void ButtonSaveFile_Click(object sender, RoutedEventArgs e)
+        private void ButtonSaveScript_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(ViewModel.SelectedTab.FullFilename))
             {
-                ViewModel.SaveFileAs(ViewModel.SelectedTab.Text);
+                ViewModel.SaveScriptAs(ViewModel.SelectedTab);
             }
             else
             {
-                ViewModel.SaveFile(ViewModel.SelectedTab);
+                ViewModel.SaveScript(ViewModel.SelectedTab);
             }
         }
 
-        private void ButtonSaveFileAs_Click(object sender, RoutedEventArgs e)
+        private void ButtonSaveScriptAs_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.SaveFileAs(ViewModel.SelectedTab.Text);
+            ViewModel.SaveScriptAs(ViewModel.SelectedTab);
         }
 
         private void TabControlEditors_TabItemClosingEvent(object sender, TabItemClosingEventArgs e)

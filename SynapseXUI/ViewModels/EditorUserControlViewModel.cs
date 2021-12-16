@@ -473,7 +473,7 @@ namespace SynapseXUI.ViewModels
             SelectedTab.TextChanged = true;
         }
 
-        public void SaveFileAs(string text)
+        public void SaveScriptAs(ScriptTab scriptTab)
         {
             SaveFileDialog dialog = new SaveFileDialog
             {
@@ -481,15 +481,20 @@ namespace SynapseXUI.ViewModels
                 Filter = "Script Files|*.lua;*.txt"
             };
 
+            if (scriptTab.Header.ToString() != "Untitled")
+            {
+                dialog.FileName = scriptTab.Header.ToString();
+            }
+
             if (dialog.ShowDialog() == true)
             {
-                File.WriteAllText(dialog.FileName, text);
+                File.WriteAllText(dialog.FileName, scriptTab.Text);
                 SelectedTab.FullFilename = dialog.FileName;
                 SelectedTab.TextChanged = false;
             }
         }
 
-        public void SaveFile(ScriptTab scriptTab)
+        public void SaveScript(ScriptTab scriptTab)
         {
             File.WriteAllText(scriptTab.FullFilename, scriptTab.Text);
             SelectedTab.TextChanged = false;
@@ -532,6 +537,37 @@ namespace SynapseXUI.ViewModels
                 scriptTab.Text = script;
                 SetEditorText(script, true);
                 FocusEditor();
+            }
+        }
+
+        public void RenameFile(ScriptFile file)
+        {
+            string path = Path.GetDirectoryName(file.FullFilename);
+            string extension = Path.GetExtension(file.FullFilename);
+            string fileName = Path.GetFileNameWithoutExtension(file.FullFilename);
+
+            (bool result, object input) = InputWindow.Show("Rename File", $"Enter a new name for the file '{fileName}'", fileName, InputDataType.Text);
+
+            if (result && !Equals(fileName, input))
+            {
+                string filePath = Path.Combine(path, $"{input}{extension}");
+
+                if (File.Exists(filePath))
+                {
+                    PromptWindow.Show("Rename File", $"A file with the name '{input}' already exists. Please write another name", PromptType.OK);
+                    RenameFile(file);
+                }
+                else
+                {
+                    ScriptTab scriptTab = Tabs.Collection.FirstOrDefault(x => x.FullFilename == file.FullFilename);
+
+                    if (scriptTab != null)
+                    {
+                        scriptTab.FullFilename = filePath;
+                    }
+
+                    File.Move(file.FullFilename, filePath);
+                }
             }
         }
 
@@ -675,6 +711,16 @@ namespace SynapseXUI.ViewModels
                 Tabs.Collection.Insert(targetIndex, Dragging.tab);
                 EndDragDrop();
                 SelectedTabIndex = targetIndex;
+            }
+        }
+
+        public void RenameTab()
+        {
+            (bool result, object input) = InputWindow.Show("Rename Tab", $"Enter a new name for the tab '{SelectedTab.Header}'", SelectedTab.Header.ToString(), InputDataType.Text);
+
+            if (result && !Equals(SelectedTab.Header.ToString(), input))
+            {
+                SelectedTab.Header = input.ToString();
             }
         }
 

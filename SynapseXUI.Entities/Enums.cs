@@ -5,4 +5,9 @@
         OK,
         YesNo
     }
+
+    public enum InputDataType
+    {
+        Text
+    }
 }
