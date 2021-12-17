@@ -27,7 +27,7 @@
 3. Extract everything into your Synapse X folder
 4. Make sure your Synapse X folder contains these folders and files:
 
-    ![Synapse x folder](https://user-images.githubusercontent.com/42714453/140601088-875d6cbd-ad6d-41fb-bcfe-06ae5a4232b5.png)
+    ![Synapse x folder](https://user-images.githubusercontent.com/42714453/146521769-6b9c1197-6086-4c86-bc45-bb7dee146620.png)
     
 5. Run SynapseXUI.exe and the UI should open
 6. Join a game, click the Attach button and have fun
