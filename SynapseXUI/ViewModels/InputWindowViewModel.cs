@@ -1,10 +1,6 @@
 ﻿using SynapseXUI.Entities;
 using SynapseXUI.Windows;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SynapseXUI.ViewModels
