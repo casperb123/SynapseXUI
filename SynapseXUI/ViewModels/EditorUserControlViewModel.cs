@@ -545,7 +545,7 @@ namespace SynapseXUI.ViewModels
             string path = Path.GetDirectoryName(file.FullFilename);
             string extension = Path.GetExtension(file.FullFilename);
             string fileName = Path.GetFileNameWithoutExtension(file.FullFilename);
-            (bool result, object input) = InputWindow.Show("Rename File", $"Enter a new name for the file '{file.Filename}' without the extension", fileName, InputDataType.Text);
+            (bool result, object input) = InputWindow.Show("Rename File", $"Enter a new name for the file '{file.Filename}'", fileName, InputDataType.Text);
 
             if (result && !Equals(fileName, input))
             {
@@ -722,8 +722,7 @@ namespace SynapseXUI.ViewModels
         public void RenameTab()
         {
             string header = SelectedTab.FullFilename is null ? SelectedTab.Header.ToString() : Path.GetFileNameWithoutExtension(SelectedTab.FullFilename);
-            string message = SelectedTab.FullFilename is null ? $"Enter a new name for the tab '{SelectedTab.Header}'" : $"Enter a new name for the tab '{SelectedTab.Header}' without the extension";
-            (bool result, object input) = InputWindow.Show("Rename Tab", message, header, InputDataType.Text);
+            (bool result, object input) = InputWindow.Show("Rename Tab", $"Enter a new name for the tab '{SelectedTab.Header}'", header, InputDataType.Text);
 
             if (result && !Equals(header, input))
             {
