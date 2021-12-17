@@ -549,11 +549,12 @@ namespace SynapseXUI.ViewModels
 
             if (result && !Equals(fileName, input))
             {
-                string filePath = Path.Combine(path, $"{input}{extension}");
+                string newFileName = Path.GetFileNameWithoutExtension(input.ToString());
+                string filePath = Path.Combine(path, $"{newFileName}{extension}");
 
                 if (File.Exists(filePath))
                 {
-                    PromptWindow.Show("Rename File", $"A file with the name '{input}' already exists. Please write another name", PromptType.OK);
+                    PromptWindow.Show("Rename File", $"A file with the name '{newFileName}' already exists. Please write another name", PromptType.OK);
                     BeginRenameFile(file);
                 }
                 else
@@ -721,22 +722,25 @@ namespace SynapseXUI.ViewModels
         public void RenameTab()
         {
             string header = SelectedTab.FullFilename is null ? SelectedTab.Header.ToString() : Path.GetFileNameWithoutExtension(SelectedTab.FullFilename);
-            (bool result, object input) = InputWindow.Show("Rename Tab", $"Enter a new name for the tab '{SelectedTab.Header}' without the extension", header, InputDataType.Text);
+            string message = SelectedTab.FullFilename is null ? $"Enter a new name for the tab '{SelectedTab.Header}'" : $"Enter a new name for the tab '{SelectedTab.Header}' without the extension";
+            (bool result, object input) = InputWindow.Show("Rename Tab", message, header, InputDataType.Text);
 
             if (result && !Equals(header, input))
             {
+                string tabName = Path.GetFileNameWithoutExtension(input.ToString());
+
                 if (!string.IsNullOrWhiteSpace(SelectedTab.FullFilename) && File.Exists(SelectedTab.FullFilename))
                 {
                     string path = Path.GetDirectoryName(SelectedTab.FullFilename);
                     string extension = Path.GetExtension(SelectedTab.FullFilename);
-                    string filePath = Path.Combine(path, $"{input}{extension}");
+                    string filePath = Path.Combine(path, $"{tabName}{extension}");
 
                     RenameFile(ScriptFiles.FirstOrDefault(x => x.FullFilename == SelectedTab.FullFilename), filePath);
                     SelectedTab.FullFilename = filePath;
                 }
                 else
                 {
-                    SelectedTab.Header = input.ToString();
+                    SelectedTab.Header = tabName;
                 }
             }
         }
