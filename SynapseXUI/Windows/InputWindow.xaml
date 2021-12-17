@@ -43,10 +43,10 @@
         </Grid.RowDefinitions>
 
         <StackPanel Margin="0,0,0,15">
-            <Label Content="{Binding Path=Message}"
-                   FontSize="13"
-                   Margin="0,0,0,5"
-                   HorizontalContentAlignment="Center" />
+            <TextBlock Text="{Binding Path=Message}"
+                       FontSize="13"
+                       Margin="0,0,0,10"
+                       TextWrapping="Wrap" />
             <TextBox x:Name="textBoxInput"
                      Text="{Binding Path=Input}"
                      Visibility="{Binding Path=Type, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static entities:InputDataType.Text}}"

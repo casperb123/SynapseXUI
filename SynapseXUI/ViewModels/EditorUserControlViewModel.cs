@@ -540,13 +540,12 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public void RenameFile(ScriptFile file)
+        public void BeginRenameFile(ScriptFile file)
         {
             string path = Path.GetDirectoryName(file.FullFilename);
             string extension = Path.GetExtension(file.FullFilename);
             string fileName = Path.GetFileNameWithoutExtension(file.FullFilename);
-
-            (bool result, object input) = InputWindow.Show("Rename File", $"Enter a new name for the file '{fileName}'", fileName, InputDataType.Text);
+            (bool result, object input) = InputWindow.Show("Rename File", $"Enter a new name for the file '{file.Filename}' without the extension", fileName, InputDataType.Text);
 
             if (result && !Equals(fileName, input))
             {
@@ -555,25 +554,30 @@ namespace SynapseXUI.ViewModels
                 if (File.Exists(filePath))
                 {
                     PromptWindow.Show("Rename File", $"A file with the name '{input}' already exists. Please write another name", PromptType.OK);
-                    RenameFile(file);
+                    BeginRenameFile(file);
                 }
                 else
                 {
-                    ScriptTab scriptTab = Tabs.Collection.FirstOrDefault(x => x.FullFilename == file.FullFilename);
-
-                    if (scriptTab != null)
-                    {
-                        scriptTab.FullFilename = filePath;
-                    }
-
-                    File.Move(file.FullFilename, filePath);
+                    RenameFile(file, filePath);
                 }
+            }
+        }
+
+        private void RenameFile(ScriptFile file, string filePath)
+        {
+            ScriptTab scriptTab = Tabs.Collection.FirstOrDefault(x => x.FullFilename == file.FullFilename);
+            File.Move(file.FullFilename, filePath);
+
+            if (scriptTab != null)
+            {
+                scriptTab.FullFilename = filePath;
+                SaveTabs();
             }
         }
 
         public void DeleteFile()
         {
-            if (!PromptWindow.Show("Delete File", $"Are you sure that you want to delete '{SelectedScriptFile.Filename}'?", PromptType.YesNo))
+            if (!PromptWindow.Show("Delete File", $"Are you sure that you want to delete the file '{SelectedScriptFile.Filename}'?", PromptType.YesNo))
             {
                 return;
             }
@@ -716,11 +720,24 @@ namespace SynapseXUI.ViewModels
 
         public void RenameTab()
         {
-            (bool result, object input) = InputWindow.Show("Rename Tab", $"Enter a new name for the tab '{SelectedTab.Header}'", SelectedTab.Header.ToString(), InputDataType.Text);
+            string header = SelectedTab.FullFilename is null ? SelectedTab.Header.ToString() : Path.GetFileNameWithoutExtension(SelectedTab.FullFilename);
+            (bool result, object input) = InputWindow.Show("Rename Tab", $"Enter a new name for the tab '{SelectedTab.Header}' without the extension", header, InputDataType.Text);
 
-            if (result && !Equals(SelectedTab.Header.ToString(), input))
+            if (result && !Equals(header, input))
             {
-                SelectedTab.Header = input.ToString();
+                if (!string.IsNullOrWhiteSpace(SelectedTab.FullFilename) && File.Exists(SelectedTab.FullFilename))
+                {
+                    string path = Path.GetDirectoryName(SelectedTab.FullFilename);
+                    string extension = Path.GetExtension(SelectedTab.FullFilename);
+                    string filePath = Path.Combine(path, $"{input}{extension}");
+
+                    RenameFile(ScriptFiles.FirstOrDefault(x => x.FullFilename == SelectedTab.FullFilename), filePath);
+                    SelectedTab.FullFilename = filePath;
+                }
+                else
+                {
+                    SelectedTab.Header = input.ToString();
+                }
             }
         }
 

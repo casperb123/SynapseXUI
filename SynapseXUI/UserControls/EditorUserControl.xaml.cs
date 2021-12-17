@@ -63,7 +63,7 @@ namespace SynapseXUI.UserControls
 
         private void MenuItemScriptsRename_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.RenameFile(ViewModel.SelectedScriptFile);
+            ViewModel.BeginRenameFile(ViewModel.SelectedScriptFile);
         }
 
         private void MenuItemScriptsDelete_Click(object sender, RoutedEventArgs e)
@@ -73,14 +73,7 @@ namespace SynapseXUI.UserControls
 
         private void MenuItemRenameTab_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(ViewModel.SelectedTab.FullFilename))
-            {
-                ViewModel.RenameTab();
-            }
-            else
-            {
-                ViewModel.RenameFile(ViewModel.ScriptFiles.FirstOrDefault(x => x.FullFilename == ViewModel.SelectedTab.FullFilename));
-            }
+            ViewModel.RenameTab();
         }
 
         private void MenuItemReloadTab_Click(object sender, RoutedEventArgs e)
