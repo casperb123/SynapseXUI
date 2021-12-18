@@ -74,7 +74,7 @@ namespace SynapseXUI.Windows
 
         private void TextBoxInput_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = Regex.IsMatch(e.Text, "[^a-zA-Z0-9-_.]+");
+            e.Handled = Regex.IsMatch(e.Text, @"[<>:""/\\|?*]+");
         }
 
         private void TextBoxInput_KeyDown(object sender, KeyEventArgs e)
