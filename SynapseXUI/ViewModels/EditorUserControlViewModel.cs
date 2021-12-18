@@ -184,11 +184,8 @@ namespace SynapseXUI.ViewModels
             {
                 if (userControl.tabControlEditors.Items.Count == 1)
                 {
-                    TabItem tabItem = userControl.tabControlEditors.GetSelectedTabItem();
-
                     userControl.tabControlEditors.SelectedIndex = 0;
-                    tabItem.PreviewMouseUp += EditorsAddTab_PreviewMouseUp;
-                    tabItem.PreviewMouseDown += EditorsAddTab_PreviewMouseDown;
+                    userControl.tabControlEditors.GetSelectedTabItem().PreviewMouseDown += EditorsAddTab_PreviewMouseDown;
 
                     if (App.Settings.SaveTabs && File.Exists(App.TabsFilePath) && !string.IsNullOrWhiteSpace(File.ReadAllText(App.TabsFilePath)))
                     {
@@ -223,16 +220,12 @@ namespace SynapseXUI.ViewModels
             });
         }
 
-        private void EditorsAddTab_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            e.Handled = true;
-            AddTab(true);
-        }
-
         private void EditorsAddTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
             DragStartPoint = new Point(-1, -1);
+            RelativeDragStartPoint = new Point(-1, -1);
+            AddTab(true);
         }
 
         public void ChangeTab()

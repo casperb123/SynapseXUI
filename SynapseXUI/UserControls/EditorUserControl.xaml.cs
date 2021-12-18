@@ -155,15 +155,29 @@ namespace SynapseXUI.UserControls
         private void MetroTabItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             MetroTabItem tabItem = sender as MetroTabItem;
+            ScriptTab scriptTab = tabItem.Tag as ScriptTab;
 
-            ViewModel.SelectedTab = tabItem.Tag as ScriptTab;
-            ViewModel.DragStartPoint = e.GetPosition(null);
-            ViewModel.RelativeDragStartPoint = e.GetPosition(tabItem);
+            if (!scriptTab.IsAddTabButton && !(e.OriginalSource is Grid))
+            {
+                ViewModel.SelectedTab = tabItem.Tag as ScriptTab;
+                ViewModel.DragStartPoint = e.GetPosition(null);
+                ViewModel.RelativeDragStartPoint = e.GetPosition(tabItem);
+            }
+            else
+            {
+                ViewModel.DragStartPoint = new Point(-1, -1);
+                ViewModel.RelativeDragStartPoint = new Point(-1, -1);
+            }
         }
 
         private void MetroTabItem_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed && !ViewModel.IsDragging)
+            if (e.LeftButton == MouseButtonState.Pressed &&
+                !ViewModel.IsDragging &&
+                ViewModel.DragStartPoint.X != -1 &&
+                ViewModel.DragStartPoint.Y != -1 &&
+                ViewModel.RelativeDragStartPoint.X != -1 &&
+                ViewModel.RelativeDragStartPoint.Y != -1)
             {
                 Point position = e.GetPosition(null);
                 MetroTabItem tabItem = sender as MetroTabItem;
