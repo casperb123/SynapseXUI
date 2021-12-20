@@ -147,35 +147,35 @@
                     </ContextMenu.Resources>
 
                     <MenuItem x:Name="menuItemScriptsExecute"
-                              Header="Execute"
+                              Header="Execute File"
                               Click="MenuItemScriptsExecute_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="PlayArrow" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="menuItemScriptsLoadCurrentTab"
-                              Header="Load to current tab"
+                              Header="Load To Current Tab"
                               Click="MenuItemScriptsLoadCurrentTab_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="OpenInBrowser" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="menuItemScriptsLoadNewTab"
-                              Header="Load to new tab"
+                              Header="Load To New Tab"
                               Click="MenuItemScriptsLoadNewTab_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="OpenInNew" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="menuItemScriptsRename"
-                              Header="Rename"
+                              Header="Rename File"
                               Click="MenuItemScriptsRename_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="TextFields" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="menuItemScriptsDelete"
-                              Header="Delete"
+                              Header="Delete File"
                               Click="MenuItemScriptsDelete_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="Delete" />
