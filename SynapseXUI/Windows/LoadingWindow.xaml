@@ -35,7 +35,9 @@
         <mah:WindowCommands>
             <CheckBox Content="Top Most"
                       Margin="0,0,10,0"
-                      IsChecked="{Binding Path=LoaderTopMost, Source={x:Static root:App.Settings}}" />
+                      IsChecked="{Binding Path=LoaderTopMost, Source={x:Static root:App.Settings}}"
+                      Checked="CheckBox_Checked"
+                      Unchecked="CheckBox_Unchecked" />
         </mah:WindowCommands>
     </mah:MetroWindow.RightWindowCommands>
 

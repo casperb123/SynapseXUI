@@ -62,7 +62,7 @@ namespace SynapseXUI.UserControls
 
         private void MenuItemScriptsRename_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.BeginRenameFile(ViewModel.SelectedScriptFile);
+            ViewModel.RenameFile(ViewModel.SelectedScriptFile);
         }
 
         private void MenuItemScriptsDelete_Click(object sender, RoutedEventArgs e)
@@ -77,7 +77,7 @@ namespace SynapseXUI.UserControls
 
         private void MenuItemReloadTab_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.ReloadTab();
+            ViewModel.ReloadTab(ViewModel.SelectedTab, true);
         }
 
         private void MenuItemEditorsCloseAllTabs_Click(object sender, RoutedEventArgs e)

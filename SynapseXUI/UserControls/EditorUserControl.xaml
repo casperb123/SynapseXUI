@@ -95,9 +95,8 @@
                             <icons:PackIconMaterialDesign Kind="TextFields" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem x:Name="menuItemReloadFile"
+                    <MenuItem x:Name="menuItemReloadTab"
                               Header="Reload Tab"
-                              IsEnabled="{Binding Path=SelectedTab.FullFilename, Converter={StaticResource NullToBooleanConverter}}"
                               Visibility="{Binding Path=RightClickIsTabItem, Converter={StaticResource BooleanToVisibilityConverter}}"
                               Click="MenuItemReloadTab_Click">
                         <MenuItem.Icon>

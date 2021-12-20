@@ -265,10 +265,15 @@ namespace SynapseXUI.ViewModels
 
             foreach (ScriptTab tab in Tabs.Collection.Where(x => !x.IsAddTabButton))
             {
-                if (!string.IsNullOrEmpty(tab.FullFilename) && !File.Exists(tab.FullFilename))
+                if (string.IsNullOrEmpty(tab.FullFilename) || (!string.IsNullOrEmpty(tab.FullFilename) && !File.Exists(tab.FullFilename)))
                 {
                     tab.FullFilename = null;
                     tabsChanged = true;
+
+                    if (App.Settings.SyncronizeTabAndFile)
+                    {
+                        tab.Header = "Untitled";
+                    }
                 }
             }
 
@@ -488,6 +493,7 @@ namespace SynapseXUI.ViewModels
                 if (App.Settings.SyncronizeTabAndFile)
                 {
                     SelectedTab.FullFilename = dialog.FileName;
+                    SelectedTab.Header = Path.GetFileName(SelectedTab.FullFilename);
                 }
             }
         }
@@ -522,11 +528,12 @@ namespace SynapseXUI.ViewModels
 
                 if (newTab)
                 {
-                    scriptTab = AddTab(false, scriptFilePath);
+                    scriptTab = AddTab(false, filePath: scriptFilePath);
                 }
                 else
                 {
                     SelectedTab.FullFilename = scriptFilePath;
+                    SelectedTab.Header = Path.GetFileName(SelectedTab.FullFilename);
                     scriptTab = SelectedTab;
                 }
 
@@ -538,7 +545,7 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public void BeginRenameFile(ScriptFile file)
+        public void RenameFile(ScriptFile file)
         {
             string path = Path.GetDirectoryName(file.FullFilename);
             string extension = Path.GetExtension(file.FullFilename);
@@ -553,24 +560,24 @@ namespace SynapseXUI.ViewModels
                 if (File.Exists(filePath))
                 {
                     PromptWindow.Show("Rename File", $"A file with the name '{newFileName}' already exists. Please write another name", PromptType.OK);
-                    BeginRenameFile(file);
+                    RenameFile(file);
                 }
                 else
                 {
-                    RenameFile(file, filePath);
+                    ScriptTab scriptTab = Tabs.Collection.FirstOrDefault(x => x.FullFilename == file.FullFilename);
+                    File.Move(file.FullFilename, filePath);
+
+                    if (scriptTab != null)
+                    {
+                        scriptTab.FullFilename = filePath;
+                        if (App.Settings.SyncronizeTabAndFile)
+                        {
+                            ReloadTab(scriptTab, false);
+                        }
+
+                        SaveTabs();
+                    }
                 }
-            }
-        }
-
-        private void RenameFile(ScriptFile file, string filePath)
-        {
-            ScriptTab scriptTab = Tabs.Collection.FirstOrDefault(x => x.FullFilename == file.FullFilename);
-            File.Move(file.FullFilename, filePath);
-
-            if (scriptTab != null)
-            {
-                scriptTab.FullFilename = filePath;
-                SaveTabs();
             }
         }
 
@@ -579,24 +586,40 @@ namespace SynapseXUI.ViewModels
             if (SelectedScriptFile != null &&
                 PromptWindow.Show("Delete File", $"Are you sure that you want to delete the file '{SelectedScriptFile.Filename}'?", PromptType.YesNo))
             {
-                ScriptTab scriptTab = Tabs.Collection.FirstOrDefault(x => x.FullFilename == SelectedScriptFile.FullFilename);
                 File.Delete(SelectedScriptFile.FullFilename);
-
-                if (scriptTab != null)
-                {
-                    scriptTab.FullFilename = null;
-                }
             }
         }
 
-        public void ReloadTab()
+        public void ReloadTab(ScriptTab scriptTab, bool confirm)
         {
-            if (PromptWindow.Show("Reload Tab", "Are you sure you want to reload the current tab? All unsaved changes will be lost!", PromptType.YesNo))
+            if (!confirm || PromptWindow.Show("Reload Tab", $"Are you sure you want to reload the the tab '{scriptTab.Header}'? All unsaved changes will be lost!", PromptType.YesNo))
             {
-                string text = File.ReadAllText(SelectedTab.FullFilename);
-                SelectedTab.Text = text;
-                SelectedTab.TextChanged = false;
-                SetEditorText(text, true);
+                scriptTab.TextChanged = false;
+
+                if (!string.IsNullOrWhiteSpace(scriptTab.FullFilename) && File.Exists(scriptTab.FullFilename))
+                {
+                    string text = File.ReadAllText(scriptTab.FullFilename);
+                    scriptTab.Text = text;
+
+                    if (SelectedTab == scriptTab)
+                    {
+                        SetEditorText(text, true);
+                    }
+
+                    if (App.Settings.SyncronizeTabAndFile)
+                    {
+                        scriptTab.Header = Path.GetFileName(scriptTab.FullFilename);
+                    }
+                }
+                else
+                {
+                    scriptTab.FullFilename = null;
+
+                    if (App.Settings.SyncronizeTabAndFile)
+                    {
+                        scriptTab.Header = "Untitled";
+                    }
+                }
             }
         }
 
@@ -728,18 +751,6 @@ namespace SynapseXUI.ViewModels
             {
                 string tabName = Path.GetFileNameWithoutExtension(input.ToString());
                 SelectedTab.Header = tabName;
-
-                if (!string.IsNullOrWhiteSpace(SelectedTab.FullFilename) &&
-                    File.Exists(SelectedTab.FullFilename) &&
-                    App.Settings.SyncronizeTabAndFile)
-                {
-                    string path = Path.GetDirectoryName(SelectedTab.FullFilename);
-                    string extension = Path.GetExtension(SelectedTab.FullFilename);
-                    string filePath = Path.Combine(path, $"{tabName}{extension}");
-
-                    RenameFile(ScriptFiles.FirstOrDefault(x => x.FullFilename == SelectedTab.FullFilename), filePath);
-                    SelectedTab.FullFilename = filePath;
-                }
             }
         }
 

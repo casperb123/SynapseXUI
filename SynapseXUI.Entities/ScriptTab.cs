@@ -16,8 +16,6 @@ namespace SynapseXUI.Entities
 
         [field: NonSerialized]
         public bool IsInitialized { get; set; }
-        [field: NonSerialized]
-        public bool Syncronize { get; set; }
 
         public bool TextChanged
         {
@@ -68,10 +66,6 @@ namespace SynapseXUI.Entities
             {
                 fullFilename = value;
                 OnPropertyChanged(nameof(FullFilename));
-                if (Syncronize)
-                {
-                    Header = string.IsNullOrEmpty(value) ? "Untitled" : Path.GetFileName(value);
-                }
             }
         }
 
@@ -89,11 +83,15 @@ namespace SynapseXUI.Entities
         public ScriptTab(object header, string filePath, bool syncronize)
         {
             Header = header;
-            Syncronize = syncronize;
 
             if (!string.IsNullOrEmpty(filePath))
             {
                 FullFilename = filePath;
+                
+                if (syncronize)
+                {
+                    Header = Path.GetFileName(FullFilename);
+                }
             }
         }
     }
