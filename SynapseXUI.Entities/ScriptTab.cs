@@ -80,18 +80,14 @@ namespace SynapseXUI.Entities
             }
         }
 
-        public ScriptTab(object header, string filePath, bool syncronize)
+        public ScriptTab(object header, string filePath)
         {
             Header = header;
 
             if (!string.IsNullOrEmpty(filePath))
             {
                 FullFilename = filePath;
-                
-                if (syncronize)
-                {
-                    Header = Path.GetFileName(FullFilename);
-                }
+                Header = Path.GetFileName(FullFilename);
             }
         }
     }

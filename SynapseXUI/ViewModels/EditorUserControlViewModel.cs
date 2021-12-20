@@ -178,7 +178,7 @@ namespace SynapseXUI.ViewModels
             };
             icon.SetResourceReference(Control.ForegroundProperty, "MahApps.Brushes.ThemeForeground");
 
-            ScriptTab scriptTab = new ScriptTab(icon, null, false)
+            ScriptTab scriptTab = new ScriptTab(icon, null)
             {
                 Header = icon,
                 IsAddTabButton = true,
@@ -269,11 +269,6 @@ namespace SynapseXUI.ViewModels
                 {
                     tab.FullFilename = null;
                     tabsChanged = true;
-
-                    if (App.Settings.SyncronizeTabAndFile)
-                    {
-                        tab.Header = "Untitled";
-                    }
                 }
             }
 
@@ -362,7 +357,7 @@ namespace SynapseXUI.ViewModels
         public ScriptTab AddTab(bool saveTabs, string header = "Untitled", string filePath = null, string text = null, bool scrollToEnd = true)
         {
             string theme = App.Settings.Theme.ApplicationTheme;
-            ScriptTab scriptTab = new ScriptTab(header, filePath, App.Settings.SyncronizeTabAndFile)
+            ScriptTab scriptTab = new ScriptTab(header, filePath)
             {
                 Text = string.IsNullOrEmpty(filePath) ? text : File.ReadAllText(filePath),
                 EnableCloseButton = true
@@ -488,13 +483,8 @@ namespace SynapseXUI.ViewModels
             if (dialog.ShowDialog() == true)
             {
                 File.WriteAllText(dialog.FileName, scriptTab.Text);
+                SelectedTab.FullFilename = dialog.FileName;
                 SelectedTab.TextChanged = false;
-
-                if (App.Settings.SyncronizeTabAndFile)
-                {
-                    SelectedTab.FullFilename = dialog.FileName;
-                    SelectedTab.Header = Path.GetFileName(SelectedTab.FullFilename);
-                }
             }
         }
 
@@ -557,26 +547,14 @@ namespace SynapseXUI.ViewModels
                 string newFileName = Path.GetFileNameWithoutExtension(input.ToString());
                 string filePath = Path.Combine(path, $"{newFileName}{extension}");
 
-                if (File.Exists(filePath))
+                if (!File.Exists(filePath))
                 {
-                    PromptWindow.Show("Rename File", $"A file with the name '{newFileName}' already exists. Please write another name", PromptType.OK);
-                    RenameFile(file);
+                    File.Move(file.FullFilename, filePath);
                 }
                 else
                 {
-                    ScriptTab scriptTab = Tabs.Collection.FirstOrDefault(x => x.FullFilename == file.FullFilename);
-                    File.Move(file.FullFilename, filePath);
-
-                    if (scriptTab != null)
-                    {
-                        scriptTab.FullFilename = filePath;
-                        if (App.Settings.SyncronizeTabAndFile)
-                        {
-                            ReloadTab(scriptTab, false);
-                        }
-
-                        SaveTabs();
-                    }
+                    PromptWindow.Show("Rename File", $"A file with the name '{newFileName}' already exists. Please write another name", PromptType.OK);
+                    RenameFile(file);
                 }
             }
         }
@@ -590,35 +568,21 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public void ReloadTab(ScriptTab scriptTab, bool confirm)
+        public void ReloadTab()
         {
-            if (!confirm || PromptWindow.Show("Reload Tab", $"Are you sure you want to reload the the tab '{scriptTab.Header}'? All unsaved changes will be lost!", PromptType.YesNo))
+            if (PromptWindow.Show("Reload Tab", $"Are you sure you want to reload the the tab '{SelectedTab.Header}'? All unsaved changes will be lost!", PromptType.YesNo))
             {
-                scriptTab.TextChanged = false;
+                SelectedTab.TextChanged = false;
 
-                if (!string.IsNullOrWhiteSpace(scriptTab.FullFilename) && File.Exists(scriptTab.FullFilename))
+                if (!string.IsNullOrWhiteSpace(SelectedTab.FullFilename) && File.Exists(SelectedTab.FullFilename))
                 {
-                    string text = File.ReadAllText(scriptTab.FullFilename);
-                    scriptTab.Text = text;
-
-                    if (SelectedTab == scriptTab)
-                    {
-                        SetEditorText(text, true);
-                    }
-
-                    if (App.Settings.SyncronizeTabAndFile)
-                    {
-                        scriptTab.Header = Path.GetFileName(scriptTab.FullFilename);
-                    }
+                    string text = File.ReadAllText(SelectedTab.FullFilename);
+                    SelectedTab.Text = text;
+                    SetEditorText(text, true);
                 }
                 else
                 {
-                    scriptTab.FullFilename = null;
-
-                    if (App.Settings.SyncronizeTabAndFile)
-                    {
-                        scriptTab.Header = "Untitled";
-                    }
+                    SelectedTab.FullFilename = null;
                 }
             }
         }

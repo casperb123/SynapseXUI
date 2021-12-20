@@ -113,12 +113,6 @@
                                       OffContent="Disabled"
                                       IsOn="{Binding Path=SaveTabs, Source={x:Static root:App.Settings}}"
                                       Toggled="ToggleSwitchSettings_Toggled" />
-                    <mah:ToggleSwitch Header="Syncronize Tab And File"
-                                      OnContent="Enabled"
-                                      OffContent="Disabled"
-                                      ToolTip="Syncronize tab name that is opened with a file"
-                                      IsOn="{Binding Path=SyncronizeTabAndFile, Source={x:Static root:App.Settings}}"
-                                      Toggled="ToggleSwitchSettings_Toggled" />
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <StackPanel>
