@@ -113,6 +113,28 @@
                                       OffContent="Disabled"
                                       IsOn="{Binding Path=SaveTabs, Source={x:Static root:App.Settings}}"
                                       Toggled="ToggleSwitchSettings_Toggled" />
+                    <mah:ToggleSwitch Header="Syncronize Tab and File"
+                                      OnContent="Enabled"
+                                      OffContent="Disabled"
+                                      ToolTip="Syncronize tab and file names"
+                                      IsOn="{Binding Path=SyncronizeTabAndFile, Source={x:Static root:App.Settings}}"
+                                      Toggled="ToggleSwitchSettings_Toggled" />
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <StackPanel>
+                        <Label Content="Application Theme"
+                               HorizontalContentAlignment="Center" />
+                        <ComboBox x:Name="comboBoxTheme"
+                                  SelectedItem="{Binding Path=Theme.ApplicationTheme, Source={x:Static root:App.Settings}}"
+                                  SelectionChanged="ComboBoxSettings_SelectionChanged" />
+                    </StackPanel>
+                    <StackPanel Margin="0,0,0,5">
+                        <Label Content="Application Color"
+                               HorizontalContentAlignment="Center" />
+                        <ComboBox x:Name="comboBoxColor"
+                                  SelectedItem="{Binding Path=Theme.ApplicationColor, Source={x:Static root:App.Settings}}"
+                                  SelectionChanged="ComboBoxSettings_SelectionChanged" />
+                    </StackPanel>
                     <StackPanel>
                         <Label FontSize="14"
                                Padding="0,5">
@@ -183,22 +205,6 @@
                         </Label>
                         <TextBlock FontSize="14"
                                    Text="{Binding Path=ScriptsListWidth, Source={x:Static root:App.Settings}}" />
-                    </StackPanel>
-                </StackPanel>
-                <StackPanel Grid.Column="1">
-                    <StackPanel>
-                        <Label Content="Application Theme"
-                               HorizontalContentAlignment="Center" />
-                        <ComboBox x:Name="comboBoxTheme"
-                                  SelectedItem="{Binding Path=Theme.ApplicationTheme, Source={x:Static root:App.Settings}}"
-                                  SelectionChanged="ComboBoxSettings_SelectionChanged" />
-                    </StackPanel>
-                    <StackPanel>
-                        <Label Content="Application Color"
-                               HorizontalContentAlignment="Center" />
-                        <ComboBox x:Name="comboBoxColor"
-                                  SelectedItem="{Binding Path=Theme.ApplicationColor, Source={x:Static root:App.Settings}}"
-                                  SelectionChanged="ComboBoxSettings_SelectionChanged" />
                     </StackPanel>
                 </StackPanel>
             </Grid>

@@ -152,21 +152,51 @@ namespace SynapseXUI.UserControls
             ViewModel.MoveDragDropWindow();
         }
 
+        private void TabControlEditors_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ViewModel.RightClickIsTabItem = false;
+        }
+
         private void MetroTabItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             MetroTabItem tabItem = sender as MetroTabItem;
             ScriptTab scriptTab = tabItem.Tag as ScriptTab;
 
-            if (!scriptTab.IsAddTabButton && !(e.OriginalSource is Grid))
+            if (e.LeftButton == MouseButtonState.Pressed)
             {
-                ViewModel.SelectedTab = tabItem.Tag as ScriptTab;
-                ViewModel.DragStartPoint = e.GetPosition(null);
-                ViewModel.RelativeDragStartPoint = e.GetPosition(tabItem);
+                if (scriptTab.IsAddTabButton)
+                {
+                    ViewModel.DragStartPoint = new Point(-1, -1);
+                    ViewModel.RelativeDragStartPoint = new Point(-1, -1);
+                    ViewModel.AddTab(true);
+                }
+                else if (e.OriginalSource is Grid)
+                {
+                    ViewModel.DragStartPoint = new Point(-1, -1);
+                    ViewModel.RelativeDragStartPoint = new Point(-1, -1);
+                }
+                else
+                {
+                    ViewModel.DragStartPoint = e.GetPosition(null);
+                    ViewModel.RelativeDragStartPoint = e.GetPosition(tabItem);
+                }
             }
-            else
+            else if (e.RightButton == MouseButtonState.Pressed &&
+                     !scriptTab.IsAddTabButton)
             {
-                ViewModel.DragStartPoint = new Point(-1, -1);
-                ViewModel.RelativeDragStartPoint = new Point(-1, -1);
+                ViewModel.RightClickIsTabItem = true;
+                ViewModel.SelectedTab = tabItem.Tag as ScriptTab;
+            }
+        }
+
+        private void MetroTabItem_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            MetroTabItem tabItem = sender as MetroTabItem;
+            ScriptTab scriptTab = tabItem.Tag as ScriptTab;
+
+            if (e.ChangedButton == MouseButton.Right && scriptTab.IsAddTabButton)
+            {
+                e.Handled = true;
             }
         }
 

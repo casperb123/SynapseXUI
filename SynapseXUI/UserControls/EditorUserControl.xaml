@@ -37,7 +37,8 @@
                                               TabItemClosingEvent="TabControlEditors_TabItemClosingEvent"
                                               SelectionChanged="TabControlEditors_SelectionChanged"
                                               PreviewGiveFeedback="TabControlEditors_PreviewGiveFeedback"
-                                              Drop="TabControlEditors_Drop">
+                                              Drop="TabControlEditors_Drop"
+                                              PreviewMouseDown="TabControlEditors_PreviewMouseDown">
             <mah:MetroAnimatedSingleRowTabControl.Resources>
                 <Style TargetType="mah:MetroTabItem">
                     <Setter Property="Header"
@@ -54,6 +55,8 @@
                                  Handler="MetroTabItem_Drop" />
                     <EventSetter Event="PreviewMouseDown"
                                  Handler="MetroTabItem_PreviewMouseDown" />
+                    <EventSetter Event="PreviewMouseUp"
+                                 Handler="MetroTabItem_PreviewMouseUp" />
                     <EventSetter Event="PreviewMouseMove"
                                  Handler="MetroTabItem_PreviewMouseMove" />
                     <Style.Triggers>
@@ -86,6 +89,7 @@
 
                     <MenuItem x:Name="menuItemRenameTab"
                               Header="Rename Tab"
+                              Visibility="{Binding Path=RightClickIsTabItem, Converter={StaticResource BooleanToVisibilityConverter}}"
                               Click="MenuItemRenameTab_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="TextFields" />
@@ -94,6 +98,7 @@
                     <MenuItem x:Name="menuItemReloadFile"
                               Header="Reload Tab"
                               IsEnabled="{Binding Path=SelectedTab.FullFilename, Converter={StaticResource NullToBooleanConverter}}"
+                              Visibility="{Binding Path=RightClickIsTabItem, Converter={StaticResource BooleanToVisibilityConverter}}"
                               Click="MenuItemReloadTab_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="Refresh" />
@@ -109,6 +114,7 @@
                     <MenuItem x:Name="menuItemEditorsCloseAllButSelected"
                               Header="Close All But Selected"
                               IsEnabled="{Binding Path=SelectedTab, Mode=OneWay, Converter={StaticResource NullToBooleanConverter}}"
+                              Visibility="{Binding Path=RightClickIsTabItem, Converter={StaticResource BooleanToVisibilityConverter}}"
                               Click="MenuItemEditorsCloseAllButSelected_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="Close" />

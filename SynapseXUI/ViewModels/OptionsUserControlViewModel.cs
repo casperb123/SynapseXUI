@@ -1,6 +1,7 @@
 ﻿using ControlzEx.Theming;
 using SynapseXUI.UserControls;
 using System.ComponentModel;
+using System.Linq;
 
 namespace SynapseXUI.ViewModels
 {
@@ -132,6 +133,12 @@ namespace SynapseXUI.ViewModels
             App.Settings.Save(App.SettingsFilePath);
             App.SetTheme(theme, color);
             MainWindow.Instance.ViewModel.EditorUserControl.ViewModel.SetEditorTheme(theme);
+            EditorUserControlViewModel.Instance.Tabs.Collection.Where(x => !x.IsAddTabButton).ToList().ForEach(x => x.Syncronize = App.Settings.SyncronizeTabAndFile);
+
+            if (App.Settings.SyncronizeTabAndFile)
+            {
+                EditorUserControlViewModel.Instance.Tabs.Collection.Where(x => !x.IsAddTabButton && !string.IsNullOrEmpty(x.FullFilename)).ToList().ForEach(x => x.FullFilename = x.FullFilename);
+            }
         }
     }
 }

@@ -17,7 +17,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 
@@ -49,6 +48,7 @@ namespace SynapseXUI.ViewModels
         private bool detectScriptTabChange;
         private ChromiumWebBrowser editor;
         private DragDropWindow dragDropWindow;
+        private bool rightClickIsTabItem;
 
         public readonly EditorUserControl UserControl;
         public delegate Point GetPosition(IInputElement element);
@@ -56,6 +56,16 @@ namespace SynapseXUI.ViewModels
         public (int index, ScriptTab tab) Dragging { get; private set; }
         public Point DragStartPoint { get; set; }
         public Point RelativeDragStartPoint { get; set; }
+
+        public bool RightClickIsTabItem
+        {
+            get => rightClickIsTabItem;
+            set
+            {
+                rightClickIsTabItem = value;
+                OnPropertyChanged(nameof(RightClickIsTabItem));
+            }
+        }
 
         public ChromiumWebBrowser Editor
         {
@@ -168,7 +178,7 @@ namespace SynapseXUI.ViewModels
             };
             icon.SetResourceReference(Control.ForegroundProperty, "MahApps.Brushes.ThemeForeground");
 
-            ScriptTab scriptTab = new ScriptTab
+            ScriptTab scriptTab = new ScriptTab(icon, null, false)
             {
                 Header = icon,
                 IsAddTabButton = true,
@@ -185,7 +195,6 @@ namespace SynapseXUI.ViewModels
                 if (userControl.tabControlEditors.Items.Count == 1)
                 {
                     userControl.tabControlEditors.SelectedIndex = 0;
-                    userControl.tabControlEditors.GetSelectedTabItem().PreviewMouseDown += EditorsAddTab_PreviewMouseDown;
 
                     if (App.Settings.SaveTabs && File.Exists(App.TabsFilePath) && !string.IsNullOrWhiteSpace(File.ReadAllText(App.TabsFilePath)))
                     {
@@ -220,14 +229,6 @@ namespace SynapseXUI.ViewModels
             });
         }
 
-        private void EditorsAddTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            e.Handled = true;
-            DragStartPoint = new Point(-1, -1);
-            RelativeDragStartPoint = new Point(-1, -1);
-            AddTab(true);
-        }
-
         public void ChangeTab()
         {
             if (!detectScriptTabChange || SelectedTab is null || !tabsLoaded)
@@ -244,7 +245,7 @@ namespace SynapseXUI.ViewModels
                 int tabsCount = Tabs.Collection.Count;
                 if (SelectedTab.IsAddTabButton && tabsCount > 1)
                 {
-                    SelectedTabIndex = Tabs.Collection.Count - 2;
+                    SelectedTabIndex = tabsCount - 2;
                 }
 
                 SetEditorText(SelectedTab.Text, false);
@@ -295,15 +296,15 @@ namespace SynapseXUI.ViewModels
                     {
                         if (!string.IsNullOrEmpty(tab.FullFilename) && File.Exists(tab.FullFilename))
                         {
-                            AddTab(false, tab.FullFilename, scrollToEnd: false);
+                            AddTab(false, tab.Header.ToString(), tab.FullFilename, scrollToEnd: false);
                         }
                         else
                         {
-                            AddTab(false, text: tab.Text, scrollToEnd: false);
+                            AddTab(false, tab.Header.ToString(), text: tab.Text, scrollToEnd: false);
                         }
                     }
 
-                    UserControl.tabControlEditors.SelectedIndex = scriptTabs.SelectedIndex;
+                    SelectedTabIndex = scriptTabs.SelectedIndex;
                     UserControl.tabControlEditors.GetSelectedTabItem().BringIntoView();
                 }
             }
@@ -353,10 +354,10 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public ScriptTab AddTab(bool saveTabs, string filePath = null, string text = null, bool scrollToEnd = true)
+        public ScriptTab AddTab(bool saveTabs, string header = "Untitled", string filePath = null, string text = null, bool scrollToEnd = true)
         {
             string theme = App.Settings.Theme.ApplicationTheme;
-            ScriptTab scriptTab = new ScriptTab(filePath)
+            ScriptTab scriptTab = new ScriptTab(header, filePath, App.Settings.SyncronizeTabAndFile)
             {
                 Text = string.IsNullOrEmpty(filePath) ? text : File.ReadAllText(filePath),
                 EnableCloseButton = true
@@ -367,7 +368,7 @@ namespace SynapseXUI.ViewModels
 
             if (scrollToEnd)
             {
-                UserControl.tabControlEditors.GetSelectedTabItem().BringIntoView(new Rect(new Size(10000, 0)));
+                UserControl.tabControlEditors.GetSelectedTabItem().BringIntoView(new Rect(new Size(double.MaxValue, 0)));
             }
 
             if (saveTabs && string.IsNullOrEmpty(text))
@@ -482,8 +483,12 @@ namespace SynapseXUI.ViewModels
             if (dialog.ShowDialog() == true)
             {
                 File.WriteAllText(dialog.FileName, scriptTab.Text);
-                SelectedTab.FullFilename = dialog.FileName;
                 SelectedTab.TextChanged = false;
+
+                if (App.Settings.SyncronizeTabAndFile)
+                {
+                    SelectedTab.FullFilename = dialog.FileName;
+                }
             }
         }
 
@@ -540,7 +545,7 @@ namespace SynapseXUI.ViewModels
             string fileName = Path.GetFileNameWithoutExtension(file.FullFilename);
             (bool result, object input) = InputWindow.Show("Rename File", $"Enter a new name for the file '{file.Filename}'", fileName, InputDataType.Text);
 
-            if (result && !Equals(fileName, input))
+            if (result)
             {
                 string newFileName = Path.GetFileNameWithoutExtension(input.ToString());
                 string filePath = Path.Combine(path, $"{newFileName}{extension}");
@@ -571,14 +576,16 @@ namespace SynapseXUI.ViewModels
 
         public void DeleteFile()
         {
-            if (!PromptWindow.Show("Delete File", $"Are you sure that you want to delete the file '{SelectedScriptFile.Filename}'?", PromptType.YesNo))
+            if (SelectedScriptFile != null &&
+                PromptWindow.Show("Delete File", $"Are you sure that you want to delete the file '{SelectedScriptFile.Filename}'?", PromptType.YesNo))
             {
-                return;
-            }
-
-            if (selectedScriptFile != null)
-            {
+                ScriptTab scriptTab = Tabs.Collection.FirstOrDefault(x => x.FullFilename == SelectedScriptFile.FullFilename);
                 File.Delete(SelectedScriptFile.FullFilename);
+
+                if (scriptTab != null)
+                {
+                    scriptTab.FullFilename = null;
+                }
             }
         }
 
@@ -714,14 +721,17 @@ namespace SynapseXUI.ViewModels
 
         public void RenameTab()
         {
-            string header = SelectedTab.FullFilename is null ? SelectedTab.Header.ToString() : Path.GetFileNameWithoutExtension(SelectedTab.FullFilename);
-            (bool result, object input) = InputWindow.Show("Rename Tab", $"Enter a new name for the tab '{SelectedTab.Header}'", header, InputDataType.Text);
+            string header = Path.GetFileNameWithoutExtension(SelectedTab.Header.ToString());
+            (bool result, object input) = InputWindow.Show("Rename Tab", $"Enter a new name for the tab '{header}'", header, InputDataType.Text);
 
-            if (result && !Equals(header, input))
+            if (result)
             {
                 string tabName = Path.GetFileNameWithoutExtension(input.ToString());
+                SelectedTab.Header = tabName;
 
-                if (!string.IsNullOrWhiteSpace(SelectedTab.FullFilename) && File.Exists(SelectedTab.FullFilename))
+                if (!string.IsNullOrWhiteSpace(SelectedTab.FullFilename) &&
+                    File.Exists(SelectedTab.FullFilename) &&
+                    App.Settings.SyncronizeTabAndFile)
                 {
                     string path = Path.GetDirectoryName(SelectedTab.FullFilename);
                     string extension = Path.GetExtension(SelectedTab.FullFilename);
@@ -729,10 +739,6 @@ namespace SynapseXUI.ViewModels
 
                     RenameFile(ScriptFiles.FirstOrDefault(x => x.FullFilename == SelectedTab.FullFilename), filePath);
                     SelectedTab.FullFilename = filePath;
-                }
-                else
-                {
-                    SelectedTab.Header = tabName;
                 }
             }
         }

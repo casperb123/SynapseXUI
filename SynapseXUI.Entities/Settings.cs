@@ -11,6 +11,7 @@ namespace SynapseXUI.Entities
         private WindowSize windowSize;
         private GridLength scriptsListWidth;
         private bool saveTabs;
+        private bool syncronizeTabAndFile;
         private bool loaderTopMost;
 
         public bool LoaderTopMost
@@ -20,6 +21,16 @@ namespace SynapseXUI.Entities
             {
                 loaderTopMost = value;
                 OnPropertyChanged(nameof(LoaderTopMost));
+            }
+        }
+
+        public bool SyncronizeTabAndFile
+        {
+            get => syncronizeTabAndFile;
+            set
+            {
+                syncronizeTabAndFile = value;
+                OnPropertyChanged(nameof(SyncronizeTabAndFile));
             }
         }
 

@@ -16,6 +16,8 @@ namespace SynapseXUI.Entities
 
         [field: NonSerialized]
         public bool IsInitialized { get; set; }
+        [field: NonSerialized]
+        public bool Syncronize { get; set; }
 
         public bool TextChanged
         {
@@ -66,7 +68,10 @@ namespace SynapseXUI.Entities
             {
                 fullFilename = value;
                 OnPropertyChanged(nameof(FullFilename));
-                Header = string.IsNullOrEmpty(value) ? "Untitled" : Path.GetFileName(value);
+                if (Syncronize)
+                {
+                    Header = string.IsNullOrEmpty(value) ? "Untitled" : Path.GetFileName(value);
+                }
             }
         }
 
@@ -81,31 +86,15 @@ namespace SynapseXUI.Entities
             }
         }
 
-        public ScriptTab(string filePath = null)
+        public ScriptTab(object header, string filePath, bool syncronize)
         {
-            if (filePath is null)
-            {
-                Header = "Untitled";
-            }
-            else
+            Header = header;
+            Syncronize = syncronize;
+
+            if (!string.IsNullOrEmpty(filePath))
             {
                 FullFilename = filePath;
             }
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj is ScriptTab scriptTab)
-            {
-                return string.Equals(Header.ToString(), scriptTab.Header.ToString());
-            }
-
-            return base.Equals(obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
     }
 }
