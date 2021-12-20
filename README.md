@@ -10,6 +10,7 @@
 - Everything from the official UI
 - Update checker/notifier
 - Draggable script tabs (reorder)
+- Renamable tabs and scripts
 - Resizable scripts listbox
 - Both dark and light theme
 - Lots of color options
