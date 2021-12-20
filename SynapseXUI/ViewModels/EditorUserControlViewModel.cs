@@ -533,10 +533,10 @@ namespace SynapseXUI.ViewModels
                 else
                 {
                     SelectedTab.FullFilename = scriptFilePath;
-                    SelectedTab.Header = Path.GetFileName(SelectedTab.FullFilename);
                     scriptTab = SelectedTab;
                 }
 
+                scriptTab.Header = Path.GetFileName(scriptTab.FullFilename);
                 string script = File.ReadAllText(scriptFilePath);
 
                 scriptTab.Text = script;
