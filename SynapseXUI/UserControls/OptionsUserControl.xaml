@@ -116,7 +116,7 @@
                     <mah:ToggleSwitch Header="Syncronize Tab And File"
                                       OnContent="Enabled"
                                       OffContent="Disabled"
-                                      ToolTip="Syncronize tab name with file name"
+                                      ToolTip="Syncronize tab name that is opened with a file"
                                       IsOn="{Binding Path=SyncronizeTabAndFile, Source={x:Static root:App.Settings}}"
                                       Toggled="ToggleSwitchSettings_Toggled" />
                 </StackPanel>
