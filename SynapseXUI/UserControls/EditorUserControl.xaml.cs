@@ -125,6 +125,14 @@ namespace SynapseXUI.UserControls
             App.Settings.ScriptsListWidth = columnScripts.Width;
         }
 
+        private void ListBoxScripts_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Right && !(e.OriginalSource is TextBlock))
+            {
+                e.Handled = true;
+            }
+        }
+
         private void MetroTabItem_Drop(object sender, DragEventArgs e)
         {
             if (e.AllowedEffects.HasFlag(DragDropEffects.Move) &&

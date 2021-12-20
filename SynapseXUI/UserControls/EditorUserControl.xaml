@@ -131,10 +131,10 @@
                  SelectedItem="{Binding Path=SelectedScriptFile}"
                  DisplayMemberPath="Filename"
                  VirtualizingPanel.IsVirtualizing="False"
-                 SizeChanged="ListBoxScripts_SizeChanged">
+                 SizeChanged="ListBoxScripts_SizeChanged"
+                 PreviewMouseUp="ListBoxScripts_PreviewMouseUp">
             <ListBox.ContextMenu>
-                <ContextMenu x:Name="contextMenuScripts"
-                             IsEnabled="{Binding Path=SelectedScriptFile, Mode=OneWay, Converter={StaticResource NullToBooleanConverter}}">
+                <ContextMenu x:Name="contextMenuScripts">
                     <ContextMenu.Resources>
                         <Style TargetType="icons:PackIconMaterialDesign">
                             <Setter Property="Width"
