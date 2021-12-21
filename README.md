@@ -42,7 +42,7 @@
 ![Synapse options](https://user-images.githubusercontent.com/42714453/146915342-ba4f5fbe-398b-420e-a9b7-c789f42de276.png)
 
 ## Known bugs
-- Very rarely it crashes with an encrypted data is null exception (i haven't experienced it since version 1.0.2 but it can happen)
+- Very rarely it crashes while loading, if this happens you just need to open the application again.
 
 ## Credits
 - [CasperTheGhost#3549](https://discord.com/users/570478646851010562)
