@@ -147,11 +147,7 @@ namespace SynapseXUI.UserControls
             if (!script.IsFolder)
             {
                 treeViewItem.Focus();
-
-                if (e.ChangedButton == MouseButton.Right && (e.OriginalSource is Grid || e.OriginalSource is Path))
-                {
-                    contextMenuScripts.IsOpen = true;
-                }
+                contextMenuScripts.IsOpen = true;
             }
         }
 
