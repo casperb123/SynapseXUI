@@ -163,6 +163,7 @@
                             </icons:PackIconMaterialDesign.Style>
                         </icons:PackIconMaterialDesign>
                         <TextBlock Text="{Binding Path=Name}"
+                                   Padding="0,0,8,0"
                                    Grid.Column="1" />
                     </Grid>
                 </HierarchicalDataTemplate>
