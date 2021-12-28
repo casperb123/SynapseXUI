@@ -137,8 +137,7 @@
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type entities:Script}"
                                           ItemsSource="{Binding Path=Children}">
-                    <Grid PreviewMouseDown="GridScripts_PreviewMouseDown"
-                          PreviewMouseUp="GridScripts_PreviewMouseUp">
+                    <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="1*" />
@@ -167,6 +166,15 @@
                     </Grid>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="TreeViewItem"
+                       BasedOn="{StaticResource MahApps.Styles.TreeViewItem}">
+                    <EventSetter Event="PreviewMouseDown"
+                                 Handler="TreeViewItemScripts_PreviewMouseDown" />
+                    <EventSetter Event="PreviewMouseUp"
+                                 Handler="TreeViewItemScripts_PreviewMouseUp" />
+                </Style>
+            </TreeView.ItemContainerStyle>
             <TreeView.ContextMenu>
                 <ContextMenu x:Name="contextMenuScripts">
                     <ContextMenu.Resources>
@@ -182,7 +190,6 @@
 
                     <MenuItem x:Name="menuItemScriptsExecute"
                               Header="Execute File"
-                              IsEnabled="{Binding Path=SelectedScript.IsFolder, Converter={StaticResource InverseBooleanConverter}}"
                               Click="MenuItemScriptsExecute_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="PlayArrow" />
@@ -190,7 +197,6 @@
                     </MenuItem>
                     <MenuItem x:Name="menuItemScriptsLoadCurrentTab"
                               Header="Load To Current Tab"
-                              IsEnabled="{Binding Path=SelectedScript.IsFolder, Converter={StaticResource InverseBooleanConverter}}"
                               Click="MenuItemScriptsLoadCurrentTab_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="OpenInBrowser" />
@@ -198,7 +204,6 @@
                     </MenuItem>
                     <MenuItem x:Name="menuItemScriptsLoadNewTab"
                               Header="Load To New Tab"
-                              IsEnabled="{Binding Path=SelectedScript.IsFolder, Converter={StaticResource InverseBooleanConverter}}"
                               Click="MenuItemScriptsLoadNewTab_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="OpenInNew" />
@@ -206,7 +211,6 @@
                     </MenuItem>
                     <MenuItem x:Name="menuItemScriptsRename"
                               Header="Rename File"
-                              IsEnabled="{Binding Path=SelectedScript.IsFolder, Converter={StaticResource InverseBooleanConverter}}"
                               Click="MenuItemScriptsRename_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="TextFields" />
@@ -214,7 +218,6 @@
                     </MenuItem>
                     <MenuItem x:Name="menuItemScriptsDelete"
                               Header="Delete File"
-                              IsEnabled="{Binding Path=SelectedScript.IsFolder, Converter={StaticResource InverseBooleanConverter}}"
                               Click="MenuItemScriptsDelete_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="Delete" />
@@ -223,93 +226,6 @@
                 </ContextMenu>
             </TreeView.ContextMenu>
         </TreeView>
-        <!--<ListBox x:Name="listBoxScripts"
-                 Grid.Column="2"
-                 ItemsSource="{Binding Path=Scripts}"
-                 SelectedItem="{Binding Path=SelectedScript}"
-                 VirtualizingPanel.IsVirtualizing="False"
-                 SizeChanged="ListBoxScripts_SizeChanged"
-                 PreviewMouseUp="ListBoxScripts_PreviewMouseUp"
-                 SelectionChanged="ListBoxScripts_SelectionChanged">
-            <ListBox.ItemTemplate>
-                <DataTemplate DataType="{x:Type entities:Script}">
-                    -->
-        <!--<DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding Path=IsFolder}"
-                                     Value="True">
-                            <Setter Property="Focusable"
-                                    Value="False" />
-                        </DataTrigger>
-                    </DataTemplate.Triggers>-->
-        <!--
-                    <ContentControl Content="{Binding}">
-                        <ContentControl.Style>
-                            <Style TargetType="ContentControl">
-                                <Setter Property="ContentTemplate"
-                                        Value="{StaticResource ScriptFileTemplate}" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Path=IsFolder}"
-                                                 Value="True">
-                                        <Setter Property="ContentTemplate"
-                                                Value="{StaticResource ScriptFolderTemplate}" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ContentControl.Style>
-                    </ContentControl>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-            <ListBox.ContextMenu>
-                <ContextMenu x:Name="contextMenuScripts">
-                    <ContextMenu.Resources>
-                        <Style TargetType="icons:PackIconMaterialDesign">
-                            <Setter Property="Width"
-                                    Value="12" />
-                            <Setter Property="Height"
-                                    Value="12" />
-                            <Setter Property="Margin"
-                                    Value="5,0,0,0" />
-                        </Style>
-                    </ContextMenu.Resources>
-
-                    <MenuItem x:Name="menuItemScriptsExecute"
-                              Header="Execute File"
-                              Click="MenuItemScriptsExecute_Click">
-                        <MenuItem.Icon>
-                            <icons:PackIconMaterialDesign Kind="PlayArrow" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem x:Name="menuItemScriptsLoadCurrentTab"
-                              Header="Load To Current Tab"
-                              Click="MenuItemScriptsLoadCurrentTab_Click">
-                        <MenuItem.Icon>
-                            <icons:PackIconMaterialDesign Kind="OpenInBrowser" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem x:Name="menuItemScriptsLoadNewTab"
-                              Header="Load To New Tab"
-                              Click="MenuItemScriptsLoadNewTab_Click">
-                        <MenuItem.Icon>
-                            <icons:PackIconMaterialDesign Kind="OpenInNew" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem x:Name="menuItemScriptsRename"
-                              Header="Rename File"
-                              Click="MenuItemScriptsRename_Click">
-                        <MenuItem.Icon>
-                            <icons:PackIconMaterialDesign Kind="TextFields" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem x:Name="menuItemScriptsDelete"
-                              Header="Delete File"
-                              Click="MenuItemScriptsDelete_Click">
-                        <MenuItem.Icon>
-                            <icons:PackIconMaterialDesign Kind="Delete" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                </ContextMenu>
-            </ListBox.ContextMenu>
-        </ListBox>-->
 
         <StackPanel Orientation="Horizontal"
                     Grid.Row="1"

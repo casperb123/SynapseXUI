@@ -1,10 +1,10 @@
 ﻿using MahApps.Metro.Controls;
-using MahApps.Metro.IconPacks;
 using SynapseXUI.Entities;
 using SynapseXUI.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Shapes;
 using static MahApps.Metro.Controls.BaseMetroTabControl;
 
 namespace SynapseXUI.UserControls
@@ -139,28 +139,28 @@ namespace SynapseXUI.UserControls
             ViewModel.SelectedScript = e.NewValue as Script;
         }
 
-        private void GridScripts_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void TreeViewItemScripts_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            Grid grid = sender as Grid;
-            PackIconMaterialDesign icon = grid.Children[0] as PackIconMaterialDesign;
+            TreeViewItem treeViewItem = sender as TreeViewItem;
+            Script script = treeViewItem.Header as Script;
 
-            if (icon.Kind != PackIconMaterialDesignKind.Folder)
+            if (!script.IsFolder)
             {
-                TreeViewItem item = ViewModel.GetTreeViewItem(e.OriginalSource as DependencyObject);
+                treeViewItem.Focus();
 
-                if (item != null)
+                if (e.ChangedButton == MouseButton.Right && (e.OriginalSource is Grid || e.OriginalSource is Path))
                 {
-                    item.Focus();
+                    contextMenuScripts.IsOpen = true;
                 }
             }
         }
 
-        private void GridScripts_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        private void TreeViewItemScripts_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            Grid grid = sender as Grid;
-            PackIconMaterialDesign icon = grid.Children[0] as PackIconMaterialDesign;
+            TreeViewItem treeViewItem = sender as TreeViewItem;
+            Script script = treeViewItem.Header as Script;
 
-            if (icon.Kind == PackIconMaterialDesignKind.Folder)
+            if (script.IsFolder && e.ChangedButton == MouseButton.Right)
             {
                 e.Handled = true;
             }
