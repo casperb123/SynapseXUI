@@ -175,9 +175,8 @@ namespace SynapseXUI.UserControls
 
             e.Handled = true;
             ViewModel.TreeViewItemSuppressBringIntoView = true;
-            TreeViewItem treeViewItem = sender as TreeViewItem;
 
-            if (treeViewItem != null)
+            if (sender is TreeViewItem treeViewItem)
             {
                 Rect rect = new Rect(-1000, 0, treeViewItem.ActualWidth + 1000, treeViewItem.ActualHeight);
                 treeViewItem.BringIntoView(rect);
