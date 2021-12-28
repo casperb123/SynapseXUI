@@ -12,7 +12,7 @@
 - Draggable script tabs (reorder)
 - Renamable tabs and scripts
 - Resizable scripts list
-- Folder support in scripts list
+- Folder support for scripts list
 - Both dark and light theme
 - Lots of color options
 - More context menu options
