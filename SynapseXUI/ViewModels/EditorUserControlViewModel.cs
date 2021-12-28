@@ -225,7 +225,6 @@ namespace SynapseXUI.ViewModels
         {
             UserControl.Dispatcher.Invoke(() =>
             {
-                GetScripts();
                 RefreshTabs();
             });
         }
@@ -603,36 +602,74 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public void RenameFile(Script file)
+        public void RenameScript(Script script)
         {
-            string path = Path.GetDirectoryName(file.FullName);
-            string extension = Path.GetExtension(file.FullName);
-            string fileName = Path.GetFileNameWithoutExtension(file.FullName);
-            (bool result, object input) = InputWindow.Show("Rename File", $"Enter a new name for the file '{file.Name}'", fileName, InputDataType.Text);
-
-            if (result)
+            if (script.IsFolder)
             {
-                string newFileName = Path.GetFileNameWithoutExtension(input.ToString());
-                string filePath = Path.Combine(path, $"{newFileName}{extension}");
+                (bool result, object input) = InputWindow.Show("Rename Folder", $"Emter a new name for the folder '{script.Name}'", script.Name, InputDataType.Text);
 
-                if (!File.Exists(filePath))
+                if (result)
                 {
-                    File.Move(file.FullName, filePath);
+                    string newFolderName = input.ToString();
+                    string folderPath = Path.Combine(Directory.GetParent(script.FullName).FullName, newFolderName);
+
+                    if (!Directory.Exists(folderPath))
+                    {
+                        Directory.Move(script.FullName, folderPath);
+                        script.FullName = folderPath;
+                        script.Name = Path.GetFileName(folderPath);
+                    }
+                    else
+                    {
+                        PromptWindow.Show("Rename Folder", $"A folder with the name '{newFolderName}' already exists. Please write another name", PromptType.OK);
+                        RenameScript(script);
+                    }
                 }
-                else
+            }
+            else
+            {
+                string path = Path.GetDirectoryName(script.FullName);
+                string extension = Path.GetExtension(script.FullName);
+                string fileName = Path.GetFileNameWithoutExtension(script.FullName);
+                (bool result, object input) = InputWindow.Show("Rename File", $"Enter a new name for the file '{script.Name}'", fileName, InputDataType.Text);
+
+                if (result)
                 {
-                    PromptWindow.Show("Rename File", $"A file with the name '{newFileName}' already exists. Please write another name", PromptType.OK);
-                    RenameFile(file);
+                    string newFileName = Path.GetFileNameWithoutExtension(input.ToString());
+                    string filePath = Path.Combine(path, $"{newFileName}{extension}");
+
+                    if (!File.Exists(filePath))
+                    {
+                        File.Move(script.FullName, filePath);
+                        script.FullName = filePath;
+                        script.Name = Path.GetFileName(filePath);
+                    }
+                    else
+                    {
+                        PromptWindow.Show("Rename File", $"A file with the name '{newFileName}' already exists. Please write another name", PromptType.OK);
+                        RenameScript(script);
+                    }
                 }
             }
         }
 
-        public void DeleteFile()
+        public void DeleteScript(Script script)
         {
-            if (SelectedScript != null &&
-                PromptWindow.Show("Delete File", $"Are you sure that you want to delete the file '{SelectedScript.Name}'?", PromptType.YesNo))
+            if (script.IsFolder)
             {
-                File.Delete(SelectedScript.FullName);
+                if (PromptWindow.Show("Delete Folder", $"Are you sure that you want to delete the folder '{SelectedScript.Name}'?", PromptType.YesNo))
+                {
+                    Directory.Delete(script.FullName, true);
+                    Scripts.Remove(script);
+                }
+            }
+            else
+            {
+                if (PromptWindow.Show("Delete File", $"Are you sure that you want to delete the file '{SelectedScript.Name}'?", PromptType.YesNo))
+                {
+                    File.Delete(script.FullName);
+                    Scripts.Remove(script);
+                }
             }
         }
 

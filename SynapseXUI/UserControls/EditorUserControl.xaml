@@ -171,10 +171,10 @@
             <TreeView.ItemContainerStyle>
                 <Style TargetType="TreeViewItem"
                        BasedOn="{StaticResource MahApps.Styles.TreeViewItem}">
+                    <Setter Property="Tag"
+                            Value="{Binding}" />
                     <EventSetter Event="PreviewMouseDown"
                                  Handler="TreeViewItemScripts_PreviewMouseDown" />
-                    <EventSetter Event="PreviewMouseUp"
-                                 Handler="TreeViewItemScripts_PreviewMouseUp" />
                     <EventSetter Event="RequestBringIntoView"
                                  Handler="TreeViewItem_RequestBringIntoView" />
                     <EventSetter Event="Selected"
@@ -194,8 +194,16 @@
                         </Style>
                     </ContextMenu.Resources>
 
+                    <MenuItem x:Name="menuItemScriptsReload"
+                              Header="Reload"
+                              Click="MenuItemScriptsReload_Click">
+                        <MenuItem.Icon>
+                            <icons:PackIconMaterialDesign Kind="Refresh" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <MenuItem x:Name="menuItemScriptsExecute"
                               Header="Execute File"
+                              Visibility="{Binding Path=IsFolder, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
                               Click="MenuItemScriptsExecute_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="PlayArrow" />
@@ -203,6 +211,7 @@
                     </MenuItem>
                     <MenuItem x:Name="menuItemScriptsLoadCurrentTab"
                               Header="Load To Current Tab"
+                              Visibility="{Binding Path=IsFolder, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
                               Click="MenuItemScriptsLoadCurrentTab_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="OpenInBrowser" />
@@ -210,24 +219,51 @@
                     </MenuItem>
                     <MenuItem x:Name="menuItemScriptsLoadNewTab"
                               Header="Load To New Tab"
+                              Visibility="{Binding Path=IsFolder, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
                               Click="MenuItemScriptsLoadNewTab_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="OpenInNew" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="menuItemScriptsRename"
-                              Header="Rename File"
                               Click="MenuItemScriptsRename_Click">
                         <MenuItem.Icon>
-                            <icons:PackIconMaterialDesign Kind="TextFields" />
+                            <icons:PackIconMaterialDesign Kind="Edit" />
                         </MenuItem.Icon>
+                        <MenuItem.Style>
+                            <Style TargetType="MenuItem"
+                                   BasedOn="{StaticResource MahApps.Styles.MenuItem}">
+                                <Setter Property="Header"
+                                        Value="Rename File" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=IsFolder}"
+                                                 Value="True">
+                                        <Setter Property="Header"
+                                                Value="Rename Folder" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </MenuItem.Style>
                     </MenuItem>
                     <MenuItem x:Name="menuItemScriptsDelete"
-                              Header="Delete File"
                               Click="MenuItemScriptsDelete_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="Delete" />
                         </MenuItem.Icon>
+                        <MenuItem.Style>
+                            <Style TargetType="MenuItem"
+                                   BasedOn="{StaticResource MahApps.Styles.MenuItem}">
+                                <Setter Property="Header"
+                                        Value="Delete File" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=IsFolder}"
+                                                 Value="True">
+                                        <Setter Property="Header"
+                                                Value="Delete Folder" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </MenuItem.Style>
                     </MenuItem>
                 </ContextMenu>
             </TreeView.ContextMenu>

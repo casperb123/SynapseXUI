@@ -4,7 +4,6 @@ using SynapseXUI.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Shapes;
 using static MahApps.Metro.Controls.BaseMetroTabControl;
 
 namespace SynapseXUI.UserControls
@@ -46,6 +45,11 @@ namespace SynapseXUI.UserControls
             ViewModel.ClearEditorText();
         }
 
+        private void MenuItemScriptsReload_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.GetScripts();
+        }
+
         private void MenuItemScriptsExecute_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ExecuteScript(ViewModel.SelectedScript.Text);
@@ -63,12 +67,12 @@ namespace SynapseXUI.UserControls
 
         private void MenuItemScriptsRename_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.RenameFile(ViewModel.SelectedScript);
+            ViewModel.RenameScript(ViewModel.SelectedScript);
         }
 
         private void MenuItemScriptsDelete_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.DeleteFile();
+            ViewModel.DeleteScript(ViewModel.SelectedScript);
         }
 
         private void MenuItemRenameTab_Click(object sender, RoutedEventArgs e)
@@ -141,24 +145,12 @@ namespace SynapseXUI.UserControls
 
         private void TreeViewItemScripts_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            TreeViewItem treeViewItem = sender as TreeViewItem;
-            Script script = treeViewItem.Header as Script;
-
-            if (!script.IsFolder)
+            if (e.ChangedButton == MouseButton.Right)
             {
-                treeViewItem.Focus();
+                TreeViewItem treeViewItem = sender as TreeViewItem;
+                treeViewItem.IsSelected = true;
+                contextMenuScripts.PlacementTarget = treeViewItem;
                 contextMenuScripts.IsOpen = true;
-            }
-        }
-
-        private void TreeViewItemScripts_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            TreeViewItem treeViewItem = sender as TreeViewItem;
-            Script script = treeViewItem.Header as Script;
-
-            if (script.IsFolder && e.ChangedButton == MouseButton.Right)
-            {
-                e.Handled = true;
             }
         }
 
