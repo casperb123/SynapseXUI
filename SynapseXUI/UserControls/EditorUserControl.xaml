@@ -131,6 +131,8 @@
                   ItemsSource="{Binding Path=Scripts}"
                   VirtualizingPanel.IsVirtualizing="False"
                   SelectedValuePath="{Binding Path=SelectedScript}"
+                  ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                  ScrollViewer.VerticalScrollBarVisibility="Visible"
                   SizeChanged="ListBoxScripts_SizeChanged"
                   PreviewMouseUp="ListBoxScripts_PreviewMouseUp"
                   SelectedItemChanged="TreeViewScripts_SelectedItemChanged">
