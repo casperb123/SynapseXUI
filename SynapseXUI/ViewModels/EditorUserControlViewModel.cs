@@ -56,6 +56,7 @@ namespace SynapseXUI.ViewModels
         public (int index, ScriptTab tab) Dragging { get; private set; }
         public Point DragStartPoint { get; set; }
         public Point RelativeDragStartPoint { get; set; }
+        public bool TreeViewItemSuppressBringIntoView { get; set; }
 
         public bool RightClickIsTabItem
         {

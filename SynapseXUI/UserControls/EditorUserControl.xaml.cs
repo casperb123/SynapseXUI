@@ -166,6 +166,32 @@ namespace SynapseXUI.UserControls
             }
         }
 
+        private void TreeViewItem_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e)
+        {
+            if (ViewModel.TreeViewItemSuppressBringIntoView)
+            {
+                return;
+            }
+
+            e.Handled = true;
+            ViewModel.TreeViewItemSuppressBringIntoView = true;
+            TreeViewItem treeViewItem = sender as TreeViewItem;
+
+            if (treeViewItem != null)
+            {
+                Rect rect = new Rect(-1000, 0, treeViewItem.ActualWidth + 1000, treeViewItem.ActualHeight);
+                treeViewItem.BringIntoView(rect);
+            }
+
+            ViewModel.TreeViewItemSuppressBringIntoView = false;
+        }
+
+        private void TreeViewItem_Selected(object sender, RoutedEventArgs e)
+        {
+            ((TreeViewItem)sender).BringIntoView();
+            e.Handled = true;
+        }
+
         private void MetroTabItem_Drop(object sender, DragEventArgs e)
         {
             if (e.AllowedEffects.HasFlag(DragDropEffects.Move) &&

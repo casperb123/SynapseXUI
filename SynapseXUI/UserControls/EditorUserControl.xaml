@@ -175,6 +175,10 @@
                                  Handler="TreeViewItemScripts_PreviewMouseDown" />
                     <EventSetter Event="PreviewMouseUp"
                                  Handler="TreeViewItemScripts_PreviewMouseUp" />
+                    <EventSetter Event="RequestBringIntoView"
+                                 Handler="TreeViewItem_RequestBringIntoView" />
+                    <EventSetter Event="Selected"
+                                 Handler="TreeViewItem_Selected" />
                 </Style>
             </TreeView.ItemContainerStyle>
             <TreeView.ContextMenu>
