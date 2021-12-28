@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:entities="clr-namespace:SynapseXUI.Entities;assembly=SynapseXUI.Entities"
              xmlns:viewModels="clr-namespace:SynapseXUI.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewModels:EditorUserControlViewModel}"
              mc:Ignorable="d"
@@ -122,16 +123,142 @@
                 </ContextMenu>
             </mah:MetroAnimatedSingleRowTabControl.ContextMenu>
         </mah:MetroAnimatedSingleRowTabControl>
+
         <GridSplitter Grid.Column="1"
                       ShowsPreview="False" />
-        <ListBox x:Name="listBoxScripts"
+        <TreeView x:Name="treeViewScripts"
+                  Grid.Column="2"
+                  ItemsSource="{Binding Path=Scripts}"
+                  VirtualizingPanel.IsVirtualizing="False"
+                  SelectedValuePath="{Binding Path=SelectedScript}"
+                  SizeChanged="ListBoxScripts_SizeChanged"
+                  PreviewMouseUp="ListBoxScripts_PreviewMouseUp"
+                  SelectedItemChanged="TreeViewScripts_SelectedItemChanged">
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type entities:Script}"
+                                          ItemsSource="{Binding Path=Children}">
+                    <Grid PreviewMouseDown="GridScripts_PreviewMouseDown"
+                          PreviewMouseUp="GridScripts_PreviewMouseUp">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+
+                        <icons:PackIconMaterialDesign Margin="0,0,5,0"
+                                                      Width="14"
+                                                      Height="14"
+                                                      VerticalAlignment="Center">
+                            <icons:PackIconMaterialDesign.Style>
+                                <Style TargetType="icons:PackIconMaterialDesign">
+                                    <Setter Property="Kind"
+                                            Value="TextFields" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=IsFolder}"
+                                                     Value="True">
+                                            <Setter Property="Kind"
+                                                    Value="Folder" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </icons:PackIconMaterialDesign.Style>
+                        </icons:PackIconMaterialDesign>
+                        <TextBlock Text="{Binding Path=Name}"
+                                   Grid.Column="1" />
+                    </Grid>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+            <TreeView.ContextMenu>
+                <ContextMenu x:Name="contextMenuScripts">
+                    <ContextMenu.Resources>
+                        <Style TargetType="icons:PackIconMaterialDesign">
+                            <Setter Property="Width"
+                                    Value="12" />
+                            <Setter Property="Height"
+                                    Value="12" />
+                            <Setter Property="Margin"
+                                    Value="5,0,0,0" />
+                        </Style>
+                    </ContextMenu.Resources>
+
+                    <MenuItem x:Name="menuItemScriptsExecute"
+                              Header="Execute File"
+                              IsEnabled="{Binding Path=SelectedScript.IsFolder, Converter={StaticResource InverseBooleanConverter}}"
+                              Click="MenuItemScriptsExecute_Click">
+                        <MenuItem.Icon>
+                            <icons:PackIconMaterialDesign Kind="PlayArrow" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="menuItemScriptsLoadCurrentTab"
+                              Header="Load To Current Tab"
+                              IsEnabled="{Binding Path=SelectedScript.IsFolder, Converter={StaticResource InverseBooleanConverter}}"
+                              Click="MenuItemScriptsLoadCurrentTab_Click">
+                        <MenuItem.Icon>
+                            <icons:PackIconMaterialDesign Kind="OpenInBrowser" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="menuItemScriptsLoadNewTab"
+                              Header="Load To New Tab"
+                              IsEnabled="{Binding Path=SelectedScript.IsFolder, Converter={StaticResource InverseBooleanConverter}}"
+                              Click="MenuItemScriptsLoadNewTab_Click">
+                        <MenuItem.Icon>
+                            <icons:PackIconMaterialDesign Kind="OpenInNew" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="menuItemScriptsRename"
+                              Header="Rename File"
+                              IsEnabled="{Binding Path=SelectedScript.IsFolder, Converter={StaticResource InverseBooleanConverter}}"
+                              Click="MenuItemScriptsRename_Click">
+                        <MenuItem.Icon>
+                            <icons:PackIconMaterialDesign Kind="TextFields" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="menuItemScriptsDelete"
+                              Header="Delete File"
+                              IsEnabled="{Binding Path=SelectedScript.IsFolder, Converter={StaticResource InverseBooleanConverter}}"
+                              Click="MenuItemScriptsDelete_Click">
+                        <MenuItem.Icon>
+                            <icons:PackIconMaterialDesign Kind="Delete" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </TreeView.ContextMenu>
+        </TreeView>
+        <!--<ListBox x:Name="listBoxScripts"
                  Grid.Column="2"
-                 ItemsSource="{Binding Path=ScriptFiles}"
-                 SelectedItem="{Binding Path=SelectedScriptFile}"
-                 DisplayMemberPath="Filename"
+                 ItemsSource="{Binding Path=Scripts}"
+                 SelectedItem="{Binding Path=SelectedScript}"
                  VirtualizingPanel.IsVirtualizing="False"
                  SizeChanged="ListBoxScripts_SizeChanged"
-                 PreviewMouseUp="ListBoxScripts_PreviewMouseUp">
+                 PreviewMouseUp="ListBoxScripts_PreviewMouseUp"
+                 SelectionChanged="ListBoxScripts_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type entities:Script}">
+                    -->
+        <!--<DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsFolder}"
+                                     Value="True">
+                            <Setter Property="Focusable"
+                                    Value="False" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>-->
+        <!--
+                    <ContentControl Content="{Binding}">
+                        <ContentControl.Style>
+                            <Style TargetType="ContentControl">
+                                <Setter Property="ContentTemplate"
+                                        Value="{StaticResource ScriptFileTemplate}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=IsFolder}"
+                                                 Value="True">
+                                        <Setter Property="ContentTemplate"
+                                                Value="{StaticResource ScriptFolderTemplate}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
             <ListBox.ContextMenu>
                 <ContextMenu x:Name="contextMenuScripts">
                     <ContextMenu.Resources>
@@ -182,7 +309,7 @@
                     </MenuItem>
                 </ContextMenu>
             </ListBox.ContextMenu>
-        </ListBox>
+        </ListBox>-->
 
         <StackPanel Orientation="Horizontal"
                     Grid.Row="1"

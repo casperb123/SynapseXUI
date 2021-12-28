@@ -43,8 +43,8 @@ namespace SynapseXUI.ViewModels
         private ScriptTabs tabs;
         private ScriptTab selectedTab;
         private int selectedTabIndex;
-        private ObservableCollection<ScriptFile> scriptFiles;
-        private ScriptFile selectedScriptFile;
+        private ObservableCollection<Script> scripts;
+        private Script selectedScript;
         private bool detectScriptTabChange;
         private ChromiumWebBrowser editor;
         private DragDropWindow dragDropWindow;
@@ -77,23 +77,23 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public ScriptFile SelectedScriptFile
+        public Script SelectedScript
         {
-            get => selectedScriptFile;
+            get => selectedScript;
             set
             {
-                selectedScriptFile = value;
-                OnPropertyChanged(nameof(SelectedScriptFile));
+                selectedScript = value;
+                OnPropertyChanged(nameof(SelectedScript));
             }
         }
 
-        public ObservableCollection<ScriptFile> ScriptFiles
+        public ObservableCollection<Script> Scripts
         {
-            get => scriptFiles;
+            get => scripts;
             set
             {
-                scriptFiles = value;
-                OnPropertyChanged(nameof(ScriptFiles));
+                scripts = value;
+                OnPropertyChanged(nameof(Scripts));
             }
         }
 
@@ -166,7 +166,7 @@ namespace SynapseXUI.ViewModels
 
             detectScriptTabChange = true;
             Tabs = new ScriptTabs();
-            ScriptFiles = new ObservableCollection<ScriptFile>();
+            Scripts = new ObservableCollection<Script>();
             GetScripts();
 
             PackIconMaterialDesign icon = new PackIconMaterialDesign
@@ -253,10 +253,77 @@ namespace SynapseXUI.ViewModels
             }
         }
 
+        public IEnumerable<Script> EnumerateScripts(Script parent)
+        {
+            if (parent.Children != null)
+            {
+                foreach (Script script in parent.Children)
+                {
+                    yield return script;
+
+                    foreach (Script child in EnumerateScripts(script))
+                    {
+                        yield return child;
+                    }
+                }
+            }
+        }
+
         public void GetScripts()
         {
-            ScriptFiles.Clear();
-            Directory.GetFiles(App.ScriptsFolderPath).ToList().ForEach(x => ScriptFiles.Add(new ScriptFile(x)));
+            Scripts.Clear();
+
+            string[] directories = Directory.GetDirectories(App.ScriptsFolderPath, "*.*", SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(App.ScriptsFolderPath, "*.*", SearchOption.AllDirectories);
+
+            foreach (string directory in directories)
+            {
+                Script parentScript = null;
+                List<Script> folders = Scripts.ToList();
+                folders.ToList().ForEach(x => folders.AddRange(EnumerateScripts(x)));
+
+                DirectoryInfo currentDir = new DirectoryInfo(directory).Parent;
+                int depth = 1;
+
+                while (currentDir.FullName != App.ScriptsFolderPath && parentScript is null)
+                {
+                    Script parent = folders.FirstOrDefault(x => x.FullName == currentDir.FullName);
+                    if (parent != null)
+                    {
+                        parentScript = parent;
+                        break;
+                    }
+
+                    currentDir = currentDir.Parent;
+                    depth++;
+                }
+
+                if (currentDir.FullName == App.ScriptsFolderPath || parentScript is null)
+                {
+                    Scripts.Add(new Script(directory, true));
+                }
+                else
+                {
+                    parentScript.Children.Add(new Script(directory, true, parentScript));
+                }
+            }
+
+            foreach (string file in files)
+            {
+                string directory = Path.GetDirectoryName(file);
+                List<Script> folders = Scripts.Where(x => x.IsFolder).ToList();
+                folders.ToList().ForEach(x => folders.AddRange(EnumerateScripts(x)));
+                Script parent = folders.FirstOrDefault(x => x.FullName == directory);
+
+                if (parent is null)
+                {
+                    Scripts.Add(new Script(file, false));
+                }
+                else
+                {
+                    parent.Children.Add(new Script(file, false, parent));
+                }
+            }
         }
 
         private void RefreshTabs()
@@ -535,12 +602,12 @@ namespace SynapseXUI.ViewModels
             }
         }
 
-        public void RenameFile(ScriptFile file)
+        public void RenameFile(Script file)
         {
-            string path = Path.GetDirectoryName(file.FullFilename);
-            string extension = Path.GetExtension(file.FullFilename);
-            string fileName = Path.GetFileNameWithoutExtension(file.FullFilename);
-            (bool result, object input) = InputWindow.Show("Rename File", $"Enter a new name for the file '{file.Filename}'", fileName, InputDataType.Text);
+            string path = Path.GetDirectoryName(file.FullName);
+            string extension = Path.GetExtension(file.FullName);
+            string fileName = Path.GetFileNameWithoutExtension(file.FullName);
+            (bool result, object input) = InputWindow.Show("Rename File", $"Enter a new name for the file '{file.Name}'", fileName, InputDataType.Text);
 
             if (result)
             {
@@ -549,7 +616,7 @@ namespace SynapseXUI.ViewModels
 
                 if (!File.Exists(filePath))
                 {
-                    File.Move(file.FullFilename, filePath);
+                    File.Move(file.FullName, filePath);
                 }
                 else
                 {
@@ -561,10 +628,10 @@ namespace SynapseXUI.ViewModels
 
         public void DeleteFile()
         {
-            if (SelectedScriptFile != null &&
-                PromptWindow.Show("Delete File", $"Are you sure that you want to delete the file '{SelectedScriptFile.Filename}'?", PromptType.YesNo))
+            if (SelectedScript != null &&
+                PromptWindow.Show("Delete File", $"Are you sure that you want to delete the file '{SelectedScript.Name}'?", PromptType.YesNo))
             {
-                File.Delete(SelectedScriptFile.FullFilename);
+                File.Delete(SelectedScript.FullName);
             }
         }
 
@@ -716,6 +783,16 @@ namespace SynapseXUI.ViewModels
                 string tabName = Path.GetFileNameWithoutExtension(input.ToString());
                 SelectedTab.Header = tabName;
             }
+        }
+
+        public TreeViewItem GetTreeViewItem(DependencyObject source)
+        {
+            while (source != null && !(source is TreeViewItem))
+            {
+                source = VisualTreeHelper.GetParent(source);
+            }
+
+            return source as TreeViewItem;
         }
 
         #region CEF Sharp Methods

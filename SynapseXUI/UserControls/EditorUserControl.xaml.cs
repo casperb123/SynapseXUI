@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using MahApps.Metro.IconPacks;
 using SynapseXUI.Entities;
 using SynapseXUI.ViewModels;
 using System.Windows;
@@ -47,22 +48,22 @@ namespace SynapseXUI.UserControls
 
         private void MenuItemScriptsExecute_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.ExecuteScript(ViewModel.SelectedScriptFile.Script);
+            ViewModel.ExecuteScript(ViewModel.SelectedScript.Text);
         }
 
         private void MenuItemScriptsLoadCurrentTab_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.OpenFile(false, ViewModel.SelectedScriptFile.FullFilename);
+            ViewModel.OpenFile(false, ViewModel.SelectedScript.FullName);
         }
 
         private void MenuItemScriptsLoadNewTab_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.OpenFile(true, ViewModel.SelectedScriptFile.FullFilename);
+            ViewModel.OpenFile(true, ViewModel.SelectedScript.FullName);
         }
 
         private void MenuItemScriptsRename_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.RenameFile(ViewModel.SelectedScriptFile);
+            ViewModel.RenameFile(ViewModel.SelectedScript);
         }
 
         private void MenuItemScriptsDelete_Click(object sender, RoutedEventArgs e)
@@ -128,6 +129,38 @@ namespace SynapseXUI.UserControls
         private void ListBoxScripts_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Right && !(e.OriginalSource is TextBlock))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void TreeViewScripts_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            ViewModel.SelectedScript = e.NewValue as Script;
+        }
+
+        private void GridScripts_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Grid grid = sender as Grid;
+            PackIconMaterialDesign icon = grid.Children[0] as PackIconMaterialDesign;
+
+            if (icon.Kind != PackIconMaterialDesignKind.Folder)
+            {
+                TreeViewItem item = ViewModel.GetTreeViewItem(e.OriginalSource as DependencyObject);
+
+                if (item != null)
+                {
+                    item.Focus();
+                }
+            }
+        }
+
+        private void GridScripts_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Grid grid = sender as Grid;
+            PackIconMaterialDesign icon = grid.Children[0] as PackIconMaterialDesign;
+
+            if (icon.Kind == PackIconMaterialDesignKind.Folder)
             {
                 e.Handled = true;
             }
