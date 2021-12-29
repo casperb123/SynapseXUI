@@ -194,9 +194,9 @@
                         </Style>
                     </ContextMenu.Resources>
 
-                    <MenuItem x:Name="menuItemScriptsReload"
-                              Header="Reload"
-                              Click="MenuItemScriptsReload_Click">
+                    <MenuItem x:Name="menuItemScriptsRefresh"
+                              Header="Refresh"
+                              Click="MenuItemScriptsRefresh_Click">
                         <MenuItem.Icon>
                             <icons:PackIconMaterialDesign Kind="Refresh" />
                         </MenuItem.Icon>

@@ -45,7 +45,7 @@ namespace SynapseXUI.UserControls
             ViewModel.ClearEditorText();
         }
 
-        private void MenuItemScriptsReload_Click(object sender, RoutedEventArgs e)
+        private void MenuItemScriptsRefresh_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.GetScripts();
         }
