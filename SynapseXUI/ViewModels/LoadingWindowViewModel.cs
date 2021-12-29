@@ -4,6 +4,7 @@ using SynapseXUI.Entities;
 using SynapseXUI.Windows;
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -59,6 +60,31 @@ namespace SynapseXUI.ViewModels
         {
             await Task.Delay(1000);
             await CheckForUpdates();
+
+            string authFolderPath = Path.Combine(App.StartupFolderPath, "auth");
+            string binFolderPath = Path.Combine(App.StartupFolderPath, "bin");
+            string libsFolderPath = Path.Combine(App.StartupFolderPath, "libs");
+            string slInjectorLibsFilePath = Path.Combine(libsFolderPath, "SLInjector.dll");
+            string slInjectorBinFilePath = Path.Combine(binFolderPath, "SLInjector.dll");
+
+            if (!Directory.Exists(authFolderPath) ||
+                !Directory.Exists(binFolderPath) ||
+                !Directory.Exists(App.ScriptsFolderPath))
+            {
+                PromptWindow.Show("Synapse X UI", "Please open the official Synapse X UI before using our UI", PromptType.OK);
+                Environment.Exit(2);
+            }
+
+            if (!File.Exists(slInjectorBinFilePath))
+            {
+                File.Copy(slInjectorLibsFilePath, slInjectorBinFilePath);
+            }
+
+            if (!Directory.Exists(App.DataFolderPath))
+            {
+                Directory.CreateDirectory(App.DataFolderPath);
+            }
+
             App.Lib.Load();
         }
 
