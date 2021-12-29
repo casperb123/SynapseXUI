@@ -11,7 +11,8 @@
 - Update checker/notifier
 - Draggable script tabs (reorder)
 - Renamable tabs and scripts
-- Resizable scripts listbox
+- Resizable scripts list
+- Folder support for scripts list
 - Both dark and light theme
 - Lots of color options
 - More context menu options
@@ -36,7 +37,7 @@
 ## Screenshots
 ![Synapse loader initializing](https://user-images.githubusercontent.com/42714453/138700720-5b2bec2b-b3fb-498d-bf32-d8b20c60e94e.png)
 ![Synapse loader ready](https://user-images.githubusercontent.com/42714453/138700742-446dc4c2-72fd-4c16-8538-23b30dfcb1b3.png)
-![Synapse editor](https://user-images.githubusercontent.com/42714453/143599974-2b01ea7c-7af9-448e-9333-08d045641b5c.png)
+![Synapse editor](https://user-images.githubusercontent.com/42714453/147561065-a30a2ea1-a2a2-44ea-aa17-d0e09415fa2f.png)
 ![Synapse scripthub](https://user-images.githubusercontent.com/42714453/143208629-e29243af-be96-41bc-969c-cb43b79a831f.png)
 ![Synapse rbxhub](https://user-images.githubusercontent.com/42714453/143208641-5fe5e819-56dd-47a5-93f5-b78a05187ed6.png)
 ![Synapse options](https://user-images.githubusercontent.com/42714453/146915342-ba4f5fbe-398b-420e-a9b7-c789f42de276.png)
