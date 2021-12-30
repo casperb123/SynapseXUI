@@ -33,7 +33,7 @@
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
             <Button x:Name="buttonUpdate"
-                    Content="Check for update"
+                    Content="Check For Update"
                     Cursor="Hand"
                     Click="ButtonUpdate_Click" />
             <Button x:Name="buttonReinstallRoblox"
