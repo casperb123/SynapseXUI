@@ -59,7 +59,7 @@ namespace SynapseXUI.ViewModels
         private async void Load()
         {
             await Task.Delay(1000);
-            await CheckForUpdates();
+            await App.CheckForUpdate(false);
 
             string authFolderPath = Path.Combine(App.StartupFolderPath, "auth");
             string binFolderPath = Path.Combine(App.StartupFolderPath, "bin");
@@ -86,27 +86,6 @@ namespace SynapseXUI.ViewModels
             }
 
             App.Lib.Load();
-        }
-
-        private async Task CheckForUpdates()
-        {
-            try
-            {
-                bool updateAvailable = await App.GitHub.CheckForUpdateAsync();
-                if (updateAvailable)
-                {
-                    App.NotifyUpdate();
-                }
-            }
-            catch (Exception e)
-            {
-                if (PromptWindow.Show("Checking for updates failed", $"An error occured while checking for updates. Would you like to try again?\n\n" +
-                                                                     $"Error:\n" +
-                                                                     $"{e.Message}", PromptType.YesNo))
-                {
-                    await CheckForUpdates();
-                }
-            }
         }
 
         private async void Lib_LoadEvent(SxLibBase.SynLoadEvents Event, object Param)

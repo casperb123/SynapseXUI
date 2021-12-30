@@ -53,9 +53,9 @@ namespace SynapseXUI
             ViewModel.ReinstallRoblox();
         }
 
-        private void ButtonUpdate_Click(object sender, RoutedEventArgs e)
+        private async void ButtonUpdate_Click(object sender, RoutedEventArgs e)
         {
-            App.NotifyUpdate();
+            await App.CheckForUpdate(true);
         }
 
         private void IconGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)

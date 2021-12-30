@@ -9,6 +9,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using static sxlib.Static.Data;
 
@@ -86,14 +87,29 @@ namespace SynapseXUI
             Settings.Save(SettingsFilePath);
         }
 
-        public static void NotifyUpdate()
+        public static async Task CheckForUpdate(bool notifyIfLatest)
         {
-            if (PromptWindow.Show("Update Available", $"An update is available, would you like to download it?\n" +
-                                                      $"Current Version: {GitHub.CurrentVersion}\n" +
-                                                      $"Latest Version: {GitHub.LatestVersion}\n\n" +
-                                                      $"{GitHub.Changelog}", PromptType.YesNo))
+            try
             {
-                GitHub.DownloadLatestRelease();
+                bool updateAvailable = await GitHub.CheckForUpdateAsync();
+                if (updateAvailable)
+                {
+                    if (PromptWindow.Show("Update Available", $"An update is available, would you like to download it?\n" +
+                                                              $"Current Version: {GitHub.CurrentVersion}\n" +
+                                                              $"Latest Version: {GitHub.LatestVersion}\n\n" +
+                                                              $"{GitHub.Changelog}", PromptType.YesNo))
+                    {
+                        GitHub.DownloadLatestRelease();
+                    }
+                }
+                else if (notifyIfLatest)
+                {
+                    PromptWindow.Show("No Update Available", "No update is available, you're already on the latest version", PromptType.OK);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

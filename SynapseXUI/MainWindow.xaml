@@ -35,7 +35,6 @@
             <Button x:Name="buttonUpdate"
                     Content="Update"
                     Cursor="Hand"
-                    Visibility="{Binding Path=IsUpdateAvailable, Converter={StaticResource BooleanToVisibilityConverter}, Source={x:Static root:App.GitHub}}"
                     Click="ButtonUpdate_Click" />
             <Button x:Name="buttonReinstallRoblox"
                     Content="Reinstall Roblox"
