@@ -158,6 +158,11 @@
                                             <Setter Property="Kind"
                                                     Value="Folder" />
                                         </DataTrigger>
+                                        <DataTrigger Binding="{Binding Path=IsExpanded}"
+                                                     Value="True">
+                                            <Setter Property="Kind"
+                                                    Value="FolderOpen" />
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </icons:PackIconMaterialDesign.Style>
