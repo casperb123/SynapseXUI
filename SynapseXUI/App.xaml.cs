@@ -64,6 +64,11 @@ namespace SynapseXUI
             SettingsFilePath = Path.Combine(DataFolderPath, "Options.ini");
             TabsFilePath = Path.Combine(DataFolderPath, "Tabs.bin");
 
+            if (!Directory.Exists(DataFolderPath))
+            {
+                Directory.CreateDirectory(DataFolderPath);
+            }
+
             Settings = Settings.GetSettings(SettingsFilePath);
             string theme = Settings.Theme.ApplicationTheme;
             string color = Settings.Theme.ApplicationColor;

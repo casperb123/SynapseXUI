@@ -80,11 +80,6 @@ namespace SynapseXUI.ViewModels
                 File.Copy(slInjectorLibsFilePath, slInjectorBinFilePath);
             }
 
-            if (!Directory.Exists(App.DataFolderPath))
-            {
-                Directory.CreateDirectory(App.DataFolderPath);
-            }
-
             App.Lib.Load();
         }
 
