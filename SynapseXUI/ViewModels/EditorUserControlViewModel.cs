@@ -49,6 +49,7 @@ namespace SynapseXUI.ViewModels
         private ChromiumWebBrowser editor;
         private DragDropWindow dragDropWindow;
         private bool rightClickIsTabItem;
+        private List<Script> expandedScripts;
 
         public readonly EditorUserControl UserControl;
         public delegate Point GetPosition(IInputElement element);
@@ -165,6 +166,7 @@ namespace SynapseXUI.ViewModels
                 }
             };
 
+            expandedScripts = new List<Script>();
             detectScriptTabChange = true;
             Tabs = new ScriptTabs();
             Scripts = new ObservableCollection<Script>();
@@ -213,7 +215,10 @@ namespace SynapseXUI.ViewModels
             };
             timer.Start();
 
-            FileSystemWatcher watcher = new FileSystemWatcher(App.ScriptsFolderPath, "*.*");
+            FileSystemWatcher watcher = new FileSystemWatcher(App.ScriptsFolderPath, "*.*")
+            {
+                IncludeSubdirectories = true
+            };
             watcher.Created += Watcher_Changed;
             watcher.Changed += Watcher_Changed;
             watcher.Deleted += Watcher_Changed;
@@ -226,6 +231,10 @@ namespace SynapseXUI.ViewModels
             UserControl.Dispatcher.Invoke(() =>
             {
                 RefreshTabs();
+                if (App.Settings.AutoRefreshScripts)
+                {
+                    GetScripts();
+                }
             });
         }
 
@@ -271,6 +280,20 @@ namespace SynapseXUI.ViewModels
 
         public void GetScripts()
         {
+            expandedScripts.Clear();
+            foreach (Script script in Scripts.Where(x => x.IsFolder))
+            {
+                if (script.IsExpanded)
+                {
+                    expandedScripts.Add(script);
+                }
+
+                IEnumerable<Script> childScripts = EnumerateScripts(script).Where(x => x.IsFolder && x.IsExpanded);
+                foreach (Script childScript in childScripts)
+                {
+                    expandedScripts.Add(childScript);
+                }
+            }
             Scripts.Clear();
 
             string[] directories = Directory.GetDirectories(App.ScriptsFolderPath, "*.*", SearchOption.AllDirectories);
@@ -300,11 +323,17 @@ namespace SynapseXUI.ViewModels
 
                 if (currentDir.FullName == App.ScriptsFolderPath || parentScript is null)
                 {
-                    Scripts.Add(new Script(directory, true));
+                    Script script = new Script(directory, true);
+                    script.IsExpanded = expandedScripts.Any(x => x.FullName == script.FullName);
+
+                    Scripts.Add(script);
                 }
                 else
                 {
-                    parentScript.Children.Add(new Script(directory, true, parentScript));
+                    Script script = new Script(directory, true, parentScript);
+                    script.IsExpanded = expandedScripts.Any(x => x.FullName == script.FullName);
+
+                    parentScript.Children.Add(script);
                 }
             }
 

@@ -9,10 +9,21 @@ namespace SynapseXUI.Entities
         private string fullName;
         private string name;
         private ObservableCollection<Script> children;
+        private bool isExpanded;
 
         public string Text { get; set; }
         public Script Parent { get; set; }
         public bool IsFolder { get; set; }
+
+        public bool IsExpanded
+        {
+            get => isExpanded;
+            set
+            {
+                isExpanded = value;
+                OnPropertyChanged(nameof(IsExpanded));
+            }
+        }
 
         public ObservableCollection<Script> Children
         {

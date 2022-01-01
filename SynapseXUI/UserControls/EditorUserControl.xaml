@@ -173,6 +173,8 @@
                        BasedOn="{StaticResource MahApps.Styles.TreeViewItem}">
                     <Setter Property="Tag"
                             Value="{Binding}" />
+                    <Setter Property="IsExpanded"
+                            Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
                     <EventSetter Event="PreviewMouseDown"
                                  Handler="TreeViewItemScripts_PreviewMouseDown" />
                     <EventSetter Event="RequestBringIntoView"
