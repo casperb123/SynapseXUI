@@ -10,7 +10,6 @@ namespace SynapseXUI.Entities
         private Theme theme;
         private WindowSize windowSize;
         private GridLength scriptsListWidth;
-        private bool autoRefreshScripts;
         private bool saveTabs;
         private bool loaderTopMost;
 
@@ -31,16 +30,6 @@ namespace SynapseXUI.Entities
             {
                 saveTabs = value;
                 OnPropertyChanged(nameof(SaveTabs));
-            }
-        }
-
-        public bool AutoRefreshScripts
-        {
-            get => autoRefreshScripts;
-            set
-            {
-                autoRefreshScripts = value;
-                OnPropertyChanged(nameof(AutoRefreshScripts));
             }
         }
 

@@ -231,10 +231,7 @@ namespace SynapseXUI.ViewModels
             UserControl.Dispatcher.Invoke(() =>
             {
                 RefreshTabs();
-                if (App.Settings.AutoRefreshScripts)
-                {
-                    GetScripts();
-                }
+                GetScripts();
             });
         }
 
@@ -283,12 +280,12 @@ namespace SynapseXUI.ViewModels
             expandedScripts.Clear();
             foreach (Script script in Scripts.Where(x => x.IsFolder))
             {
-                if (script.IsExpanded)
+                if (script.Children.Count > 0)
                 {
                     expandedScripts.Add(script);
                 }
 
-                IEnumerable<Script> childScripts = EnumerateScripts(script).Where(x => x.IsFolder && x.IsExpanded);
+                IEnumerable<Script> childScripts = EnumerateScripts(script).Where(x => x.IsFolder && x.IsExpanded && x.Children.Count > 0);
                 foreach (Script childScript in childScripts)
                 {
                     expandedScripts.Add(childScript);
@@ -688,17 +685,30 @@ namespace SynapseXUI.ViewModels
             {
                 if (PromptWindow.Show("Delete Folder", $"Are you sure that you want to delete the folder '{SelectedScript.Name}'?", PromptType.YesNo))
                 {
+                    if (script.Parent is null)
+                    {
+                        Scripts.Remove(script);
+                    }
+                    else
+                    {
+                        script.Parent.Children.Remove(script);
+                    }
+
                     Directory.Delete(script.FullName, true);
-                    Scripts.Remove(script);
                 }
             }
-            else
+            else if (PromptWindow.Show("Delete File", $"Are you sure that you want to delete the file '{SelectedScript.Name}'?", PromptType.YesNo))
             {
-                if (PromptWindow.Show("Delete File", $"Are you sure that you want to delete the file '{SelectedScript.Name}'?", PromptType.YesNo))
+                if (script.Parent is null)
                 {
-                    File.Delete(script.FullName);
                     Scripts.Remove(script);
                 }
+                else
+                {
+                    script.Parent.Children.Remove(script);
+                }
+
+                File.Delete(script.FullName);
             }
         }
 

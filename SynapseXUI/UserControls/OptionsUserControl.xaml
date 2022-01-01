@@ -113,11 +113,6 @@
                                       OffContent="Disabled"
                                       IsOn="{Binding Path=SaveTabs, Source={x:Static root:App.Settings}}"
                                       Toggled="ToggleSwitchSettings_Toggled" />
-                    <mah:ToggleSwitch Header="Auto Refresh Scripts"
-                                      OnContent="Enabled"
-                                      OffContent="Disabled"
-                                      IsOn="{Binding Path=AutoRefreshScripts, Source={x:Static root:App.Settings}}"
-                                      Toggled="ToggleSwitchSettings_Toggled" />
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <StackPanel>
