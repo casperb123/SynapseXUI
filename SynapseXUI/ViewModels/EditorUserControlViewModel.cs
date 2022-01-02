@@ -49,7 +49,7 @@ namespace SynapseXUI.ViewModels
         private ChromiumWebBrowser editor;
         private DragDropWindow dragDropWindow;
         private bool rightClickIsTabItem;
-        private List<Script> expandedScripts;
+        private readonly List<Script> expandedScripts;
 
         public readonly EditorUserControl UserControl;
         public delegate Point GetPosition(IInputElement element);
@@ -280,7 +280,7 @@ namespace SynapseXUI.ViewModels
             expandedScripts.Clear();
             foreach (Script script in Scripts.Where(x => x.IsFolder))
             {
-                if (script.Children.Count > 0)
+                if (script.IsExpanded && script.Children.Count > 0)
                 {
                     expandedScripts.Add(script);
                 }

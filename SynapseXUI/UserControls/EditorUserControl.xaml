@@ -130,7 +130,6 @@
                   Grid.Column="2"
                   ItemsSource="{Binding Path=Scripts}"
                   VirtualizingPanel.IsVirtualizing="False"
-                  SelectedValuePath="{Binding Path=SelectedScript}"
                   ScrollViewer.HorizontalScrollBarVisibility="Visible"
                   SizeChanged="ListBoxScripts_SizeChanged"
                   PreviewMouseUp="ListBoxScripts_PreviewMouseUp"
