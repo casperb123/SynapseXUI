@@ -37,7 +37,7 @@
 ## Screenshots
 ![Synapse loader initializing](https://user-images.githubusercontent.com/42714453/138700720-5b2bec2b-b3fb-498d-bf32-d8b20c60e94e.png)
 ![Synapse loader ready](https://user-images.githubusercontent.com/42714453/138700742-446dc4c2-72fd-4c16-8538-23b30dfcb1b3.png)
-![Synapse editor](https://user-images.githubusercontent.com/42714453/147561065-a30a2ea1-a2a2-44ea-aa17-d0e09415fa2f.png)
+![Synapse editor](https://user-images.githubusercontent.com/42714453/147932775-9b8f93ba-83e5-46c2-987b-37cbd8eb832e.png)
 ![Synapse scripthub](https://user-images.githubusercontent.com/42714453/143208629-e29243af-be96-41bc-969c-cb43b79a831f.png)
 ![Synapse rbxhub](https://user-images.githubusercontent.com/42714453/143208641-5fe5e819-56dd-47a5-93f5-b78a05187ed6.png)
 ![Synapse options](https://user-images.githubusercontent.com/42714453/146915342-ba4f5fbe-398b-420e-a9b7-c789f42de276.png)
