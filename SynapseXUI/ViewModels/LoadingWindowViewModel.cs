@@ -51,14 +51,11 @@ namespace SynapseXUI.ViewModels
         {
             this.loadingWindow = loadingWindow;
             LoadingStatus = "Initializing...";
-            App.Lib = SxLib.InitializeWPF(loadingWindow, App.StartupFolderPath);
-            App.Lib.LoadEvent += Lib_LoadEvent;
             Load();
         }
 
         private async void Load()
         {
-            await Task.Delay(1000);
             await App.CheckForUpdate(false);
 
             string authFolderPath = Path.Combine(App.StartupFolderPath, "auth");
@@ -80,6 +77,9 @@ namespace SynapseXUI.ViewModels
                 File.Copy(slInjectorLibsFilePath, slInjectorBinFilePath);
             }
 
+            App.Lib = SxLib.InitializeWPF(loadingWindow, App.StartupFolderPath);
+            App.Lib.LoadEvent += Lib_LoadEvent;
+            await Task.Delay(1000);
             App.Lib.Load();
         }
 
