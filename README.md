@@ -43,7 +43,8 @@
 ![Synapse options](https://user-images.githubusercontent.com/42714453/146915342-ba4f5fbe-398b-420e-a9b7-c789f42de276.png)
 
 ## Known bugs
-- Very rarely it crashes while loading, if this happens you just need to open the application again.
+- Very rarely it crashes while loading, if this happens you just need to open the application again
+- Downloading DLLs is currently broken and i can't do anything about it. To get synapse updates you need to open the official UI
 
 ## Credits
 - [CasperTheGhost#3549](https://discord.com/users/570478646851010562)
