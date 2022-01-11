@@ -44,7 +44,6 @@
 
 ## Known bugs
 - Very rarely it crashes while loading, if this happens you just need to open the application again
-- Downloading DLLs is currently broken and i can't do anything about it. To get synapse updates you need to open the official UI
 
 ## Credits
 - [CasperTheGhost#3549](https://discord.com/users/570478646851010562)
