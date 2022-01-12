@@ -9,6 +9,7 @@ namespace SynapseXUI.Entities
     {
         private string fullFilename;
         private object header;
+        [NonSerialized]
         private bool enableCloseButton;
         private string text;
         [NonSerialized]
