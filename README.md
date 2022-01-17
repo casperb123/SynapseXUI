@@ -43,7 +43,7 @@
 ![Synapse options](https://user-images.githubusercontent.com/42714453/146915342-ba4f5fbe-398b-420e-a9b7-c789f42de276.png)
 
 ## Known bugs
-- If the application crashes while loading i sadly can't do anything about, it's because sxlib is unstable
+- If the application crashes while loading i sadly can't do anything about it as it's because sxlib is unstable
 
 ## Credits
 - [CasperTheGhost#3549](https://discord.com/users/570478646851010562)
