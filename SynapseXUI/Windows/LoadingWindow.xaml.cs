@@ -1,5 +1,7 @@
 ﻿using MahApps.Metro.Controls;
 using SynapseXUI.ViewModels;
+using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 
@@ -32,6 +34,14 @@ namespace SynapseXUI
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             App.Settings.Save(App.SettingsFilePath);
+        }
+
+        private void MetroWindow_Closing(object sender, CancelEventArgs e)
+        {
+            if (viewModel.LoadingProgress < 100)
+            {
+                Environment.Exit(0);
+            }
         }
     }
 }

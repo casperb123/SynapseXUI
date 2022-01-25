@@ -68,7 +68,7 @@ namespace SynapseXUI.ViewModels
                 !Directory.Exists(binFolderPath) ||
                 !Directory.Exists(App.ScriptsFolderPath))
             {
-                PromptWindow.Show("Synapse X UI", "Please open the official Synapse X UI before using our UI", PromptType.OK);
+                PromptWindow.Show("Synapse X", "You need to place all of the files to this UI in the same folder as the official UI", PromptType.OK);
                 Environment.Exit(2);
             }
 
