@@ -94,33 +94,33 @@ namespace SynapseXUI.ViewModels
                     SetSynapseStatus("Scanning...");
                     break;
                 case SxLibBase.SynAttachEvents.READY:
-                    SetSynapseStatus("Attached");
+                    SetSynapseStatus("Attached", true);
                     break;
                 case SxLibBase.SynAttachEvents.FAILED_TO_ATTACH:
-                    SetSynapseStatus("Failed to attach");
-                    ResetSynapseStatus();
+                    SetSynapseStatus("Failed to attach", true);
                     break;
                 case SxLibBase.SynAttachEvents.FAILED_TO_FIND:
-                    SetSynapseStatus("Failed to find Roblox");
-                    ResetSynapseStatus();
+                    SetSynapseStatus("Failed to find Roblox", true);
                     break;
                 case SxLibBase.SynAttachEvents.NOT_INJECTED:
                     PromptWindow.Show("Execution error", "Please attach Synapse X before executing a script", PromptType.OK);
                     break;
                 case SxLibBase.SynAttachEvents.ALREADY_INJECTED:
-                    SetSynapseStatus("Already injected");
-                    ResetSynapseStatus();
+                    SetSynapseStatus("Already injected", true);
                     break;
                 case SxLibBase.SynAttachEvents.PROC_DELETION:
                     SetSynapseStatus();
-                    mainWindow.buttonAttach.IsEnabled = true;
                     break;
             }
         }
 
-        private void SetSynapseStatus(string status = null)
+        private void SetSynapseStatus(string status = null, bool autoReset = false)
         {
             SynapseStatus = string.IsNullOrWhiteSpace(status) ? string.Empty : $" - {status}";
+            if (autoReset)
+            {
+                ResetSynapseStatus();
+            }
         }
 
         private void ResetSynapseStatus()
@@ -152,14 +152,12 @@ namespace SynapseXUI.ViewModels
 
         public void Attach()
         {
-            mainWindow.buttonAttach.IsEnabled = false;
             App.Lib.Attach();
         }
 
         public void KillRoblox()
         {
             Process.GetProcessesByName("RobloxPlayerBeta").ToList().ForEach(x => x.Kill());
-            mainWindow.buttonAttach.IsEnabled = true;
             SetSynapseStatus();
         }
 

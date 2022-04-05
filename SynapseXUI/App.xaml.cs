@@ -57,7 +57,7 @@ namespace SynapseXUI
             GitHub = new GitHub("casperb123", "SynapseXUI");
             StartupFolderPath = Directory.GetCurrentDirectory();
             ScriptsFolderPath = Path.Combine(StartupFolderPath, "scripts");
-            string libsFolderPath = Path.Combine(StartupFolderPath, "libs");
+            string libsFolderPath = Path.Combine(StartupFolderPath, "metro_libs");
             string aceFolderPath = Path.Combine(libsFolderPath, "ace");
             DataFolderPath = Path.Combine(libsFolderPath, "data");
             EditorFilePath = Path.Combine(aceFolderPath, "Editor.html");

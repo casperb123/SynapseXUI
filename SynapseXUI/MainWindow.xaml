@@ -15,7 +15,7 @@
                  MinWidth="680"
                  WindowState="{Binding Path=WindowSize.WindowState, Source={x:Static root:App.Settings}, Mode=TwoWay}"
                  Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
-                 Icon="pack://application:,,,/libs/synapse.ico"
+                 Icon="pack://application:,,,/metro_libs/synapse.ico"
                  ShowIconOnTitleBar="True"
                  SizeChanged="MetroWindow_SizeChanged"
                  Closing="MetroWindow_Closing"
@@ -26,7 +26,7 @@
                   RenderOptions.EdgeMode="Aliased"
                   RenderOptions.BitmapScalingMode="HighQuality"
                   PreviewMouseDown="IconGrid_PreviewMouseDown">
-                <Image Source="pack://application:,,,/libs/synapse.ico" />
+                <Image Source="pack://application:,,,/metro_libs/synapse.ico" />
             </Grid>
         </DataTemplate>
     </mah:MetroWindow.IconTemplate>
