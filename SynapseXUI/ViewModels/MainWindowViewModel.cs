@@ -107,7 +107,7 @@ namespace SynapseXUI.ViewModels
                     PromptWindow.Show("Execution error", "Please attach Synapse X before executing a script", PromptType.OK);
                     break;
                 case SxLibBase.SynAttachEvents.ALREADY_INJECTED:
-                    SetSynapseStatus("Already injected", true);
+                    SetSynapseStatus("Already attached", true);
                     break;
                 case SxLibBase.SynAttachEvents.PROC_DELETION:
                     SetSynapseStatus();
@@ -128,7 +128,7 @@ namespace SynapseXUI.ViewModels
         {
             _ = Task.Run(async () =>
             {
-                await Task.Delay(1000);
+                await Task.Delay(2000);
                 mainWindow.Dispatcher.Invoke(() =>
                 {
                     SetSynapseStatus();
