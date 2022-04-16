@@ -104,7 +104,7 @@
     <CefSharpBuildAction>Content</CefSharpBuildAction>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>metro_libs\synapse.ico</ApplicationIcon>
+    <ApplicationIcon>libs\synapse.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CefSharp, Version=96.0.180.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
@@ -428,111 +428,111 @@
     </PublishFile>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="metro_libs\synapse.ico">
+    <Resource Include="libs\synapse.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="metro_libs\ace\ace\ace.js">
+    <Content Include="libs\ace\ace\ace.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\ext-beautify.js">
+    <Content Include="libs\ace\ace\ext-beautify.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\ext-code_lens.js">
+    <Content Include="libs\ace\ace\ext-code_lens.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\ext-elastic_tabstops_lite.js">
+    <Content Include="libs\ace\ace\ext-elastic_tabstops_lite.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\ext-emmet.js">
+    <Content Include="libs\ace\ace\ext-emmet.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\ext-error_marker.js">
+    <Content Include="libs\ace\ace\ext-error_marker.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\ext-keybinding_menu.js">
+    <Content Include="libs\ace\ace\ext-keybinding_menu.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\ext-language_tools.js">
+    <Content Include="libs\ace\ace\ext-language_tools.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\ext-linking.js">
+    <Content Include="libs\ace\ace\ext-linking.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\ext-modelist.js">
+    <Content Include="libs\ace\ace\ext-modelist.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\ext-options.js">
+    <Content Include="libs\ace\ace\ext-options.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\ext-prompt.js">
+    <Content Include="libs\ace\ace\ext-prompt.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\ext-rtl.js">
+    <Content Include="libs\ace\ace\ext-rtl.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\ext-searchbox.js">
+    <Content Include="libs\ace\ace\ext-searchbox.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\ext-settings_menu.js">
+    <Content Include="libs\ace\ace\ext-settings_menu.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\ext-spellcheck.js">
+    <Content Include="libs\ace\ace\ext-spellcheck.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\ext-split.js">
+    <Content Include="libs\ace\ace\ext-split.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\ext-static_highlight.js">
+    <Content Include="libs\ace\ace\ext-static_highlight.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\ext-statusbar.js">
+    <Content Include="libs\ace\ace\ext-statusbar.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\ext-textarea.js">
+    <Content Include="libs\ace\ace\ext-textarea.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\ext-themelist.js">
+    <Content Include="libs\ace\ace\ext-themelist.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\ext-whitespace.js">
+    <Content Include="libs\ace\ace\ext-whitespace.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\keybinding-emacs.js">
+    <Content Include="libs\ace\ace\keybinding-emacs.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\keybinding-sublime.js">
+    <Content Include="libs\ace\ace\keybinding-sublime.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\keybinding-vim.js">
+    <Content Include="libs\ace\ace\keybinding-vim.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\keybinding-vscode.js">
+    <Content Include="libs\ace\ace\keybinding-vscode.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\mode-lua.js">
+    <Content Include="libs\ace\ace\mode-lua.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\snippets\lua.js">
+    <Content Include="libs\ace\ace\snippets\lua.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\theme-chrome.js">
+    <Content Include="libs\ace\ace\theme-chrome.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\theme-tomorrow_night_eighties.js">
+    <Content Include="libs\ace\ace\theme-tomorrow_night_eighties.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\worker-base.js">
+    <Content Include="libs\ace\ace\worker-base.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\ace\worker-lua.js">
+    <Content Include="libs\ace\ace\worker-lua.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\ace\Editor.html">
+    <Content Include="libs\ace\Editor.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="metro_libs\SLInjector.dll">
+    <Content Include="libs\SLInjector.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -38,6 +38,11 @@ namespace SynapseXUI
             ViewModel.Attach();
         }
 
+        private void ButtonFlyoutTools_Click(object sender, RoutedEventArgs e)
+        {
+            flyoutTools.IsOpen = !flyoutTools.IsOpen;
+        }
+
         private void ButtonExecuteSynapseHubScript_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.SelectedSynapseHubScript.Script.Execute();

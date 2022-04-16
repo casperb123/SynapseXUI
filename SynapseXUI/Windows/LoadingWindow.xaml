@@ -10,14 +10,14 @@
                  xmlns:root="clr-namespace:SynapseXUI"
                  d:DataContext="{d:DesignInstance Type=viewmodels:LoadingWindowViewModel}"
                  mc:Ignorable="d"
-                 Title="Synapse X"
+                 Title="{Binding Source={x:Static root:App.VersionString}, StringFormat='Synapse X - {0}'}"
                  Height="120"
                  Width="400"
                  ResizeMode="NoResize"
                  WindowStartupLocation="CenterScreen"
                  SizeToContent="Height"
                  Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
-                 Icon="pack://application:,,,/metro_libs/synapse.ico"
+                 Icon="pack://application:,,,/libs/synapse.ico"
                  ShowIconOnTitleBar="True"
                  Topmost="{Binding Path=LoaderTopMost, Source={x:Static root:App.Settings}}"
                  Closing="MetroWindow_Closing">
@@ -27,7 +27,7 @@
                   RenderOptions.EdgeMode="Aliased"
                   RenderOptions.BitmapScalingMode="HighQuality"
                   PreviewMouseDown="IconGrid_PreviewMouseDown">
-                <Image Source="pack://application:,,,/metro_libs/synapse.ico" />
+                <Image Source="pack://application:,,,/libs/synapse.ico" />
             </Grid>
         </DataTemplate>
     </mah:MetroWindow.IconTemplate>

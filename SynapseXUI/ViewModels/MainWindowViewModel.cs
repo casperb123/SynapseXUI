@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -68,6 +69,7 @@ namespace SynapseXUI.ViewModels
         {
             this.mainWindow = mainWindow;
             App.Lib.AttachEvent += Lib_AttachEvent;
+            SetSynapseStatus();
 
             EditorUserControl = new EditorUserControl();
             ScriptHubUserControl = new ScriptHubUserControl();
@@ -116,7 +118,7 @@ namespace SynapseXUI.ViewModels
 
         private void SetSynapseStatus(string status = null, bool autoReset = false)
         {
-            SynapseStatus = string.IsNullOrWhiteSpace(status) ? string.Empty : $" - {status}";
+            SynapseStatus = string.IsNullOrWhiteSpace(status) ? $"Synapse X - {App.VersionString}" : $"Synapse X - {App.VersionString} ({status})";
             if (autoReset)
             {
                 ResetSynapseStatus();

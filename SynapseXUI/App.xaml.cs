@@ -9,6 +9,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using static sxlib.Static.Data;
@@ -31,6 +32,7 @@ namespace SynapseXUI
         public static Options SxOptions { get; set; }
         public static Settings Settings { get; private set; }
         public static GitHub GitHub { get; private set; }
+        public static string VersionString { get; private set; }
 
         public App()
         {
@@ -57,12 +59,13 @@ namespace SynapseXUI
             GitHub = new GitHub("casperb123", "SynapseXUI");
             StartupFolderPath = Directory.GetCurrentDirectory();
             ScriptsFolderPath = Path.Combine(StartupFolderPath, "scripts");
-            string libsFolderPath = Path.Combine(StartupFolderPath, "metro_libs");
+            string libsFolderPath = Path.Combine(StartupFolderPath, "libs");
             string aceFolderPath = Path.Combine(libsFolderPath, "ace");
             DataFolderPath = Path.Combine(libsFolderPath, "data");
             EditorFilePath = Path.Combine(aceFolderPath, "Editor.html");
             SettingsFilePath = Path.Combine(DataFolderPath, "Options.ini");
             TabsFilePath = Path.Combine(DataFolderPath, "Tabs.bin");
+            VersionString = Assembly.GetEntryAssembly().GetName().Version.ToString().Substring(0, 5);
 
             if (!Directory.Exists(DataFolderPath))
             {
