@@ -94,9 +94,10 @@
                             IsEnabled="{Binding Path=ReinstallingRoblox, Converter={StaticResource InverseBooleanConverter}}"
                             Click="ButtonReinstallRoblox_Click" />
                     <Button x:Name="buttonUpdate"
-                            Content="Check For Update"
+                            Content="Check for update"
                             Padding="20,10"
                             Margin="0,5,0,0"
+                            IsEnabled="{Binding Source={x:Static root:App.GitHub}, Path=CheckingForUpdate, Converter={StaticResource InverseBooleanConverter}}"
                             Click="ButtonUpdate_Click" />
                 </StackPanel>
             </mah:Flyout>

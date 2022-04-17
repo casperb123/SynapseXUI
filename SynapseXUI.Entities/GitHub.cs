@@ -16,6 +16,7 @@ namespace SynapseXUI.Entities
         private readonly string gitHubRepositoryName;
         private string releaseLink;
 
+        private bool checkingForUpdate;
         private bool isUpdateAvailable;
         private Version currentVersion;
         private Version latestVersion;
@@ -61,6 +62,16 @@ namespace SynapseXUI.Entities
             }
         }
 
+        public bool CheckingForUpdate
+        {
+            get => checkingForUpdate;
+            private set
+            {
+                checkingForUpdate = value;
+                OnPropertyChanged(nameof(CheckingForUpdate));
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged(string prop)
@@ -83,11 +94,13 @@ namespace SynapseXUI.Entities
         {
             try
             {
+                CheckingForUpdate = true;
                 IReadOnlyList<Release> releases = await client.Repository.Release.GetAll(gitHubUsername, gitHubRepositoryName);
                 Release release = releases.FirstOrDefault(x => Version.ConvertToVersion(x.TagName.Replace("v", "")) > currentVersion);
 
                 if (release is null)
                 {
+                    CheckingForUpdate = false;
                     return false;
                 }
                 else
@@ -96,12 +109,13 @@ namespace SynapseXUI.Entities
                     IsUpdateAvailable = true;
                     Changelog = release.Body;
                     releaseLink = release.Assets[0].BrowserDownloadUrl;
-
+                    CheckingForUpdate = false;
                     return true;
                 }
             }
             catch (Exception)
             {
+                CheckingForUpdate = false;
                 throw;
             }
         }
