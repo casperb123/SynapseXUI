@@ -1,3 +1,6 @@
+## DEVELOPMENT ON HOLD
+#### The development is currently on hold. I may continue working on it when Synapse X V3 gets released, but for now the development is stopped.
+
 ### Table of Contents
 - [About](#about)
 - [Installation](#installation)
