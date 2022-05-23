@@ -1,5 +1,5 @@
 ## DEVELOPMENT ON HOLD
-#### The development is currently on hold. I'm not sure if/when I will continue working on it, so for now it's on hold
+#### The development is currently on hold. I'm not sure if/when I will continue working on it
 
 ### Table of Contents
 - [About](#about)
