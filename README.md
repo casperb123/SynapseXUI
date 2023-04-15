@@ -1,4 +1,4 @@
-## DEVELOPMENT ON HOLD
+## DISCOUNTINUED
 #### The development is currently on hold. I'm not sure if/when I will continue working on it
 
 ### Table of Contents
